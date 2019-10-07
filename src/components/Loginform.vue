@@ -11,11 +11,11 @@
 
             <!-- Login Form -->
             <form>
-                <input type="text" id="name" class="fadeIn second" name="login" placeholder="name">
-                <input type="text" id="lastname" class="fadeIn third" name="login" placeholder="last name">
-                <input type="text" id="email" class="fadeIn third" name="login" placeholder="email">
-                <input type="text" id="phone" class="fadeIn third" name="login" placeholder="phone">
-                <input type="text" id="address" class="fadeIn third" name="login" placeholder="address">
+                <input type="text" id="name" class="fadeIn second" name="login" placeholder="name" required>
+                <input type="text" id="lastname" class="fadeIn third" name="login" placeholder="last name" required >
+                <input type="text" id="email" class="fadeIn third" name="login" placeholder="email" required>
+                <input type="text" id="phone" class="fadeIn third" name="login" placeholder="phone" required>
+                <input type="text" id="address" class="fadeIn third" name="login" placeholder="address" required>
                 <input type="submit" class="fadeIn fourth" value="Create">
             </form>
         </div>
@@ -34,6 +34,8 @@
         height: 100%;
         align-content: center;
         margin-top: 8%;
+        background-color: rgba(0,0,0,0.5) !important;
+
 
     }
 
@@ -294,12 +296,7 @@
 
     /* OTHERS */
 
-    *:focus {
-        outline: none;
-    }
 
-    #icon {
-        width:60%;
-    }
+
 
 </style>
