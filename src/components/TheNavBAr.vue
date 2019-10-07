@@ -8,8 +8,6 @@
             </form>
         </nav>
 
-      
-         
     </div>    
 </template>
 
