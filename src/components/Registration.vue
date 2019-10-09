@@ -6,57 +6,36 @@
             <!-- Icon -->
             <div class="fadeIn first">
                 <img src="../assets/iconfinder-hamburger.svg" id="icon" alt="User Icon" />
-                <p id="burguer">Customer user</p>
+                <p id="burguer">user</p>
+            </div>
+            <div>
+            <p>User created
+                Please login</p>
             </div>
 
             <!-- Login Form -->
-            <form v-on:submit.prevent>
-                <input type="text" id="name" class="fadeIn second" name="login" placeholder="name"  required v-model="user.name">
-                <input type="text" id="lastname" class="fadeIn third" name="login" placeholder="last name" required v-model="user.lastName" >
-                <input type="text" id="email" class="fadeIn third" name="login" placeholder="email" required v-model="user.email" >
-                <input type="text" id="phone" class="fadeIn third" name="login" placeholder="phone" required v-model="user.phone" >
-                <input type="text" id="address" class="fadeIn third" name="login" placeholder="address" required v-model="user.address">
-
-                <input type="password" id="pass" class="fadeIn third"  name="login" placeholder="Password" required v-model="user.password">
-
-
-                <input type="submit" class="fadeIn fourth" value="Create" v-on:click="createUser" to="/registration">
-
-            </form>
+            <input type="submit" class="fadeIn fourth" value="Login" v-on:click="prueba">
         </div>
     </div>
-
 </template>
 
 <script>
-    import API from "../service/api";
-//    import axios from 'axios';
-
 
     export default {
-        name: "Loginform",
+        name: "Registration",
         data() {
             return {
-                user: {
-                    name: "",
-                    lastName: "",
-                    email: "",
-                    phone: "",
-                    address: "",
-                    password: ""
-                }
+
             }
         },
         methods: {
 
-                createUser(){
-                    let self = this
-                    let user = self.user
-                    API.post("/customer",user)
-                    this.$router.push('/registration')
+            prueba(){
 
-                }
+                this.$router.push('/')
+            }
         }
+
 
     }
 </script>
@@ -353,8 +332,5 @@
 
 
     /* OTHERS */
-
-
-
 
 </style>
