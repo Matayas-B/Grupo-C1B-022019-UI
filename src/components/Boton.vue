@@ -5,42 +5,21 @@
     <div class="fab btn-group show-on-hover dropup">
     <div data-toggle="tooltip" data-placement="left" title="Compose" style="margin-left: 50px;">
     <button type="button" class="btn btn-info btn-io" >
-      <span class="fa fa-pencil ">
+      <span class="fa fa-user ">
           <!-- <i class="fa fa-plus fa-stack-1x fa-inverse fab-primary"></i>
           <i class="fa fa-pencil fa-stack-1x fa-inverse fab-secondary"></i> -->
       </span>
     </button>
   </div>
         <ul class="dropdown-menu dropdown-menu-right" role="menu">
+
         <li>
-            <a href="#" data-toggle="tooltip" data-placement="top" title="Link 1">
-        <i class="fa fa-twitter"></i></a>
-        </li>
-        <li>
-            <a href="#" data-toggle="tooltip" data-placement="top" title="Link 2">
-        <i class="fa fa-google"></i></a>
+            <a href="#" data-toggle="tooltip" data-placement="top" title="Link 3">
+            <i class="fa fa-sign-out-alt" style="color:red;"></i></a>
         </li>
         <li>
             <a href="#" data-toggle="tooltip" data-placement="top" title="Link 3">
-        <i class="fa fa-user"></i></a>
-        </li>
-        <li>
-            <a href="#" data-toggle="tooltip" data-placement="top" title="Link 4">
-        <i class="fa fa-instagram"></i></a>
-        </li>
-        <li>
-            <a href="#" data-toggle="tooltip" data-placement="top" title="Link 5">
-        <i class="fa fa-pencil"></i></a>
-        </li>
-        <li>
-            <a href="#" data-toggle="tooltip" data-placement="top" title="Link6">
-        <i class="fa fa-spinner fa-spin"></i></a>
-        </li>
-        <li>
-            <a href="#" data-toggle="tooltip" data-placement="top" title="Link 4">
-        <i class="fa fa-map-marker"></i></a>
-            <!-- <a href="#" data-toggle="tooltip" data-placement="top" title="Link 7">
-        <i class="fa fa-cog fa-fw"></i></a> -->
+            <i class="fa fa-money-bill-alt "></i></a>
         </li>
         </ul>
     </div>

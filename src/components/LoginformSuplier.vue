@@ -6,7 +6,7 @@
             <!-- Icon -->
             <div class="fadeIn first">
                 <img src="../assets/iconfinder-hamburger.svg" id="icon" alt="User Icon" />
-                <p id="burguer">Customer user</p>
+                <p id="burguer">Suplier user</p>
             </div>
 
             <!-- Login Form -->
@@ -25,15 +25,12 @@
             </form>
         </div>
     </div>
-
 </template>
 
 <script>
     import API from "../service/api";
-
-
     export default {
-        name: "Loginform",
+        name: "LoginformSuplier",
         data() {
             return {
                 user: {
@@ -48,16 +45,15 @@
         },
         methods: {
 
-                createUser(){
-                    let self = this
-                    let user = self.user
-                    API.post("/customer",user)
+            createUser(){
+                let self = this
+                let user = self.user
+                API.post("/supplier",user)
 
-                    this.$router.push('/registration')
+                this.$router.push('/registration')
 
-                }
+            }
         }
-
     }
 </script>
 
@@ -353,7 +349,6 @@
 
 
     /* OTHERS */
-
 
 
 

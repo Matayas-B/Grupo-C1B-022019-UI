@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
-                    <h3>Sign In Customer</h3>
+                    <h3>Sign In Suplier</h3>
                     <div class="d-flex justify-content-end social_icon">
                         <span><i class="fab fa-facebook-square"></i></span>
                         <span><i class="fab fa-google-plus-square"></i></span>
@@ -28,7 +28,7 @@
                         </div>
                         <div class="custom-control custom-switch">
                             <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                            <label class="custom-control-label" for="customSwitch1" v-on:click="createUserSupllier">Sign in Supllier </label>
+                            <label class="custom-control-label" for="customSwitch1" v-on:click="createUserCustomer">Sign in Customer </label>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Login" class="btn float-right login_btn">
@@ -37,7 +37,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-center links">
-                        Don't have an account? <router-link to="/loginform">Sign Up</router-link>
+                        Don't have an account? <router-link to="/loginformsuplier">Sign Up</router-link>
                     </div>
                     <div class="d-flex justify-content-center">
                         <a href="#">Forgot your password?</a>
@@ -50,15 +50,9 @@
 </template>
 
 <script>
-
-
-
     export default {
         data() {
             return {
-                vue:{
-                    exp: false,
-                },
 
                 user: {
                     username: '',
@@ -70,25 +64,16 @@
         },
         methods: {
 
-            createUserSupllier (){
+            createUserCustomer (){
 
-                this.$router.push('/loginsupllier')
+                this.$router.push('/')
             }
         },
-
-        name: 'Login',
-        components: {
-
-        },
-
-
+        name: "LoginSupllier"
     }
 </script>
 
-
-<style >
-
-
+<style scoped>
     .container{
         height: 100%;
         align-content: center;
