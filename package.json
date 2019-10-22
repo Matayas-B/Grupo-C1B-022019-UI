@@ -23,7 +23,8 @@
     "popper.js": "^1.15.0",
     "vue": "^2.6.10",
     "vue-awesome": "^3.5.4",
-    "vue-router": "^3.1.3"
+    "vue-router": "^3.1.3",
+    "vue-session": "^1.0.0"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",

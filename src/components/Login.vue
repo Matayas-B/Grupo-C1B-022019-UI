@@ -31,7 +31,7 @@
                             <label class="custom-control-label" for="customSwitch1" v-on:click="createUserSupllier">Sign in Supllier </label>
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="Login" class="btn float-right login_btn">
+                            <input type="submit" value="Login" class="btn float-right login_btn" v-on:click="logear">
                         </div>
                     </form>
                 </div>
@@ -50,44 +50,63 @@
 </template>
 
 <script>
-
-
+    import API from "../service/api";
+    //import axios from 'axios';
 
     export default {
+        name: 'Login',
+        components: {
+        },
+        mounted() {
+            this.loadUser();
+        },
         data() {
             return {
-                vue:{
-                    exp: false,
-                },
+                loaduser: [],
+                user: { username: '', password: ''}
 
-                user: {
-                    username: '',
-                    password: ''
-
-                }
 
             }
         },
         methods: {
 
+            loadUser() {
+
+                API.get('/customer/getById?customerId=1')
+                    .then(response => this.callBack(response))
+                    .catch(e => alert(e));
+            },
+            callBack(r){
+                this.loaduser = r;
+                // eslint-disable-next-line no-console
+                console.log(this.loaduser.name)
+            },
             createUserSupllier (){
 
                 this.$router.push('/loginsupllier')
+            },
+            logear: function () {
+                if (this.user.username != "" && this.user.password != "") {
+                    if (this.user.username == "facundo" && this.user.password == "123456") {
+                        // eslint-disable-next-line no-console
+                        localStorage.setItem('user', this.loaduser)
+                        localStorage.setItem('name', this.loaduser.name)
+                        //this.$router.push({name: 'category', params: {loggedUser: this.user.username}})
+                        this.$router.push('/category')
+                    } else {
+                        alert("The username and / or password is incorrect");
+                    }
+                } else {
+                    alert("A username and password must be present");
+                }
             }
-        },
-
-        name: 'Login',
-        components: {
 
         },
-
-
     }
 </script>
 
 
 <style >
-
 
     .container{
         height: 100%;

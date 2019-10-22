@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from "vue-router";
 import router from './router'
+import VueSession from 'vue-session'
 import 'jquery';
 import 'popper.js';
 import 'bootstrap';
@@ -15,6 +16,8 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faSpinner)
+Vue.use(VueSession)
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 

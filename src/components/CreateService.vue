@@ -17,22 +17,21 @@
                 </div>
                 <div class="card-body">
 
-                        <div v-for="item in items" :key="item.message">
-                            <list></list>
-                        </div>
+                    <div v-for="item in items" :key="item.message">
+                        <list></list>
+                    </div>
 
                 </div>
                 <div class="card-footer">
-                    <input type="submit" value="My Account" class="btn float-right login_btn">
+                    <input type="submit" value="add Service" class="btn float-right login_btn">
                 </div>
             </div>
         </div>
         <div class="botonlogout">
-                <boton></boton>
+            <boton></boton>
 
         </div>
     </div>
-
 </template>
 
 <script>
@@ -40,8 +39,7 @@
     import list from "./List";
 
     export default {
-
-        name: "Category",
+        name: "CreateMenus",
         components: {
             list,
             boton

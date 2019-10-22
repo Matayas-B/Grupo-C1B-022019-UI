@@ -31,7 +31,7 @@
                             <label class="custom-control-label" for="customSwitch1" v-on:click="createUserCustomer">Sign in Customer </label>
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="Login" class="btn float-right login_btn">
+                            <input type="submit" value="Login" class="btn float-right login_btn" v-on:click="logear">
                         </div>
                     </form>
                 </div>
@@ -50,26 +50,55 @@
 </template>
 
 <script>
+    import API from "../service/api";
+
     export default {
+        name: "LoginSupllier",
+        mounted() {
+            this.loadUser();
+        },
         data() {
             return {
+                loaduser: [],
+                user: { username: '', password: ''}
 
-                user: {
-                    username: '',
-                    password: ''
-
-                }
 
             }
         },
         methods: {
+            loadUser() {
+
+                API.get('/supplier')
+                    .then(response => this.callBack(response))
+                    .catch(e => alert(e));
+            },
+            callBack(r){
+                this.loaduser = r;
+                // eslint-disable-next-line no-console
+                console.log(this.loaduser.name)
+            },
+            logear: function () {
+                if (this.user.username != "" && this.user.password != "") {
+                    if (this.user.username == "matias" && this.user.password == "123456") {
+                        // eslint-disable-next-line no-console
+                        localStorage.setItem('user', this.loaduser)
+                        localStorage.setItem('name', this.loaduser.name)
+                        //this.$router.push({name: 'category', params: {loggedUser: this.user.username}})
+                        this.$router.push('/createservice')
+                    } else {
+                        alert("The username and / or password is incorrect");
+                    }
+                } else {
+                    alert("A username and password must be present");
+                }
+            },
 
             createUserCustomer (){
 
                 this.$router.push('/')
             }
         },
-        name: "LoginSupllier"
+
     }
 </script>
 

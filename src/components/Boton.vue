@@ -15,11 +15,11 @@
 
         <li>
             <a href="#" data-toggle="tooltip" data-placement="top" title="Link 3">
-            <i class="fa fa-sign-out-alt" style="color:red;"></i></a>
+            <i class="fa fa-sign-out-alt" style="color:red;" v-on:click="logOut"></i></a>
         </li>
         <li>
             <a href="#" data-toggle="tooltip" data-placement="top" title="Link 3">
-            <i class="fa fa-money-bill-alt "></i></a>
+            <i class="fa fa-money-bill-alt " v-on:click="account()"></i></a>
         </li>
         </ul>
     </div>
@@ -33,7 +33,16 @@ export default {
      name: 'Boton',
   components: {
       
-  }
+  },
+    methods: {
+        account(){
+            this.$router.push('/account')
+        },
+        logOut (){
+            localStorage.clear();
+            this.$router.push('/');
+        },
+    }
 }
 </script>
 

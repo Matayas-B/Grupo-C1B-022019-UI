@@ -5,11 +5,15 @@ import Login from "./components/Login";
 import Registration from "./components/Registration";
 import LoginSupllier from "./components/LoginSupllier";
 import LoginformSuplier from "./components/LoginformSuplier";
-import Category from "./components/Category";
+import Category from "./components/Category"
+import Account from "./components/Account";
+import CreateService from "./components/CreateService";
 
 Vue.use(Router)
 
 export default new Router({
+    mode: 'history',
+
     routes: [
         {path: '/',component: Login },
         {path: '/loginform',component: Loginform},
@@ -17,5 +21,7 @@ export default new Router({
         {path: '/loginsupllier', component: LoginSupllier},
         {path: '/loginformsuplier', component: LoginformSuplier},
         {path: '/category', component:Category},
+        {path: '/account', component:Account},
+        {path: '/createservice', component: CreateService}
     ]
 })

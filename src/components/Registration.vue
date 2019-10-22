@@ -31,7 +31,6 @@
         methods: {
 
             prueba(){
-
                 this.$router.push('/')
             }
         }
