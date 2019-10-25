@@ -18,7 +18,7 @@
                 <div class="card-body">
 
                         <div v-for="item in items" :key="item.message">
-                            <list></list>
+                            <list :title="item.message" />
                         </div>
 
                 </div>
@@ -94,9 +94,7 @@
     }
 
     .botonlogout{
-        margin-top: auto%;
+        margin-top: auto;
         margin-left: -20%;
-
-
     }
 </style>
