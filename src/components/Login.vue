@@ -39,9 +39,6 @@
                     <div class="d-flex justify-content-center links">
                         Don't have an account? <router-link to="/loginform">Sign Up</router-link>
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <a href="#">Forgot your password?</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -116,10 +113,7 @@
     }
 
     .card{
-        height: 50%;
-        margin-top: auto;
-        margin-bottom: auto;
-        width: 30%;
+
         background-color: rgba(0,0,0,0.5) !important;
     }
 

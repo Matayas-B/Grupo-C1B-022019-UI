@@ -8,6 +8,8 @@ import LoginformSuplier from "./components/LoginformSuplier";
 import Category from "./components/Category"
 import Account from "./components/Account";
 import CreateService from "./components/CreateService";
+import Prueba from "./components/Prueba";
+import SuplierOpcion from "./components/SuplierOpcion";
 
 Vue.use(Router)
 
@@ -22,6 +24,8 @@ export default new Router({
         {path: '/loginformsuplier', component: LoginformSuplier},
         {path: '/category', component:Category},
         {path: '/account', component:Account},
-        {path: '/createservice', component: CreateService}
+        {path: '/createservice', component: CreateService},
+        {path: '/prueba', component: Prueba},
+        {path: '/suplieropcion', component: SuplierOpcion}
     ]
 })
