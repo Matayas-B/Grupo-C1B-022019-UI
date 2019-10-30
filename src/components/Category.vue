@@ -10,71 +10,93 @@
             </form>
         </nav>
         <div class="row">
-        <div class="d-flex col-sm-7 h-100">
-            <div class="card" >
-                
+        <div class="d-flex-box col-sm-7 h-100">
+            <div class="card">
                 <div class="card-header">
                     <h3>choose food category</h3>
                 </div>
                 <div class="card-body">
-                        <div v-for="item in items" :key="item.message">
-                            <list :title="item.message" />
-                        </div>
+                    <div v-for="item in items" :key="item.message">
+                        <list :title="item.message" />
+                    </div>
                 </div>
                 <div class="card-footer">
                     <input type="submit" value="My Account" class="btn float-right login_btn">
                 </div>
             </div>
         </div>
-        <div class="d-flex col-sm-7 card" >
-            <div class="card-body row" v-for="menu in menues" :key="menu.title">
-                <cardmenu :title="menu.title"/>
+        <div class="d-flex-box col-sm-7 card" >
+            <div class="card-body row" v-for="menu in this.menulimits(menues,menuindex, page)" :key="menu.title">
+                <cardmenu :title="menu.title" :text="menu.text"/>
             </div>
+            <paginate :page-count="page" :page-range="3" :margin-pages="2"
+                              @click-handler="menuindex = index" :prev-text="'Prev' "
+                              :next-text=" 'Next'" :container-class="'pagination'"
+                              :page-class="'page-item'">
+                <span slot="prevContent">Changed previous button</span>
+                <span slot="nextContent">Changed next button</span>
+                <span slot="breakViewContent">
+                    <svg width="16" height="4" viewBox="0 0 16 4">
+                    <circle fill="#999999" cx="2" cy="2" r="2" />
+                    <circle fill="#999999" cx="8" cy="2" r="2" />
+                    <circle fill="#999999" cx="14" cy="2" r="2" />
+                    </svg>
+                </span>
+            </paginate>
         </div>
         </div>
         <div class="row justify-content-bottom botonlogout">
             <boton />
         </div>
-        <h6 > {{ bottonalert }} </h6>
-        <!--Deberia moverse con la pantalla, no estar al fondo-->
+        <falert :state="bottonalert" message="all ok"/>
     </div>
 
 </template>
 
 <script>
     import API from "../service/api";
-
+    import paginate from 'vuejs-paginate'
+//Vue.component('paginate', Paginate)
     import boton from "./Boton";
     import list from "./List";
     import cardmenu from "./Card";
 
-    export default {
+    import falert from "./FloatingAlert";
 
+    export default {
         name: "Category",
         components: {
             list,
             boton,
             cardmenu,
+            paginate,
+            falert
         },
         mounted() {
             let comp = this;
             
             function addCategories(res){
                     // eslint-disable-next-line
-                    console.log("ok: ") // + res);
-                    //comp.items.push(res.categories);
+                    console.log("backend-categories:ok");
+                    res.categories.forEach(element => {
+                       comp.items.push(element); 
+                    });
             }
-            function handlError(e){ 
+            function handlError(e){
+                if (!e.status) {
+                    comp.bottonalert = e.toString(); 
+                } else
+                    comp.bottonalert = "network error"; 
+            }
+            let addmenu = (res)=> {
                 // eslint-disable-next-line
-                console.log( process.env.VUE_APP_LOCALSERVER );
-                if (e.status) {
-                    // eslint-disable-next-line
-                    console.log( e.toString() );
-                    comp.bottonalert = true; 
-                } else // eslint-disable-next-line
-                    console.log( "network error");
-            }
-            
+                    console.log("backend-menu:ok");
+                res.forEach(element => {
+                       this.menues.push(element); 
+                    })
+                };
+
+            API.get("/menues").then(addmenu);
             API.get("/categories").then( addCategories ).catch( handlError ); //.finally(() => this.loading = false);
         },
         data() {
@@ -83,15 +105,20 @@
                     username: localStorage.getItem('name')
                 },
                 items: [],
-                menues: [
-                    {title:'title1',text:"body",suplier:"service"},
-                    {title:'title2',text:"body",suplier:"service"},
-                    {title:'title3',text:"body",suplier:"service"},
-                ],
-                bottonalert: "", 
+                menues: [],
+                bottonalert: "",
+                page:3,menuindex:0
             }
         },
-        methods: { }
+        methods: {
+            clickCallback: (index) => { menuindex = index; },
+            menulimits: (menues,menuindex,count) => { 
+                return menues.slice(menuindex,count); /*
+                if(menues.length != 0) 
+                    return menues.filter( (elem,ix)  => { return !(ix >= menuindex && ix < (menuindex + count)); } )
+                else return [];*/
+            }
+        }
     }
 </script>
 
@@ -129,4 +156,5 @@
         margin-top: auto;
         margin-left: -20%;
     }
+
 </style>
