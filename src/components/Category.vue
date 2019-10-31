@@ -25,24 +25,8 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex-box col-sm-7 card" >
-            <div class="card-body row" v-for="menu in this.menulimits(menues,menuindex, page)" :key="menu.title">
-                <cardmenu :title="menu.title" :text="menu.text"/>
-            </div>
-            <paginate :page-count="page" :page-range="3" :margin-pages="2"
-                              @click-handler="menuindex = index" :prev-text="'Prev' "
-                              :next-text=" 'Next'" :container-class="'pagination'"
-                              :page-class="'page-item'">
-                <span slot="prevContent">Changed previous button</span>
-                <span slot="nextContent">Changed next button</span>
-                <span slot="breakViewContent">
-                    <svg width="16" height="4" viewBox="0 0 16 4">
-                    <circle fill="#999999" cx="2" cy="2" r="2" />
-                    <circle fill="#999999" cx="8" cy="2" r="2" />
-                    <circle fill="#999999" cx="14" cy="2" r="2" />
-                    </svg>
-                </span>
-            </paginate>
+        <div class="d-flex-box col-sm-7">
+            <paginate :menues="menues" :menuindex="menuindex" :page="3"/>
         </div>
         </div>
         <div class="row justify-content-bottom botonlogout">
@@ -55,12 +39,9 @@
 
 <script>
     import API from "../service/api";
-    import paginate from 'vuejs-paginate'
-//Vue.component('paginate', Paginate)
+    import paginate from "./MenuPagination";
     import boton from "./Boton";
     import list from "./List";
-    import cardmenu from "./Card";
-
     import falert from "./FloatingAlert";
 
     export default {
@@ -68,7 +49,6 @@
         components: {
             list,
             boton,
-            cardmenu,
             paginate,
             falert
         },
@@ -105,18 +85,11 @@
                     username: localStorage.getItem('name')
                 },
                 items: [],
-                menues: [],
                 bottonalert: "",
-                page:3,menuindex:0
-            }
-        },
-        methods: {
-            clickCallback: (index) => { menuindex = index; },
-            menulimits: (menues,menuindex,count) => { 
-                return menues.slice(menuindex,count); /*
-                if(menues.length != 0) 
-                    return menues.filter( (elem,ix)  => { return !(ix >= menuindex && ix < (menuindex + count)); } )
-                else return [];*/
+
+                menues: [],
+                page: 3,
+                menuindex: 0
             }
         }
     }
