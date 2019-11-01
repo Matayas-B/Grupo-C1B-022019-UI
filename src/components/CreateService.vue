@@ -101,7 +101,7 @@
     }
 
     .botonlogout{
-        margin-top: auto%;
+        margin-top: auto;
         margin-left: -20%;
 
 
