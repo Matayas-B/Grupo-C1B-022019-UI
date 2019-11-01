@@ -97,37 +97,4 @@
 
 <style scoped>
 
-    .container{
-        height: 100%;
-        align-content: center;
-        margin-top: 15%;
-    }
-
-    .card{
-        height: 50%;
-        margin-top: auto;
-        margin-bottom: auto;
-        width: 30%;
-        background-color: rgba(0,0,0,0.5) !important;
-    }
-
-    .card-header h3{
-        color: white;
-    }
-
-    .login_btn{
-        color: black;
-        width: auto;
-    }
-
-    .login_btn:hover{
-        color: black;
-        background-color: #16ff4b;
-    }
-
-    .botonlogout{
-        margin-top: auto;
-        margin-left: -20%;
-    }
-
 </style>
