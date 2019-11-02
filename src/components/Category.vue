@@ -76,7 +76,7 @@
                     })
                 };
 
-            API.get("/menues").then(addmenu);
+            API.get("/menues").then(addmenu).catch( handlError );
             API.get("/categories").then( addCategories ).catch( handlError ); //.finally(() => this.loading = false);
         },
         data() {

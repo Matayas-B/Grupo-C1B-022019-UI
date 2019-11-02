@@ -1,10 +1,16 @@
 <template>
     <div class="card" >
-      <img class="card-img-top" :src="imagen" alt="Card image">
+      <img class="card-img-top" :src="service.icon" alt="Card image">
       <div class="card-body">
-        <h4 class="card-title"> {{title}} </h4>
-        <p class="card-text"> {{text}} </p>
-        <a href="#" class="btn btn-primary">See Profile</a>
+        <h4 class="card-title"> {{service.serviceName}} </h4>
+        <p class="card-text"> {{service.description}} </p>
+        <a href="#" class="btn btn-primary">See Contact</a>
+        {{service.address}} ,{{service.email}}, {{service.phoneNumber}}
+        <!-- Next patch
+         List<OfficeDays> officeDays, List<OfficeHours> officeHours,
+        .deliveryDistanceKm
+        .supplier
+        .isValidService -->
       </div>
     </div>
 </template>
@@ -20,7 +26,7 @@ export default {
        }
      
         },
-    props:["title", "text", "imagen"]
+    props:["service"]
 }
         
 </script>
