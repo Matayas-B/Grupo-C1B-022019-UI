@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex-box col-sm-7 card" >
-            <div class="card-body row" v-for="menu in this.menulimits(menues,menuindex, page)" :key="menu.title">
-                <cardmenu :title="menu.title" :text="menu.text"/>
+            <div class="card-body row" v-for="menu in this.menulimits(menues,menuindex, page)" :key="menu.serviceId">
+                <cardmenu :service="menu"/>
             </div>
             <paginate :page-count="page" :page-range="3" :margin-pages="2"
                               @click-handler="paginationclickCallback" :prev-text="'Prev' "
