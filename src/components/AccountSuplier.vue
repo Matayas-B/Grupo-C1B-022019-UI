@@ -19,7 +19,7 @@
 
                 </div>
                 <div class="card-footer">
-                    <input type="submit" value="add Money" class="btn float-right login_btn" v-on:click="addMoney()" >
+                    <input type="submit" value="add Money" class="btn float-right login_btn" v-on:click="extractMoney()" >
                     <input type="submit" value="Back" class="btn float-right login_btn" v-on:click="back()">
                     <input type="submit" value="Log Out" class="btn float-right login_btn" v-on:click="logOut()">
                 </div>
@@ -52,7 +52,7 @@
         methods: {
             loadUser() {
 
-                API.get('/customer/getById?customerId=1')
+                API.get('/supplier/getById?supplierId=3')
                     .then(response => this.callBack(response))
                     .catch(e => alert(e));
             },
@@ -61,7 +61,7 @@
                 this.money = r.account.funds
             },
 
-            addMoney() {
+            extractMoney() {
 
                 API.get('/customer/depositMoney?customerId=1&money=3000')
                     .then(this.money = this.money + this.count)
@@ -71,7 +71,7 @@
                 this.$router.push('/');
             },
             back(){
-                this.$router.push('/category')
+                this.$router.push('/suplieropcion')
             },
 
         }
