@@ -51,10 +51,10 @@
                 createUser(){
                     let self = this
                     let user = self.user
-                    API.post("/customer",user)
-
-                    this.$router.push('/registration')
-
+                    API.post("/customer",JSON.stringify(user))
+                        .then( r => this.$router.push('/registration') )
+                        .catch(e => alert(e))
+                        .finally(alert("try again"));
                 }
         }
 
