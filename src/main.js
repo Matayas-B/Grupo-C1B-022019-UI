@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import App from './App.vue'
 import VueRouter from "vue-router"
 import router from './router'
@@ -6,7 +7,7 @@ import VueSession from 'vue-session'
 import 'jquery'
 
 
-
+import { store } from "./components/Store";
 import 'popper.js'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';
@@ -22,9 +23,7 @@ library.add(faSpinner)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
-
-
-
+Vue.use(Vuex)
 Vue.use(VueSession)
 Vue.use(VueRouter)
 
@@ -32,5 +31,6 @@ Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

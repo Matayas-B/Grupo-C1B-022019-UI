@@ -1,11 +1,11 @@
 <template>
     <div class="d-flex-box col-sm-7 card" >
-            <div class="card-body row" v-for="menu in this.menulimits(menues,menuindex, page)" :key="menu.serviceId">
+            <div class="card-body row" v-for="menu in this.menulimits(menues, page)" :key="menu.serviceId">
                 <cardmenu :service="menu"/>
             </div>
             <paginate :page-count="page" :page-range="3" :margin-pages="2"
-                              @click-handler="paginationclickCallback" :prev-text="'Prev' "
-                              :next-text=" 'Next'" :container-class="'pagination'"
+                              @click-handler="this.setIndex" :prev-text="'Prev'"
+                              :next-text="'Next'" :container-class="'pagination'"
                               :page-class="'page-item'" >
                 <span slot="prevContent">Changed previous button</span>
                 <span slot="nextContent">Changed next button</span>
@@ -22,26 +22,42 @@
 
 <script>
 import paginate from "vuejs-paginate";
-//Vue.component('paginate', Paginate)
 import cardmenu from "./Card";
+import Vue from "vue";
+
+export const store = Vue.observable({
+  count: 0
+});
+
+export const mutations = {
+  setCount(count) {
+    store.count = count;
+  }
+};
 
 export default {
     name: "Category",
     components: {
             cardmenu, paginate
     },
-    props:["menues", "page", "menuindex"],
+    props:["menues", "page"],
     methods: {
-            paginationclickCallback: (index) => { 
-                this.menuindex = index;
-                //this.menues.$emit();
+            setIndex: (i) =>  {
+                // eslint-disable-next-line
+                console.log("i");
+                mutations.setCount(i);
             },
-            menulimits: (menues,menuindex,count) => { 
-                return menues.slice(menuindex,count); /*
+            menulimits: (menues,count) => { 
+                return menues.slice(store.count,count); /*
                 if(menues.length != 0) 
                     return menues.filter( (elem,ix)  => { return !(ix >= menuindex && ix < (menuindex + count)); } )
                 else return [];*/
             }
+    },
+    computed: {
+      index() {
+        return store.count;
+      }
     }
 }
 </script>
