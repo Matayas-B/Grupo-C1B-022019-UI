@@ -85,7 +85,7 @@
             logear: function () {
                 if (this.user.username != "" && this.user.password != "") {
                     if (this.user.username == "facundo" && this.user.password == "123456") {
-                        this.$store.commit("changeName",this.loaduser);
+                        this.$store.commit("changeName", this.user.username);
                         /*localStorage.clear()
                         localStorage.setItem('user', this.loaduser)
                         localStorage.setItem('name', this.loaduser.name)*/

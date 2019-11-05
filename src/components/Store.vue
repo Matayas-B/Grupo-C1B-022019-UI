@@ -15,5 +15,8 @@ const store = new Vuex.Store({
   }
 });
 
-export default store;
+export default {
+  name:"store",
+  components: { store }
+};
 </script>

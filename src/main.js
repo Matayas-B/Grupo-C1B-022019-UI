@@ -7,7 +7,7 @@ import VueSession from 'vue-session'
 import 'jquery'
 
 
-import { store } from "./components/Store";
+//import { store } from "./components/Store";
 import 'popper.js'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';
@@ -28,6 +28,21 @@ Vue.use(VueSession)
 Vue.use(VueRouter)
 
 Vue.config.productionTip = false
+
+const store = new Vuex.Store({
+  state: {
+    userName: ""
+  },
+  mutations: {
+    changeName(state,name) {
+      this.state.userName = name;
+    },
+    resetUser(state){
+      this.changeName(state,"");
+    }
+  }
+});
+
 
 new Vue({
   router,

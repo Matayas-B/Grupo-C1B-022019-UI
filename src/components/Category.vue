@@ -3,7 +3,7 @@
 
         <nav id="barra-principal" class="navbar row fixed-top">
             <h2 class="text-white" id="ViendasYa">ViendasYa</h2>
-            <h2 class="text-white" id="user">{{this.userName()}}</h2>
+            <h2 class="text-white" id="user">{{this.userName}}</h2>
             <form class="form-inline" action="/">
                 <input type="search"  placeholder="search..">
                 <button class="btn btn-success" type="submit">search</button>
