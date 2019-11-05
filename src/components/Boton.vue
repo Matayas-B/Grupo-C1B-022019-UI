@@ -39,7 +39,7 @@ export default {
             this.$router.push('/account')
         },
         logOut (){
-            localStorage.clear();
+            this.$store.commit("resetUser");
             this.$router.push('/');
         },
     }

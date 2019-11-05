@@ -3,7 +3,7 @@
 
         <nav id="barra-principal" class="navbar row fixed-top">
             <h2 class="text-white" id="ViendasYa">ViendasYa</h2>
-            <h2 class="text-white" id="user">{{user.username}}</h2>
+            <h2 class="text-white" id="user">{{this.userName}}</h2>
             <form class="form-inline" action="/">
                 <input type="search"  placeholder="search..">
                 <button class="btn btn-success" type="submit">search</button>
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="d-flex-box col-sm-7">
-            <paginate :menues="menues" :menuindex="menuindex" :page="3"/>
+            <paginate :menues="menues" :page="3"/>
         </div>
         </div>
         <div class="row justify-content-bottom botonlogout">
@@ -76,20 +76,28 @@
                     })
                 };
 
+            let categoryInLocation = (location) => {return {
+                menuname : "",
+                menucategory : "All",
+                servicetown : location
+            }};
+            let categories = JSON.stringify( categoryInLocation("") );
+
             API.get("/menues").then(addmenu).catch( handlError );
-            API.get("/categories").then( addCategories ).catch( handlError ); //.finally(() => this.loading = false);
+            API.post("/search",categories).then( addCategories ).catch( handlError ); //.finally(() => this.loading = false);
+        },
+        computed:{
+            userName(){
+                return this.$store.state.userName;
+            }
         },
         data() {
             return {
-                user: {
-                    username: localStorage.getItem('name')
-                },
                 items: [],
                 bottonalert: "",
 
                 menues: [],
-                page: 3,
-                menuindex: 0
+                page: 3
             }
         }
     }

@@ -13,8 +13,6 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';
 import '@fortawesome/fontawesome-free/css/all.css'
 
-import { store } from "Store";
-
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -28,6 +26,21 @@ Vue.use(VueSession)
 Vue.use(VueRouter)
 
 Vue.config.productionTip = false
+
+
+const store = new Vuex.Store({
+  state: {
+    userName: ""
+  },
+  mutations: {
+    changeName(state,name) {
+      this.state.userName = name;
+    },
+    resetUser(state){
+      this.changeName(state,"");
+    }
+  }
+});
 
 new Vue({
   router,

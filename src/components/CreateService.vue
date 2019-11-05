@@ -67,11 +67,13 @@
 
             botonsupplier
         },
+        computed:{
+            userName(){
+                return this.$store.state.userName;
+            }
+        },
         data() {
             return {
-                user: {
-                    username: localStorage.getItem('name')
-                },
                 service: {
                     supplierId: localStorage.getItem('id'),
                     serviceName: "Burguer King",
