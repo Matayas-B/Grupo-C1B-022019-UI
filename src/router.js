@@ -10,6 +10,9 @@ import Account from "./components/Account";
 import CreateService from "./components/CreateService";
 import Prueba from "./components/Prueba";
 import SuplierOpcion from "./components/SuplierOpcion";
+import AccountSuplier from "./components/AccountSuplier";
+import AdddMenuSupplier from "./components/AdddMenuSupplier";
+
 
 Vue.use(Router)
 
@@ -26,6 +29,8 @@ export default new Router({
         {path: '/account', component:Account},
         {path: '/createservice', component: CreateService},
         {path: '/prueba', component: Prueba},
-        {path: '/suplieropcion', component: SuplierOpcion}
+        {path: '/suplieropcion', component: SuplierOpcion},
+        {path: '/accountsupplier', component: AccountSuplier},
+        {path: '/adddmenusupplier', component: AdddMenuSupplier},
     ]
 })

@@ -1,32 +1,45 @@
 <template>
 
     <div class="wrapper fadeInDown">
+
         <div id="formContent">
 
             <!-- Icon -->
             <div class="fadeIn first">
-                <p id="burguer">Suplier user</p>
+                <p id="burguer">Suplier user: {{user.username}}</p>
             </div>
 
-                <input type="submit" class="fadeIn fourth" value="add Menu" >
-
-
+                <input type="submit" class="fadeIn fourth" value="service" v-on:click="createUser" >
+                <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
                 <input type="submit" class="fadeIn fourth" value="update"  >
-
-
                 <input type="submit" class="fadeIn fourth" value="Delete" >
 
 
         </div>
-<boton></boton>
+            <botonsupplier></botonsupplier>
     </div>
 </template>
 
 <script>
-    import Boton from "./Boton";
+    import botonsupplier from "./BotonSupplier";
     export default {
         name: "SuplierOpcion",
-        components: {Boton}
+        components: {botonsupplier},
+        data() {
+            return {
+                user: {
+                    username: localStorage.getItem('name')
+                },
+            }
+        },
+        methods:{
+            createUser(){
+                this.$router.push('/createservice')
+            },
+            createMenu(){
+                this.$router.push('/adddmenusupplier')
+            }
+        }
     }
 </script>
 
