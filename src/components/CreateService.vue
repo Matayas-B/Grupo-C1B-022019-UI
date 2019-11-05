@@ -50,14 +50,15 @@
     export default {
         name: "CreateMenus",
         components: {
-
             boton
         },
+        computed:{
+            userName(){
+                return this.$store.state.userName;
+            }
+        },
         data() {
-            return {
-                user: {
-                    username: localStorage.getItem('name')
-                },
+            return {        
                 items: [
                     {message: 'Foo'},
                     {message: 'Bar'},

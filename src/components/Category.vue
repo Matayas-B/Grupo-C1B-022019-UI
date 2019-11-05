@@ -57,8 +57,8 @@
             
             function addCategories(res){
                     // eslint-disable-next-line
-                    console.log("backend-categories:ok");
-                    console.log(res.toString())
+                    console.log("backend-categories:ok" + "   " + res);
+                    //console.log(res.toString())
                     res.categories.forEach(element => {
                        comp.items.push(element); 
                     });
@@ -81,7 +81,7 @@
                 menucategory : "All",
                 servicetown : location
             }};
-            let categories = categoryInLocation("").tojson();
+            let categories = JSON.stringify( categoryInLocation("") );
 
             API.get("/menues").then(addmenu).catch( handlError );
             API.post("/search",categories).then( addCategories ).catch( handlError ); //.finally(() => this.loading = false);
@@ -89,7 +89,6 @@
         computed:{
             userName(){
                 return this.$store.state.userName;
-                //store.commit('increment')
             }
         },
         data() {
