@@ -58,6 +58,7 @@
             function addCategories(res){
                     // eslint-disable-next-line
                     console.log("backend-categories:ok");
+                    console.log(res.toString())
                     res.categories.forEach(element => {
                        comp.items.push(element); 
                     });
@@ -74,10 +75,16 @@
                 res.forEach(element => {
                        this.menues.push(element); 
                     })
-                };
+            };
+            let categoryInLocation = (location) => {return {
+                menuname : "",
+                menucategory : "All",
+                servicetown : location
+            }};
+            let categories = categoryInLocation("").tojson();
 
             API.get("/menues").then(addmenu).catch( handlError );
-            API.get("/categories").then( addCategories ).catch( handlError ); //.finally(() => this.loading = false);
+            API.post("/search",categories).then( addCategories ).catch( handlError ); //.finally(() => this.loading = false);
         },
         computed:{
             userName(){
