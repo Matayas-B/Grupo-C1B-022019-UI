@@ -34,7 +34,8 @@ Vue.config.productionTip = false
 
 const store = new Vuex.Store({
   state: {
-    userName: ""
+    userName: "",
+    menuindex:0
   },
   mutations: {
     changeName(state,name) {
@@ -42,6 +43,9 @@ const store = new Vuex.Store({
     },
     resetUser(state){
       this.changeName(state,"");
+    },
+    setMenuIndex(state, num){
+      state.menuindex = num;
     }
   }
 });

@@ -63,6 +63,7 @@
         },
         mounted(){
             API.get("/service") //?serviceId=3
+            // eslint-disable-next-line no-console
                 .then(res => { console.log(res);}) //this.service = res;
                 .catch(e=>alert(e));
         },

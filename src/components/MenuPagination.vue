@@ -23,8 +23,9 @@
 <script>
 import paginate from "vuejs-paginate";
 import cardmenu from "./Card";
-import Vue from "vue";
+
 /*
+import Vue from "vue";
 export const store = Vue.observable({
   count: 0
 });
@@ -42,12 +43,15 @@ export default {
             cardmenu, paginate
     },
     props:["menues", "page"],
+    mounted(){
+        this.paginationclickCallback(0);
+    },
     methods: {
             paginationclickCallback: (index) => { 
-                this.menuindex = index;
-                //this.menues.$emit();
+                this.$store.commit("setMenuIndex", index);
             },
-            menulimits: (menues,count) => { 
+            menulimits: (menues,count) => {
+                let menuindex = this.$store.state.menuindex; 
                 return menues.slice(menuindex,count); /*
                 if(menues.length != 0) 
                     return menues.filter( (elem,ix)  => { return !(ix >= menuindex && ix < (menuindex + count)); } )
