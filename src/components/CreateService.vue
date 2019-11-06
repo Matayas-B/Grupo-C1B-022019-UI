@@ -95,6 +95,8 @@
                 let self = this
                 let servicee = self.service
                 API.post("/supplier/addService", servicee)
+                    .then((r) => { this.$router.pop(); })
+                    .catch(e=>alert(e));
             }
         }
     }
