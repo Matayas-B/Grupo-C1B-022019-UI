@@ -13,11 +13,12 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';
 import '@fortawesome/fontawesome-free/css/all.css'
 
-
-
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import VueMaterial from 'vue-material'
+//import 'vue-material/dist/vue-material.min.css'
+//import 'vue-material/dist/theme/default.css'
 
 library.add(faSpinner)
 
@@ -26,12 +27,14 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(Vuex)
 Vue.use(VueSession)
 Vue.use(VueRouter)
+Vue.use(VueMaterial)
 
 Vue.config.productionTip = false
 
 const store = new Vuex.Store({
   state: {
-    userName: ""
+    userName: "",
+    menuindex:0
   },
   mutations: {
     changeName(state,name) {
@@ -39,10 +42,12 @@ const store = new Vuex.Store({
     },
     resetUser(state){
       this.changeName(state,"");
+    },
+    setMenuIndex(state, num){
+      state.menuindex = num;
     }
   }
 });
-
 
 new Vue({
   router,

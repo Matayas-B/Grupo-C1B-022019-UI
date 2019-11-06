@@ -35,20 +35,36 @@ export const mutations = {
   }
 };
 
+/*
+import Vue from "vue";
+export const store = Vue.observable({
+  count: 0
+});
+export const mutations = {
+  setCount(count) {
+    store.count = count;
+  }
+};
+Change to Vuex
+*/
+
 export default {
     name: "Category",
     components: {
             cardmenu, paginate
     },
-    props:["menues", "page"],
+    props:["menues", "page"],  
+    mounted(){
+        this.setIndex(0);
+    },
     methods: {
-            setIndex: (i) =>  {
-                // eslint-disable-next-line
-                console.log("i");
-                mutations.setCount(i);
+            setIndex: (index) => { 
+                this.$store.commit("setMenuIndex", index);
             },
-            menulimits: (menues,count) => { 
-                return menues.slice(store.count,count); /*
+            menulimits: (menues,count) => {
+                let menuindex = this.$store.state.menuindex; 
+                return menues.slice(menuindex,count);
+                /*
                 if(menues.length != 0) 
                     return menues.filter( (elem,ix)  => { return !(ix >= menuindex && ix < (menuindex + count)); } )
                 else return [];*/

@@ -48,12 +48,10 @@
 
 <script>
     import API from "../service/api";
-    //import axios from 'axios';
 
     export default {
         name: 'Login',
-        components: {
-        },
+        components: {},
         mounted() {
             this.loadUser();
         },
@@ -86,10 +84,6 @@
                 if (this.user.username != "" && this.user.password != "") {
                     if (this.user.username == "facundo" && this.user.password == "123456") {
                         this.$store.commit("changeName", this.user.username);
-                        /*localStorage.clear()
-                        localStorage.setItem('user', this.loaduser)
-                        localStorage.setItem('name', this.loaduser.name)*/
-                        //this.$router.push({name: 'category', params: {loggedUser: this.user.username}})
                         this.$router.push('/category')
                     } else {
                         alert("The username and / or password is incorrect");

@@ -4,53 +4,67 @@
         <form>
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="inputEmail4">Email</label>
-                    <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                    <label for="inputEmail1">Service Name</label>
+                    <input type="text" class="form-control" id="inputEmail1" placeholder="serviceName" v-model="service.serviceName">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="inputPassword4">Password</label>
-                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                    <label for="inputPassword1">Address Town</label>
+                    <input type="text" class="form-control" id="inputPassword1" placeholder="addressTown" v-model="service.addressTown">
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="inputAddress">Address</label>
-                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
-            </div>
-            <div class="form-group">
-                <label for="inputAddress2">Address 2</label>
-                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
-            </div>
-            <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="inputCity">City</label>
-                    <input type="text" class="form-control" id="inputCity">
+                    <label for="inputEmail2">Address Location</label>
+                    <input type="text" class="form-control" id="inputEmail2" placeholder="addressLocation" v-model="service.addressLocation">
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="inputState">State</label>
-                    <select id="inputState" class="form-control">
-                        <option selected>Choose...</option>
-                        <option>...</option>
-                    </select>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword2">Description</label>
+                    <input type="text" class="form-control" id="inputPassword2" placeholder="description" v-model="service.description">
                 </div>
-                <div class="form-group col-md-2">
-                    <label for="inputZip">Zip</label>
-                    <input type="text" class="form-control" id="inputZip">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail3">Email</label>
+                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email" v-model="service.email">
                 </div>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword3">Phone Number</label>
+                    <input type="text" class="form-control" id="inputPassword3" placeholder="phoneNumber" v-model="service.phoneNumber">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputEmail5">Office Days</label>
+                    <input type="text" class="form-control" id="inputEmail5" placeholder="officeDays" v-model="service.officeDays">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword5">Office Hours</label>
+                    <input type="text" class="form-control" id="inputPassword5" placeholder="officeHours" v-model="service.officeHours">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputEmail6">Delivery Distance</label>
+                    <input type="text" class="form-control" id="inputEmail6" placeholder="deliveryDistance" v-model="service.deliveryDistance">
+                </div>
+            </div>
+            <div>
+            <button type="submit" class="btn btn-primary " v-on:click="createService">Create</button>
+            </div>
+            <div class="d-flex  links">
+                <router-link to="/suplieropcion">Back</router-link>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-primary ">Delete</button>
             </div>
 
-            <button type="submit" class="btn btn-primary">Sign in</button>
+
         </form>
-        <boton></boton>
+        <botonsupplier></botonsupplier>
     </div>
 </template>
 
 <script>
-    import boton from "./Boton";
+    import botonsupplier from "./BotonSupplier";
+    import API from "../service/api";
+
 
     export default {
         name: "CreateMenus",
         components: {
-            boton
+            botonsupplier
         },
         computed:{
             userName(){
@@ -58,15 +72,31 @@
             }
         },
         data() {
-            return {        
-                items: [
-                    {message: 'Foo'},
-                    {message: 'Bar'},
-                ]
+            return {
+                service: {
+                    supplierId: localStorage.getItem('id'),
+                    serviceName: "Burguer King",
+                    icon: "",
+                    addressTown: "Quilmes",
+                    addressLocation: "Rivadavia 123",
+                    description: "Best Hamburguers in town",
+                    email: "burguer@gmail.com",
+                    phoneNumber: "123454545",
+                    officeDays: ["Monday"],
+                    officeHours:["Afternoon"],
+                    deliveryDistance: "10"
+
+                }
             }
         },
         methods: {
-
+            createService(){
+                let self = this
+                let servicee = self.service
+                API.post("/supplier/addService", servicee)
+                    .then(() => { this.$router.pop(); })
+                    .catch(e=>alert(e));
+            }
         }
     }
 </script>

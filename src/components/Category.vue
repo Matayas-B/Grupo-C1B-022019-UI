@@ -93,12 +93,11 @@
         },
         data() {
             return {
-        
                 items: [],
                 bottonalert: "",
 
                 menues: [],
-                page: 3,
+                page: 3
             }
         }
     }

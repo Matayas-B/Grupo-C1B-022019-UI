@@ -59,13 +59,11 @@
             return {
                 loaduser: [],
                 user: { username: '', password: ''}
-
-
             }
         },
         methods: {
             loadUser() {
-                API.get('/supplier')
+                API.get('/supplier/getById?supplierId=3')
                     .then(response => this.callBack(response))
                     .catch(e => alert(e));
             },
@@ -78,7 +76,7 @@
                 if (this.user.username != "" && this.user.password != "") {
                     if (this.user.username == "matias" && this.user.password == "123456") {
                         this.$store.commit("changeName", this.user.username);
-                        this.$router.push('/createservice')
+                        this.$router.push('/suplieropcion')
                     } else {
                         alert("The username and / or password is incorrect");
                     }

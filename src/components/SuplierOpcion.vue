@@ -1,32 +1,86 @@
 <template>
 
     <div class="wrapper fadeInDown">
+
         <div id="formContent">
 
             <!-- Icon -->
             <div class="fadeIn first">
-                <p id="burguer">Suplier user</p>
+                <p id="burguer">Suplier user: {{this.userName}}</p>
             </div>
 
-                <input type="submit" class="fadeIn fourth" value="add Menu" >
-
-
+                <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createUser" >
+                <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
                 <input type="submit" class="fadeIn fourth" value="update"  >
-
-
                 <input type="submit" class="fadeIn fourth" value="Delete" >
-
-
         </div>
-<boton></boton>
+        <div>
+        <md-list class="md-double-line">
+            <md-subheader>Service::{{service.serviceName}}</md-subheader>
+
+            <md-list-item> <!--v-bind="menu in service.menues" v-key="menu.menuId"> -->
+                <md-icon class="md-primary">phone</md-icon>
+
+                <div class="md-list-item-text">
+                <span>{{menu.name}}</span>
+                <span>{{menu.description}}</span>
+                </div>
+
+                <md-button class="md-icon-button md-list-action" v-on:click="updateMenu(menu.menuId)">
+                    <i class="fa fa-pencil fa-fw" />
+                </md-button>
+                
+                <md-button class="md-icon-button md-list-action" v-on:click="deleteMenu(menu.menuId)">
+                    <i class="fa fa-trash-o fa-fw" />
+                </md-button>
+            </md-list-item>
+            <md-divider></md-divider>
+            <!--prox elem  -->
+        </md-list>
+        </div>
+        
+            <botonsupplier></botonsupplier>
     </div>
 </template>
 
 <script>
-    import Boton from "./Boton";
+    import botonsupplier from "./BotonSupplier";
+    import API from '../service/api';
+    
     export default {
         name: "SuplierOpcion",
-        components: {Boton}
+        components: {botonsupplier},
+        computed:{
+            userName(){
+                return this.$store.state.userName;
+            }
+        },
+        data() {
+            return {
+                service: {serviceName:"abc"},
+                menu: {menuId:1,name:"abc",description:"example text"}
+            }
+        },
+        mounted(){
+            API.get("/service") //?serviceId=3
+            // eslint-disable-next-line no-console
+                .then(res => { console.log(res);}) //this.service = res;
+                .catch(e=>alert(e));
+        },
+        methods:{
+            createUser(){
+                this.$router.push('/createservice')
+            },
+            createMenu(){
+                this.$router.push('/adddmenusupplier')
+            },
+            updateMenu(idButton){ return idButton},
+            deleteMenu(idButton){ 
+                return idButton
+                //console.log(idButton);
+                //API.post("/service/deleteMenu?serviceId=service.serviceId,menuId=")
+            }
+        }
     }
 </script>
 
@@ -226,6 +280,12 @@
     }
 
 
-
-
+  .md-list {
+    width: 320px;
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    border: 1px solid rgba(#000, .12);
+    background-color: rgba(0,0,0,0.5) !important;
+  }
 </style>
