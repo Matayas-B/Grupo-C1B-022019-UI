@@ -4,11 +4,11 @@
       <div class="card-body">
         <h4 class="card-title"> {{service.serviceName}} </h4>
         <p class="card-text"> {{service.description}} </p>
-        <a href="#" class="btn btn-primary">See Contact</a>
+        <button type="button" class="btn btn-primary" v-on:click="$emit('handleclick', service.serviceId)">{{buttonValue}} </button>
         {{service.address}} ,{{service.email}}, {{service.phoneNumber}}
         <!-- Next patch
          List<OfficeDays> officeDays, List<OfficeHours> officeHours,
-        .deliveryDistanceKm
+        .deliveryDistanceKm 
         .supplier
         .isValidService -->
       </div>
@@ -18,15 +18,14 @@
 <script>
 
 export default {
-  
-     computed: {
+  computed: {
        theimage: function () {
         
         return '@/assets/iconfinder-hamburger.svg'
        }
      
         },
-    props:["service"]
+  props:["service","buttonValue"]
 }
         
 </script>

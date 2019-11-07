@@ -12,7 +12,7 @@
                 <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createUser" >
                 <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
                 <input type="submit" class="fadeIn fourth" value="update"  >
-                <input type="submit" class="fadeIn fourth" value="Delete" >
+                <input type="submit" class="fadeIn fourth" value="Delete" v-on:click="deleteMenu">
         </div>
         <div>
         <md-list class="md-double-line">
@@ -69,15 +69,14 @@
         },
         methods:{
             createUser(){
-                this.$router.push('/createservice')
+                this.$router.push('/createservice');
             },
             createMenu(){
-                this.$router.push('/adddmenusupplier')
+                this.$router.push('/adddmenusupplier');
             },
             updateMenu(idButton){ return idButton},
-            deleteMenu(idButton){ 
-                return idButton
-                //console.log(idButton);
+            deleteMenu(){ 
+                this.$router.push('/deletemenues');
                 //API.post("/service/deleteMenu?serviceId=service.serviceId,menuId=")
             }
         }
