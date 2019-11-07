@@ -17,6 +17,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueMaterial from 'vue-material'
+import i18n from './i18n'
 //import 'vue-material/dist/vue-material.min.css'
 //import 'vue-material/dist/theme/default.css'
 
@@ -52,5 +53,6 @@ const store = new Vuex.Store({
 new Vue({
   router,
   store,
-  render: h => h(App),
+  i18n,
+  render: h => h(App)
 }).$mount('#app')

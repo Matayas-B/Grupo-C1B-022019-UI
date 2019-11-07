@@ -14,31 +14,6 @@
                 <input type="submit" class="fadeIn fourth" value="update"  >
                 <input type="submit" class="fadeIn fourth" value="Delete" >
         </div>
-        <div>
-        <md-list class="md-double-line">
-            <md-subheader>Service::{{service.serviceName}}</md-subheader>
-
-            <md-list-item> <!--v-bind="menu in service.menues" v-key="menu.menuId"> -->
-                <md-icon class="md-primary">phone</md-icon>
-
-                <div class="md-list-item-text">
-                <span>{{menu.name}}</span>
-                <span>{{menu.description}}</span>
-                </div>
-
-                <md-button class="md-icon-button md-list-action" v-on:click="updateMenu(menu.menuId)">
-                    <i class="fa fa-pencil fa-fw" />
-                </md-button>
-                
-                <md-button class="md-icon-button md-list-action" v-on:click="deleteMenu(menu.menuId)">
-                    <i class="fa fa-trash-o fa-fw" />
-                </md-button>
-            </md-list-item>
-            <md-divider></md-divider>
-            <!--prox elem  -->
-        </md-list>
-        </div>
-        
             <botonsupplier></botonsupplier>
     </div>
 </template>
@@ -74,12 +49,6 @@
             createMenu(){
                 this.$router.push('/adddmenusupplier')
             },
-            updateMenu(idButton){ return idButton},
-            deleteMenu(idButton){ 
-                return idButton
-                //console.log(idButton);
-                //API.post("/service/deleteMenu?serviceId=service.serviceId,menuId=")
-            }
         }
     }
 </script>

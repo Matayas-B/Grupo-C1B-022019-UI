@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
-                    <h3>Sign In Customer</h3>
+                    <h3>{{ $t('message') }}</h3>
                     <div class="d-flex justify-content-end social_icon">
                         <span><i class="fab fa-facebook-square"></i></span>
                         <span><i class="fab fa-google-plus-square"></i></span>
@@ -36,6 +36,7 @@
                     </form>
                 </div>
                 <div class="card-footer">
+                    <input type="submit" value="Login" class="btn float-right login_btn" v-on:click="i18nn">
                     <div class="d-flex justify-content-center links">
                         Don't have an account? <router-link to="/loginform">Sign Up</router-link>
                     </div>
@@ -48,6 +49,7 @@
 
 <script>
     import API from "../service/api";
+    import i18n from "../i18n";
 
     export default {
         name: 'Login',
@@ -91,6 +93,10 @@
                 } else {
                     alert("A username and password must be present");
                 }
+            },
+            i18nn(){
+                i18n.locale='en';
+
             }
 
         },
