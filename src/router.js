@@ -13,6 +13,8 @@ import SuplierOpcion from "./components/SuplierOpcion";
 import AccountSuplier from "./components/AccountSuplier";
 import AdddMenuSupplier from "./components/AdddMenuSupplier";
 
+import DeleteMenues from "./components/DeleteMenues";
+import UpdateMenues from "./components/UpdateMenues";
 
 Vue.use(Router)
 
@@ -31,6 +33,10 @@ export default new Router({
         {path: '/prueba', component: Prueba},
         {path: '/suplieropcion', component: SuplierOpcion},
         {path: '/accountsupplier', component: AccountSuplier},
-        {path: '/adddmenusupplier', component: AdddMenuSupplier},
+
+        {path: '/deletemenues', component: DeleteMenues},
+        {path: '/updatemenues', component: UpdateMenues},
+        {path: '/adddmenusupplier', component: AdddMenuSupplier },
+        {path: '/adddmenusupplier?:s&:m', component: AdddMenuSupplier, props: true}
     ]
 })

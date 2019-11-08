@@ -11,7 +11,7 @@
 
                 <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createUser" >
                 <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
-                <input type="submit" class="fadeIn fourth" value="update"  >
+                <input type="submit" class="fadeIn fourth" value="update" v-on:click="updateMenu">
                 <input type="submit" class="fadeIn fourth" value="Delete" v-on:click="deleteMenu">
         </div>
         <div>
@@ -74,10 +74,12 @@
             createMenu(){
                 this.$router.push('/adddmenusupplier');
             },
-            updateMenu(idButton){ return idButton},
+            updateMenu(){
+                this.$router.push('/updatemenues');
+            },
             deleteMenu(){ 
                 this.$router.push('/deletemenues');
-                //API.post("/service/deleteMenu?serviceId=service.serviceId,menuId=")
+                //router.pop .....?
             }
         }
     }

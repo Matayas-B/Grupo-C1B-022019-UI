@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex-box col-sm-7 card" >
             <div class="card-body row" v-for="menu in menulimits(menues, page)" :key="menu.serviceId">
-                <cardmenu :service="menu" buttonValue="Delete" v-on:handleclick="clickCallBack"/>
+                <cardmenu :service="menu" buttonValue="Update" v-on:handleclick="clickCallBack"/>
             </div>
             <paginate :page-count="page" :page-range="3" :margin-pages="2"
                               :click-handler="setIndex" :prev-text="'Prev'"
@@ -22,18 +22,18 @@
 </template>
 
 <script>
-import API from "../service/api";
+//import API from "../service/api";
 import paginate from "vuejs-paginate";
 import cardmenu from "./Card";
 
 export default {
-    name: "DeleteMenues",
+    name: "UpdateMenues",
     components: { cardmenu, paginate },
     event:['handleclick'],
     mounted(){
         let self = this;
         self.setIndex(1);
-        //TODO:Add the necesary menues
+        
         ["A", "B","C","D"].forEach((elem,index)=>{
             self.menues.push({serviceName:elem, serviceId:index,description:index.toString()});
         });
@@ -47,8 +47,9 @@ export default {
                 return this.menues.slice(menuindex,count+menuindex);
             },
             clickCallBack(menuid){
-                console.log("delete: " + menuid);
-                API.get("/service/deleteMenu?serviceId="+ menu.serviceId +",menuId="+menuid);
+                //console.log("updating: " + menuid);
+                this.$router.push({ path: `/adddmenusupplier`, query: { s: 0, m:menuid}} );
+                //API.get("/service/deleteMenu?serviceId="+ service.serviceId +",menuId="+menuid);
             }
     },
     computed: {
