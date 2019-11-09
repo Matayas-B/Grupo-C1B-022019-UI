@@ -9,29 +9,23 @@
                 <p id="burguer">Suplier user: {{this.userName}}</p>
             </div>
 
-                <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createUser" >
+                <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createService" >
                 <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
                 <input type="submit" class="fadeIn fourth" value="update" v-on:click="updateMenu">
                 <input type="submit" class="fadeIn fourth" value="Delete" v-on:click="deleteMenu">
         </div>
         <div>
-        <md-list class="md-double-line">
-            <md-subheader>Service::{{service.serviceName}}</md-subheader>
+        <md-list class="md-double-line" v-for="service in services" :key="service.serviceId">
+            <md-subheader>::Services::</md-subheader>
 
-            <md-list-item> <!--v-bind="menu in service.menues" v-key="menu.menuId"> -->
-                <md-icon class="md-primary">phone</md-icon>
-
+            <md-list-item>
                 <div class="md-list-item-text">
-                <span>{{menu.name}}</span>
-                <span>{{menu.description}}</span>
+                    <span>{{service.serviceName}}</span>
+                    <span>{{service.description}}</span>
                 </div>
 
-                <md-button class="md-icon-button md-list-action" v-on:click="updateMenu(menu.menuId)">
-                    <i class="fa fa-pencil fa-fw" />
-                </md-button>
-                
-                <md-button class="md-icon-button md-list-action" v-on:click="deleteMenu(menu.menuId)">
-                    <i class="fa fa-trash-o fa-fw" />
+                <md-button class="md-icon-button md-list-action" v-on:click="$store.commit('changeService', service.serviceId)">
+                    <i class="fa fa-pencil fa-fw" > {{service.serviceId}} </i>
                 </md-button>
             </md-list-item>
             <md-divider></md-divider>
@@ -53,33 +47,34 @@
         computed:{
             userName(){
                 return this.$store.state.userName;
+            },
+            serviceId(){
+                return this.$store.state.serviceId;
             }
         },
         data() {
             return {
-                service: {serviceName:"abc"},
-                menu: {menuId:1,name:"abc",description:"example text"}
+                services: []
             }
         },
         mounted(){
-            API.get("/service") //?serviceId=3
+            API.get("/supplier/getSupplierService?supplierId="+this.$store.state.userId)
             // eslint-disable-next-line no-console
-                .then(res => { console.log(res);}) //this.service = res;
+                .then(res => { this.services.push(res);}) //console.log(res);
                 .catch(e=>alert(e));
         },
         methods:{
-            createUser(){
+            createService(){
                 this.$router.push('/createservice');
             },
             createMenu(){
                 this.$router.push('/adddmenusupplier');
             },
             updateMenu(){
-                this.$router.push('/updatemenues');
+                this.$router.push({path:'/updatemenues'}); //,query:{s:0}
             },
             deleteMenu(){ 
-                this.$router.push('/deletemenues');
-                //router.pop .....?
+                this.$router.push('/deletemenues?s='+this.serviceId);
             }
         }
     }
@@ -92,8 +87,6 @@
         align-content: center;
         margin-top: 8%;
         background-color: rgba(0,0,0,0.5) !important;
-
-
     }
     /* STRUCTURE */
 

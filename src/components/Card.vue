@@ -4,9 +4,10 @@
       <div class="card-body">
         <h4 class="card-title"> {{service.serviceName}} </h4>
         <p class="card-text"> {{service.description}} </p>
-        <button type="button" class="btn btn-primary" v-on:click="$emit('handleclick', service.serviceId)">{{buttonValue}} </button>
-        {{service.address}} ,{{service.email}}, {{service.phoneNumber}}
+        <button type="button" class="btn btn-primary" v-on:click="$emit('handleclick', service.menuId)">{{buttonValue}} </button>
+        
         <!-- Next patch
+        {{service.address}} ,{{service.email}}, {{service.phoneNumber}}
          List<OfficeDays> officeDays, List<OfficeHours> officeHours,
         .deliveryDistanceKm 
         .supplier

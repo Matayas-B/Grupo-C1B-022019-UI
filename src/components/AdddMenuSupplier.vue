@@ -53,9 +53,11 @@
                 </div>
             </div>
             <div>
-                <button type="submit" class="btn btn-primary " v-on:click="createMenu">Create</button>
+                <label  v-on:click="createMenu" > AAAA {{this.$store.state.serviceId}}  </label>
+                <button type="submit" class="btn btn-primary" v-on:click="createMenu">Create</button>
             </div>
             <div class="d-flex  links">
+                <a @click="$router.go(-1)">back</a>
                 <router-link to="/suplieropcion">Back</router-link>
             </div>
         </form>
@@ -67,21 +69,16 @@
 
     export default {
         name: "AdddMenuSupplier",
-        props: ["s","m"],
         mounted() {
-            console.log("olakace")
-            
-            //if(typeof(m) == 'undefined')
-                this.loadUser(0);
-                //else ;
-                //menu = m;
+            if(typeof(this.$route.params.m) != 'undefined')
+                this.loadUser();
         },
         data() {
             return {
                 loaduser: [],
                 serid: '',
                 menu: {
-                    serviceId: localStorage.getItem('service'),
+                    serviceId: this.$store.state.serviceId,
                     name: "Whopper",
                     description: "Hamburguer riquisima ! ! !",
                     category: "Hamburguesa",
@@ -98,9 +95,9 @@
             }
         },
         methods: {
-            loadUser(s) {
-                API.get('/supplier/getSupplierService?supplierId=' + s)
-                    .then(response => this.callBack(response))
+            loadUser() {
+                API.get( "/service/getMenu?menuId="+this.$route.params.m ) //'/supplier/getSupplierService?supplierId=' + s)
+                    .then(res => {this.menu = res})
                     .catch(e => alert(e));
             },
             callBack(r){
@@ -111,10 +108,12 @@
                 console.log(this.serid)
             },
             createMenu(){
-                let self = this;
-                let menus = self.menu;
-                API.post("/service/addMenu", menus);
-            }
+                var menu2 = this.menu;
+                //menu2.menuId++;
+                API.post('/service/addMenu', JSON.stringify(menu2))
+                    .then(r=> console.log(r))
+                    .catch(e=>alert("No created" + e));
+            },
         }
     }
 </script>

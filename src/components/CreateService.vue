@@ -74,7 +74,7 @@
         data() {
             return {
                 service: {
-                    supplierId: localStorage.getItem('id'),
+                    supplierId: this.$store.state.userId,
                     serviceName: "Burguer King",
                     icon: "",
                     addressTown: "Quilmes",

@@ -76,6 +76,8 @@
                 if (this.user.username != "" && this.user.password != "") {
                     if (this.user.username == "matias" && this.user.password == "123456") {
                         this.$store.commit("changeName", this.user.username);
+                        this.$store.commit("changeId", 3);
+                        
                         this.$router.push('/suplieropcion')
                     } else {
                         alert("The username and / or password is incorrect");

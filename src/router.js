@@ -34,9 +34,9 @@ export default new Router({
         {path: '/suplieropcion', component: SuplierOpcion},
         {path: '/accountsupplier', component: AccountSuplier},
 
-        {path: '/deletemenues', component: DeleteMenues},
+        {path: '/deletemenues?:s', component: DeleteMenues, props: true},
         {path: '/updatemenues', component: UpdateMenues},
         {path: '/adddmenusupplier', component: AdddMenuSupplier },
-        {path: '/adddmenusupplier?:s&:m', component: AdddMenuSupplier, props: true}
+        {path: '/adddmenusupplier/:m', component: AdddMenuSupplier, props: true }
     ]
 })

@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex-box col-sm-7 card" >
-            <div class="card-body row" v-for="menu in menulimits(menues, page)" :key="menu.serviceId">
+            <div class="card-body row" v-for="menu in menulimits(menues, page)" :key="menu.menuId">
                 <cardmenu :service="menu" buttonValue="Update" v-on:handleclick="clickCallBack"/>
             </div>
             <paginate :page-count="page" :page-range="3" :margin-pages="2"
@@ -22,21 +22,18 @@
 </template>
 
 <script>
-//import API from "../service/api";
+import API from "../service/api";
 import paginate from "vuejs-paginate";
 import cardmenu from "./Card";
 
 export default {
     name: "UpdateMenues",
+    props:["s"],
     components: { cardmenu, paginate },
     event:['handleclick'],
     mounted(){
-        let self = this;
-        self.setIndex(1);
-        
-        ["A", "B","C","D"].forEach((elem,index)=>{
-            self.menues.push({serviceName:elem, serviceId:index,description:index.toString()});
-        });
+        this.setIndex(1);
+        this.menues = this.menuesfromservice(this.serviceId);
     },
     methods: {
             setIndex(newindex) {
@@ -47,15 +44,38 @@ export default {
                 return this.menues.slice(menuindex,count+menuindex);
             },
             clickCallBack(menuid){
-                //console.log("updating: " + menuid);
-                this.$router.push({ path: `/adddmenusupplier`, query: { s: 0, m:menuid}} );
-                //API.get("/service/deleteMenu?serviceId="+ service.serviceId +",menuId="+menuid);
-            }
+                this.$router.push( `/adddmenusupplier/` + menuid );//{ path: `/adddmenusupplier`, query: { m:menuid}} );
+            },
+            menuesfromservice: (serviceId) => {
+        var menues = [];
+                
+        function handlError(e){
+            var error = (!e.status)? e.toString() : 'network error';
+            // eslint-disable-next-line
+            console.log(error);    
+        }
+        let addmenu = (res)=> {
+            // eslint-disable-next-line
+            console.log('backend-menu:ok');
+            res.forEach(element => {
+                menues.push(element); 
+            });
+        };
+        API.get('/service/getMenus?serviceId='+serviceId).then(addmenu).catch( handlError );
+        return menues;
+    }
+
     },
     computed: {
       index() {
         return this.$store.state.menuindex;
-      }
+      },
+                  userName(){
+                return this.$store.state.userName;
+            },
+            serviceId(){
+                return this.$store.state.serviceId;
+            }
     },
     data() {
             return {

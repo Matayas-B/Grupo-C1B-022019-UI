@@ -22,21 +22,18 @@
 </template>
 
 <script>
-import API from "../service/api";
 import paginate from "vuejs-paginate";
+import query from "../service/querys";
 import cardmenu from "./Card";
 
 export default {
     name: "DeleteMenues",
     components: { cardmenu, paginate },
+    props: ["s"],
     event:['handleclick'],
     mounted(){
-        let self = this;
-        self.setIndex(1);
-        //TODO:Add the necesary menues
-        ["A", "B","C","D"].forEach((elem,index)=>{
-            self.menues.push({serviceName:elem, serviceId:index,description:index.toString()});
-        });
+        this.setIndex(1);
+        this.menues = query.menuesfromservice(this.s); 
     },
     methods: {
             setIndex(newindex) {
@@ -47,8 +44,7 @@ export default {
                 return this.menues.slice(menuindex,count+menuindex);
             },
             clickCallBack(menuid){
-                console.log("delete: " + menuid);
-                API.get("/service/deleteMenu?serviceId="+ menu.serviceId +",menuId="+menuid);
+                query.deleteMenu(this.s,menuid);
             }
     },
     computed: {
