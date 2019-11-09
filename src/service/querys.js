@@ -21,8 +21,26 @@ const querys = {
     },
 
     deleteMenu: (serviceId,menuId) => {
-        API.get('/service/deleteMenu?serviceId='+ serviceId +',menuId='+menuId);
-    }
+        return API.get('/service/deleteMenu?serviceId='+ serviceId +',menuId='+menuId);
+    },
+
+    getMenu(menuId) {
+        function changeDateFormat(date){
+            let date_getFullYear = date.split("-")[2],
+                date_getMonth    = date.split("-")[1],
+                date_getDate     = date.split("-")[0];
+            return date_getFullYear + "-" + date_getMonth + "-" + date_getDate;
+        }
+        let menu = {};
+        API.get( "/service/getMenu?menuId="+menuId )
+            .then(res => {
+                let menuUI = res;
+                menuUI.startDate = changeDateFormat( menuUI.startDate );
+                menuUI.endDate = changeDateFormat( menuUI.endDate );
+                menu = menuUI;
+            });
+        return menu;
+    },
 };
 
 export default querys;

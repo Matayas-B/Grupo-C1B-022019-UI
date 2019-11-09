@@ -1,6 +1,6 @@
 <template>
     <div class="d-flex-box col-sm-7 card" >
-            <div class="card-body row" v-for="menu in menulimits(menues, page)" :key="menu.serviceId">
+            <div class="card-body row" v-for="menu in menulimits(menues, page)" :key="menu.menuId">
                 <cardmenu :service="menu" buttonValue="Delete" v-on:handleclick="clickCallBack"/>
             </div>
             <paginate :page-count="page" :page-range="3" :margin-pages="2"
@@ -29,11 +29,10 @@ import cardmenu from "./Card";
 export default {
     name: "DeleteMenues",
     components: { cardmenu, paginate },
-    props: ["s"],
     event:['handleclick'],
     mounted(){
         this.setIndex(1);
-        this.menues = query.menuesfromservice(this.s); 
+        this.menues = query.menuesfromservice(this.serviceId); 
     },
     methods: {
             setIndex(newindex) {
@@ -44,12 +43,18 @@ export default {
                 return this.menues.slice(menuindex,count+menuindex);
             },
             clickCallBack(menuid){
-                query.deleteMenu(this.s,menuid);
+                console.log("ServiceId:"+ this.serviceId+ " menu:" +menuid)
+                query.deleteMenu(this.serviceId,menuid)
+                    .then( () => alert("Done"))
+                    .catch( (r) => alert(r + " or Already deleted"));
             }
     },
     computed: {
       index() {
         return this.$store.state.menuindex;
+      },
+      serviceId(){
+        return this.$store.state.serviceId;
       }
     },
     data() {

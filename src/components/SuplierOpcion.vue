@@ -74,7 +74,7 @@
                 this.$router.push({path:'/updatemenues'}); //,query:{s:0}
             },
             deleteMenu(){ 
-                this.$router.push('/deletemenues?s='+this.serviceId);
+                this.$router.push('/deletemenues');
             }
         }
     }

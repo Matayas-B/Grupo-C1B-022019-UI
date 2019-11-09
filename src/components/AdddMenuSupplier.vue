@@ -66,11 +66,12 @@
 
 <script>
     import API from "../service/api";
-
+    import query from "../service/querys";
+    
     export default {
         name: "AdddMenuSupplier",
         mounted() {
-            if(typeof(this.$route.params.m) != 'undefined')
+            if(this.hasPreviusHistory())
                 this.loadUser();
         },
         data() {
@@ -94,15 +95,21 @@
         },
         methods: {
             loadUser() {
-                API.get( "/service/getMenu?menuId="+this.$route.params.m )
-                    .then(res => {this.menu = res})
-                    .catch(e => alert(e));
+                this.menu = query.getMenu(this.$route.params.m);
             },
             createMenu(){
+                if(this.hasPreviusHistory()){ //remove the previus menu
+                    query.deleteMenu(this.menu.serviceId,this.$route.params.m)
+                         .catch( () => alert("Already deleted"));
+                }
+                
                 API.post('/service/addMenu',this.menu)
-                    .then(r=> console.log("Done"))
-                    .catch(e=>alert("No created" + e));
+                    .then( () => {alert("Done"); this.$router.go(-1);})
+                    .catch(e=>alert("No created:" + e));
             },
+            hasPreviusHistory(){
+                return typeof(this.$route.params.m) != 'undefined';
+            }
         }
     }
 </script>
