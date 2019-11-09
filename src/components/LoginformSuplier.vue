@@ -1,4 +1,5 @@
 <template>
+
     <div class="wrapper fadeInDown">
         <div id="formContent">
             <!-- Tabs Titles -->
@@ -127,15 +128,6 @@
         -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
         box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
         text-align: center;
-    }
-
-    #formFooter {
-        background-color: #f6f6f6;
-        border-top: 1px solid #dce8f1;
-        padding: 25px;
-        text-align: center;
-        -webkit-border-radius: 0 0 10px 10px;
-        border-radius: 0 0 10px 10px;
     }
 
 
@@ -326,25 +318,7 @@
         animation-delay: 1s;
     }
 
-    /* Simple CSS3 Fade-in Animation */
-    .underlineHover:after {
-        display: block;
-        left: 0;
-        bottom: -10px;
-        width: 0;
-        height: 2px;
-        background-color: #56baed;
-        content: "";
-        transition: width 0.2s;
-    }
 
-    .underlineHover:hover {
-        color: #0d0d0d;
-    }
-
-    .underlineHover:hover:after{
-        width: 100%;
-    }
 
 
 

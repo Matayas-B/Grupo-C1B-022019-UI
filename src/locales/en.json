@@ -1,3 +1,10 @@
 {
-  "message": "hello cat i18n !!"
+  "message": "Sign in customer",
+  "message2": "Sign In Supplier",
+  "login2": "Login",
+  "login3": "Don't have an account?",
+  "login4": "Sign Up",
+  "login5": "Sign in Supplier"
+
 }
+

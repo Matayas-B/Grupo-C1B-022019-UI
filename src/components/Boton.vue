@@ -39,7 +39,6 @@ export default {
             this.$router.push('/account')
         },
         logOut (){
-            this.$store.commit("resetUser");
             this.$router.push('/');
         },
     }

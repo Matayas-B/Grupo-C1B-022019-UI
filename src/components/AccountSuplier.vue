@@ -19,7 +19,7 @@
 
                 </div>
                 <div class="card-footer">
-                    <input type="submit" value="add Money" class="btn float-right login_btn" v-on:click="extractMoney()" >
+                    <input type="submit" value="extract Money" class="btn float-right login_btn" v-on:click="extractMoney(count)" >
                     <input type="submit" value="Back" class="btn float-right login_btn" v-on:click="back()">
                     <input type="submit" value="Log Out" class="btn float-right login_btn" v-on:click="logOut()">
                 </div>
@@ -61,10 +61,11 @@
                 this.money = r.account.funds
             },
 
-            extractMoney() {
-
-                API.get('/customer/depositMoney?customerId=1&money=3000')
-                    .then(this.money = this.money + this.count)
+            extractMoney(newAmount) {
+                // TODO: needs to add proper customerId
+                API.get('/customer/depositMoney?customerId=' + localStorage.getItem('service') + '&money=' + newAmount)
+                    .then(response => this.money = response)
+                    .catch(this.$toastr.error('hola', 'prueba'))
             },
             logOut (){
                 localStorage.clear();

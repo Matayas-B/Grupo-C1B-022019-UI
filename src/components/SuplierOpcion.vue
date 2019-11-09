@@ -6,7 +6,7 @@
 
             <!-- Icon -->
             <div class="fadeIn first">
-                <p id="burguer">Suplier user: {{this.userName}}</p>
+                <p id="burguer">Suplier user: {{username}}</p>
             </div>
 
                 <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createUser" >
@@ -20,27 +20,14 @@
 
 <script>
     import botonsupplier from "./BotonSupplier";
-    import API from '../service/api';
-    
+
     export default {
         name: "SuplierOpcion",
         components: {botonsupplier},
-        computed:{
-            userName(){
-                return this.$store.state.userName;
+        data(){
+            return{
+                username: localStorage.getItem('name')
             }
-        },
-        data() {
-            return {
-                service: {serviceName:"abc"},
-                menu: {menuId:1,name:"abc",description:"example text"}
-            }
-        },
-        mounted(){
-            API.get("/service") //?serviceId=3
-            // eslint-disable-next-line no-console
-                .then(res => { console.log(res);}) //this.service = res;
-                .catch(e=>alert(e));
         },
         methods:{
             createUser(){
@@ -248,13 +235,4 @@
         animation-delay: 1s;
     }
 
-
-  .md-list {
-    width: 320px;
-    max-width: 100%;
-    display: inline-block;
-    vertical-align: top;
-    border: 1px solid rgba(#000, .12);
-    background-color: rgba(0,0,0,0.5) !important;
-  }
 </style>

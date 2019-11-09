@@ -1,3 +1,11 @@
 {
-  "message": "hola cat i18n !!"
+  "message": "Iniciar sesión como cliente",
+  "message2": "Iniciar sesión Proveedor",
+  "login2": "Ingresar",
+  "login3": "No tienes una cuenta?",
+  "login4": "Regístrate",
+  "login5": "Iniciar sesión Proveedor"
+
+
+
 }

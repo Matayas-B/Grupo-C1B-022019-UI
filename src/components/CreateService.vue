@@ -2,7 +2,7 @@
     <div class="container">
 
         <form>
-            <div class="form-row">
+            <div class="form-row" >
                 <div class="form-group col-md-6">
                     <label for="inputEmail1">Service Name</label>
                     <input type="text" class="form-control" id="inputEmail1" placeholder="serviceName" v-model="service.serviceName">
@@ -41,13 +41,13 @@
                 </div>
             </div>
             <div>
-            <button type="submit" class="btn btn-primary " v-on:click="createService">Create</button>
+                <button type="button" class="btn btn-primary " v-on:click="createService">Create</button>
             </div>
             <div class="d-flex  links">
                 <router-link to="/suplieropcion">Back</router-link>
             </div>
             <div>
-                <button type="submit" class="btn btn-primary ">Delete</button>
+                <button type="button" class="btn btn-primary" v-on:click="deleteService">Delete</button>
             </div>
 
 
@@ -59,17 +59,12 @@
 <script>
     import botonsupplier from "./BotonSupplier";
     import API from "../service/api";
-
+    //import axios from 'axios';
 
     export default {
         name: "CreateMenus",
         components: {
             botonsupplier
-        },
-        computed:{
-            userName(){
-                return this.$store.state.userName;
-            }
         },
         data() {
             return {
@@ -94,8 +89,13 @@
                 let self = this
                 let servicee = self.service
                 API.post("/supplier/addService", servicee)
-                    .then(() => { this.$router.pop(); })
-                    .catch(e=>alert(e));
+                    .then(() => this.$toastr.success(' Service created successfully','Service :)'))
+                    .catch(() => this.$toastr.error('Error Create Service.','Service :('))
+            },
+            deleteService(){
+                API.get("/supplier/deleteService?supplierId=3")
+                    .then(() => this.$toastr.success('Delete Service successfully','Service :)'))
+                    .catch(() => this.$toastr.error('Error Delete Service.','Service :('))
             }
         }
     }

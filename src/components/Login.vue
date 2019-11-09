@@ -26,23 +26,32 @@
                             </div>
                             <input type="password" class="form-control" placeholder="password" v-model="user.password" required>
                         </div>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                            <label class="custom-control-label" for="customSwitch1" v-on:click="createUserSupllier">Sign in Supllier </label>
-                        </div>
+
                         <div class="form-group">
-                            <input type="submit" value="Login" class="btn float-right login_btn" v-on:click="logear">
+<!--                            <input type="button" value="Login" class="btn float-right login_btn" v-on:click="logear">-->
+                            <button class="btn float-right login_btn " v-on:click="logear"> {{ $t('login2') }}</button>
+                            <button class="btn login_btn" v-for="entry in languages" :key="entry.title" @click="changeLocale(entry.language)">
+                                <flag :iso="entry.flag"  v-bind:squared=false /> {{entry.title}}
+                            </button>
                         </div>
                     </form>
                 </div>
                 <div class="card-footer">
-                    <input type="submit" value="Login" class="btn float-right login_btn" v-on:click="i18nn">
                     <div class="d-flex justify-content-center links">
-                        Don't have an account? <router-link to="/loginform">Sign Up</router-link>
+                        {{ $t('login3') }} <router-link to="/loginform">{{ $t('login4') }}  </router-link>
                     </div>
+                    <div class="form-group text-center" >
+<!--                        <input type="button" value="Sing in Supplier" class="btn float-right login_btn" v-on:click="createUserSupllier">-->
+                        <button class="btn float-right login_btn " v-on:click="createUserSupllier"> {{ $t('login5') }}</button>
+
+
+                    </div>
+
                 </div>
             </div>
+
         </div>
+
     </div>
 
 </template>
@@ -51,17 +60,20 @@
     import API from "../service/api";
     import i18n from "../i18n";
 
+
     export default {
         name: 'Login',
-        components: {},
         mounted() {
             this.loadUser();
         },
         data() {
             return {
                 loaduser: [],
-                user: { username: '', password: ''}
-
+                user: { username: '', password: ''},
+                languages: [
+                    { flag: 'us', language: 'en', title: '' },
+                    { flag: 'es', language: 'es', title: '' }
+                ]
 
             }
         },
@@ -85,7 +97,6 @@
             logear: function () {
                 if (this.user.username != "" && this.user.password != "") {
                     if (this.user.username == "facundo" && this.user.password == "123456") {
-                        this.$store.commit("changeName", this.user.username);
                         this.$router.push('/category')
                     } else {
                         alert("The username and / or password is incorrect");
@@ -94,11 +105,9 @@
                     alert("A username and password must be present");
                 }
             },
-            i18nn(){
-                i18n.locale='en';
-
-            }
-
+            changeLocale(locale) {
+                i18n.locale = locale;
+            },
         },
     }
 </script>
@@ -163,5 +172,6 @@
     .links a{
         margin-left: auto;
     }
+
 
 </style>

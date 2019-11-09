@@ -86,11 +86,6 @@
             API.get("/menues").then(addmenu).catch( handlError );
             API.post("/search",categories).then( addCategories ).catch( handlError ); //.finally(() => this.loading = false);
         },
-        computed:{
-            userName(){
-                return this.$store.state.userName;
-            }
-        },
         data() {
             return {
                 items: [],

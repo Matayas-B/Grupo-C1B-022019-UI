@@ -1,7 +1,7 @@
 <template>
     <div class="container">
 
-        <form>
+        <form v-on:submit.prevent>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="inputEmail1">Menu Name</label>
@@ -53,7 +53,8 @@
                 </div>
             </div>
             <div>
-                <button type="submit" class="btn btn-primary " v-on:click="createMenu">Create</button>
+
+                <button type="button" class="btn btn-primary " v-on:click="createMenu">Create</button>
             </div>
             <div class="d-flex  links">
                 <router-link to="/suplieropcion">Back</router-link>
@@ -109,7 +110,10 @@
             createMenu(){
                 let self = this;
                 let menus = self.menu;
-                API.post("/service/addMenu", menus);
+                API.post("/service/addMenu", menus)
+                    .then(this.$toastr.success('Menu created successfully','User :)'))
+                    .catch(e => this.$toastr.error(e,'error :('))
+                //.catch(e => alert(e));
             }
         }
     }
