@@ -75,8 +75,6 @@
         },
         data() {
             return {
-                loaduser: [],
-                serid: '',
                 menu: {
                     serviceId: this.$store.state.serviceId,
                     name: "Whopper",
@@ -96,22 +94,13 @@
         },
         methods: {
             loadUser() {
-                API.get( "/service/getMenu?menuId="+this.$route.params.m ) //'/supplier/getSupplierService?supplierId=' + s)
+                API.get( "/service/getMenu?menuId="+this.$route.params.m )
                     .then(res => {this.menu = res})
                     .catch(e => alert(e));
             },
-            callBack(r){
-                this.loaduser = r;
-                localStorage.setItem('service',this.loaduser.serviceId);
-                this.serid = this.loaduser.serviceId;
-                // eslint-disable-next-line no-console
-                console.log(this.serid)
-            },
             createMenu(){
-                var menu2 = this.menu;
-                //menu2.menuId++;
-                API.post('/service/addMenu', JSON.stringify(menu2))
-                    .then(r=> console.log(r))
+                API.post('/service/addMenu',this.menu)
+                    .then(r=> console.log("Done"))
                     .catch(e=>alert("No created" + e));
             },
         }
