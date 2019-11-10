@@ -1,12 +1,13 @@
 <template>
-<div class="d-flex-box col-sm-7">
-            <div class="card-body row" v-for="menu in menulimits(menues, page)" :key="menu.menuId">
-                <cardmenu :service="menu" :buttonValue="buttonValue" v-on:handleclick="clickCallBack"/>
-            </div>
-            <paginate :page-count="page" :page-range="range" :margin-pages="2"
+<div class="d-flex-box col-sm-4 card-body gocenter">
+            <span deck v-for="menu in menulimits(menues, page)" :key="menu.menuId">
+                  <cardmenu class="col card-custom" :menu="menu" :buttonValue="buttonValue" />
+                  <div/>
+            </span>
+            <paginate :page-count="menues.length/page" :page-range="1 + this.menues.length / 3" :margin-pages="2"
                               :click-handler="setIndex" 
                               :container-class="'pagination'"
-                              :page-class="'page-item'" class="card-foot">
+                              :page-class="'page-item'" class="card-footer">
                 <span slot="prevContent">Changed previous button</span>
                 <span slot="nextContent">Changed next button</span>
                 
@@ -19,7 +20,12 @@
                 </span>
             </paginate>
     </div>
-    <!-- :prev-text="'Prev'" :next-text="'Next'"-->
+    <!-- :prev-text="'Prev'" :next-text="'Next'"
+    
+            <div class="row" v-for="menu in menulimits(menues, page)" :key="menu.menuId">
+                <cardmenu :service="menu" :buttonValue="buttonValue"  v-on:handleclick="clickCallBack" />
+                <md-divider name="-"></md-divider>
+            </div>-->
 </template>
 
 <script>
@@ -35,7 +41,6 @@ export default {
     props:["menues", "page", "buttonValue"],
     mounted(){
         this.setIndex(1);
-        this.page = 1 + this.menues.length / 3;
     },
     methods: {
             setIndex(newindex) {
@@ -56,9 +61,20 @@ export default {
       serviceId(){
         return this.$store.state.serviceId;
       }
-    },
-    data() {
-            return { range: 1 }
     }
 }
 </script>
+
+<style scoped>
+  .gocenter{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+  }
+
+.card-custom {
+  max-width: 128px;
+  margin:0 auto;
+}
+</style>

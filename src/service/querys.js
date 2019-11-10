@@ -11,7 +11,7 @@ const querys = {
         }
         let addmenu = (res)=> {
             // eslint-disable-next-line
-            console.log('backend-menu:ok');
+            console.log('backend-menues:ok');
             res.forEach(element => {
                 menues.push(element); 
             });
@@ -21,7 +21,7 @@ const querys = {
     },
 
     deleteMenu: (serviceId,menuId) => {
-        return API.get('/service/deleteMenu?serviceId='+ serviceId +',menuId='+menuId);
+        return API.get('/service/deleteMenu?serviceId='+ serviceId +'&menuId='+menuId);
     },
 
     getMenu(menuId) {
@@ -31,15 +31,16 @@ const querys = {
                 date_getDate     = date.split("-")[0];
             return date_getFullYear + "-" + date_getMonth + "-" + date_getDate;
         }
-        let menu = {};
-        API.get( "/service/getMenu?menuId="+menuId )
+
+        return API.get( '/service/getMenu?menuId='+menuId )
             .then(res => {
                 let menuUI = res;
+                // eslint-disable-next-line
+                console.log('backend-menu:ok');
                 menuUI.startDate = changeDateFormat( menuUI.startDate );
                 menuUI.endDate = changeDateFormat( menuUI.endDate );
-                menu = menuUI;
+                return res;
             });
-        return menu;
     },
 };
 

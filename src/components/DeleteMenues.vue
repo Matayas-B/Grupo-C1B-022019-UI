@@ -1,8 +1,10 @@
 <template>
-    <div class="card wrapper " id="formContent">
-        <menupagination :menues="menues" :page="3" 
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+        <menupagination :menues="menues" :page="page" 
             buttonValue="Delete" v-on:handleclick="clickCallBack"/>
         <a @click="$router.go(-1)"> Go back </a>
+        </div>
     </div>
 </template>
 
@@ -20,19 +22,22 @@ export default {
     methods: {
             clickCallBack(menuid){
                 query.deleteMenu(this.serviceId,menuid)
-                    .then( () => alert("Done"))
+                    .then( () => { alert("Done");this.$router.go(-1);})
                     .catch( (r) => alert(r + " or Already deleted"));
             }
     },
     computed: {
       serviceId(){
         return this.$store.state.serviceId;
-      }
+      },
+      page(){
+        return this.menues / this.elements;
+      },
     },
     data() {
             return {
                 menues: [],
-                page: 3
+                elements: 3
             }
     }
 }

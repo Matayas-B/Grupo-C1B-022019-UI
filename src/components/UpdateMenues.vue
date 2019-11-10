@@ -1,8 +1,10 @@
 <template>
-    <div class="card wrapper " id="formContent">
-        <menupagination :menues="menues" :page="3" 
+    <div class="wrapper fadeInDown">
+        <div id="formContent">
+        <menupagination :menues="menues" :page="page" 
             buttonValue="Update" v-on:handleclick="clickCallBack"/>
         <a @click="$router.go(-1)"> Go back </a>
+        </div>
     </div>
 </template>
 
@@ -26,11 +28,14 @@ export default {
         serviceId(){
             return this.$store.state.serviceId;
         },
+        page(){
+            return 3;//this.menues / this.elements;
+        },
     },
     data() {
             return {
                 menues: [],
-                page: 3
+                elements: 3
             }
     }
 }

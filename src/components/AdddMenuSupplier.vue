@@ -53,7 +53,7 @@
                 </div>
             </div>
             <div>
-                <button class="btn btn-primary" v-on:click="createMenu">Create</button>
+                <button type="button" class="btn btn-primary" v-on:click="createMenu">Create</button>
             </div>
             <div class="d-flex  links">
                 <a @click="$router.go(-1)">back</a>
@@ -70,9 +70,10 @@
     export default {
         name: "AdddMenuSupplier",
         mounted() {
-            if(this.$store.state.serviceId==-1) this.$router.push('/');
-            if(this.hasPreviusHistory())
-                this.loadUser();
+            //if(this.$store.state.serviceId==-1) this.$router.push('/');
+            if(this.hasPreviusHistory()){
+                query.getMenu(this.$route.params.m).then(res => this.menu = res);
+            }
         },
         data() {
             return {
@@ -94,9 +95,6 @@
             }
         },
         methods: {
-            loadUser() {
-                this.menu = query.getMenu(this.$route.params.m);
-            },
             createMenu(){
                 if(this.hasPreviusHistory()){ //remove the previus menu
                     query.deleteMenu(this.menu.serviceId,this.$route.params.m)
