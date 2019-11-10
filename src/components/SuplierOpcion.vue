@@ -10,10 +10,11 @@
             </div>
 
                 <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createService" >
-                <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
-                <input type="submit" class="fadeIn fourth" value="update" v-on:click="updateMenu">
-                <input type="submit" class="fadeIn fourth" value="Delete" v-on:click="deleteMenu">
+                <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" :disabled="this.serviceId==-1">
+                <input type="submit" class="fadeIn fourth" value="update" v-on:click="updateMenu" :disabled="this.serviceId==-1">
+                <input type="submit" class="fadeIn fourth" value="Delete" v-on:click="deleteMenu" :disabled="this.serviceId==-1">
         </div>
+        <!--
         <div>
         <md-list class="md-double-line" v-for="service in services" :key="service.serviceId">
             <md-subheader>::Services::</md-subheader>
@@ -29,10 +30,10 @@
                 </md-button>
             </md-list-item>
             <md-divider></md-divider>
-            <!--prox elem  -->
+            
         </md-list>
         </div>
-        
+         -->
             <botonsupplier></botonsupplier>
     </div>
 </template>
@@ -52,16 +53,10 @@
                 return this.$store.state.serviceId;
             }
         },
-        data() {
-            return {
-                services: []
-            }
-        },
         mounted(){
             API.get("/supplier/getSupplierService?supplierId="+this.$store.state.userId)
-            // eslint-disable-next-line no-console
-                .then(res => { this.services.push(res);}) //console.log(res);
-                .catch(e=>alert(e));
+                .then(res => { this.$store.commit('changeService', res.serviceId)})
+                .catch( ()=>   this.$store.commit('changeService', -1) );
         },
         methods:{
             createService(){
@@ -71,7 +66,7 @@
                 this.$router.push('/adddmenusupplier');
             },
             updateMenu(){
-                this.$router.push({path:'/updatemenues'}); //,query:{s:0}
+                this.$router.push({path:'/updatemenues'});
             },
             deleteMenu(){ 
                 this.$router.push('/deletemenues');

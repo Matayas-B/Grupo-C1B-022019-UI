@@ -53,12 +53,11 @@
                 </div>
             </div>
             <div>
-                <label  v-on:click="createMenu" > AAAA {{this.$store.state.serviceId}}  </label>
-                <button type="submit" class="btn btn-primary" v-on:click="createMenu">Create</button>
+                <button class="btn btn-primary" v-on:click="createMenu">Create</button>
             </div>
             <div class="d-flex  links">
                 <a @click="$router.go(-1)">back</a>
-                <router-link to="/suplieropcion">Back</router-link>
+                <!--<router-link to="/suplieropcion">Back</router-link> -->
             </div>
         </form>
     </div>
@@ -71,6 +70,7 @@
     export default {
         name: "AdddMenuSupplier",
         mounted() {
+            if(this.$store.state.serviceId==-1) this.$router.push('/');
             if(this.hasPreviusHistory())
                 this.loadUser();
         },
