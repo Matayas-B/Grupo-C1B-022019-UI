@@ -63,7 +63,7 @@
 
             extractMoney(newAmount) {
                 // TODO: needs to add proper customerId
-                API.get('/customer/depositMoney?customerId=' + localStorage.getItem('service') + '&money=' + newAmount)
+                API.get('/supplier/extractMoney?supplierId=' + localStorage.getItem('id') + '&money=' + newAmount)
                     .then(response => this.money = response)
                     .catch(this.$toastr.error('hola', 'prueba'))
             },
