@@ -1,19 +1,22 @@
 <template>
-    <div class="d-flex-box col-sm-7 card" >
-            <div class="card-body row" v-for="menu in this.menulimits(menues, page)" :key="menu.serviceId">
-                <cardmenu :service="menu" buttonValue="See Contact"/>
-            </div>
-            <paginate :page-count="page" :page-range="3" :margin-pages="2"
-                              @click-handler="this.setIndex" :prev-text="'Prev'"
-                              :next-text="'Next'" :container-class="'pagination'"
-                              :page-class="'page-item'" >
+<div class="d-flex-box col-sm-4 card-body gocenter">
+            <span deck v-for="menu in menulimits(menues, page)" :key="menu.menuId" style="width: 90%">
+                  <cardmenu class="card-custom" :menu="menu" :buttonValue="buttonValue" 
+                        v-on:handleclick="r => $emit('handleclick', r)"/>
+                  <div/>
+            </span>
+            <paginate :page-count="menues.length/page" :page-range="1 + this.menues.length / 3" :margin-pages="2"
+                              :click-handler="setIndex" 
+                              :container-class="'pagination'"
+                              :page-class="'page-item'" class="card-footer">
                 <span slot="prevContent">Changed previous button</span>
                 <span slot="nextContent">Changed next button</span>
+                
                 <span slot="breakViewContent">
                     <svg width="16" height="4" viewBox="0 0 16 4">
-                    <circle fill="#999999" cx="2" cy="2" r="2" />
-                    <circle fill="#999999" cx="8" cy="2" r="2" />
-                    <circle fill="#999999" cx="14" cy="2" r="2" />
+                        <circle fill="#999999" cx="2" cy="2" r="2" />
+                        <circle fill="#999999" cx="8" cy="2" r="2" />
+                        <circle fill="#999999" cx="14" cy="2" r="2" />
                     </svg>
                 </span>
             </paginate>
@@ -23,57 +26,47 @@
 <script>
 import paginate from "vuejs-paginate";
 import cardmenu from "./Card";
-import Vue from "vue";
-
-export const store = Vue.observable({
-  count: 0
-});
-
-export const mutations = {
-  setCount(count) {
-    store.count = count;
-  }
-};
-
-/*
-import Vue from "vue";
-export const store = Vue.observable({
-  count: 0
-});
-export const mutations = {
-  setCount(count) {
-    store.count = count;
-  }
-};
-Change to Vuex
-*/
 
 export default {
     name: "Category",
+    event:['handleclick'],
     components: {
             cardmenu, paginate
     },
-    props:["menues", "page"],  
+    props:["menues", "page", "buttonValue"],
     mounted(){
-        this.setIndex(0);
+        this.setIndex(1);
     },
     methods: {
-            setIndex: (index) => { 
-                this.$store.commit("setMenuIndex", index);
+            setIndex(newindex) {
+                this.$store.commit("setMenuIndex", newindex);
             },
-            menulimits: (menues,count) => {
-                let menuindex = this.$store.state.menuindex; 
-                return menues.slice(menuindex,count);
-                /*
-                if(menues.length != 0) 
-                    return menues.filter( (elem,ix)  => { return !(ix >= menuindex && ix < (menuindex + count)); } )
-                else return [];*/
+            menulimits(menues,count){
+                let menuindex = (this.index-1)*this.page;
+                return this.menues.slice(menuindex,count+menuindex);
+            },
+            clickCallBack(cbValue){
+              this.$emit('handleclick', cbValue);
             }
     },
     computed: {
       index() {
-        return store.count;
+        return this.$store.state.menuindex;
+      },
+      serviceId(){
+        return this.$store.state.serviceId;
       }
     }
 }
 </script>
+
+<style scoped>
+  .gocenter{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        max-width: 80%;
+  }
+
+</style>

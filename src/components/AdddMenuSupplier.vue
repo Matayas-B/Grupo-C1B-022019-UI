@@ -53,12 +53,11 @@
                 </div>
             </div>
             <div>
-                <label  v-on:click="createMenu" > AAAA {{this.$store.state.serviceId}}  </label>
-                <button type="submit" class="btn btn-primary" v-on:click="createMenu">Create</button>
+                <button type="button" class="btn btn-primary" v-on:click="createMenu">Create</button>
             </div>
             <div class="d-flex  links">
                 <a @click="$router.go(-1)">back</a>
-                <router-link to="/suplieropcion">Back</router-link>
+                <!--<router-link to="/suplieropcion">Back</router-link> -->
             </div>
         </form>
     </div>
@@ -66,12 +65,15 @@
 
 <script>
     import API from "../service/api";
-
+    import query from "../service/querys";
+    
     export default {
         name: "AdddMenuSupplier",
         mounted() {
-            if(typeof(this.$route.params.m) != 'undefined')
-                this.loadUser();
+            //if(this.$store.state.serviceId==-1) this.$router.push('/');
+            if(this.hasPreviusHistory()){
+                query.getMenu(this.$route.params.m).then(res => this.menu = res);
+            }
         },
         data() {
             return {
@@ -93,16 +95,19 @@
             }
         },
         methods: {
-            loadUser() {
-                API.get( "/service/getMenu?menuId="+this.$route.params.m )
-                    .then(res => {this.menu = res})
-                    .catch(e => alert(e));
-            },
             createMenu(){
+                if(this.hasPreviusHistory()){ //remove the previus menu
+                    query.deleteMenu(this.menu.serviceId,this.$route.params.m)
+                         .catch( () => alert("Already deleted"));
+                }
+                
                 API.post('/service/addMenu',this.menu)
-                    .then(r=> console.log("Done"))
-                    .catch(e=>alert("No created" + e));
+                    .then( () => {alert("Done"); this.$router.go(-1);})
+                    .catch(e=>alert("No created:" + e));
             },
+            hasPreviusHistory(){
+                return typeof(this.$route.params.m) != 'undefined';
+            }
         }
     }
 </script>
