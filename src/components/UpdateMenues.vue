@@ -47,6 +47,9 @@ export default {
         height: 100%;
         align-content: center;
         margin-top: 10%;
+        margin-bottom: 10%;
+        margin-left: 5%;
+        margin-right: 5%;
         background-color: rgba(0,0,0,0.5) !important;
     }
     /* STRUCTURE */

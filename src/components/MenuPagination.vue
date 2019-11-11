@@ -1,7 +1,8 @@
 <template>
 <div class="d-flex-box col-sm-4 card-body gocenter">
-            <span deck v-for="menu in menulimits(menues, page)" :key="menu.menuId">
-                  <cardmenu class="col card-custom" :menu="menu" :buttonValue="buttonValue" />
+            <span deck v-for="menu in menulimits(menues, page)" :key="menu.menuId" style="width: 90%">
+                  <cardmenu class="card-custom" :menu="menu" :buttonValue="buttonValue" 
+                        v-on:handleclick="r => $emit('handleclick', r)"/>
                   <div/>
             </span>
             <paginate :page-count="menues.length/page" :page-range="1 + this.menues.length / 3" :margin-pages="2"
@@ -20,12 +21,6 @@
                 </span>
             </paginate>
     </div>
-    <!-- :prev-text="'Prev'" :next-text="'Next'"
-    
-            <div class="row" v-for="menu in menulimits(menues, page)" :key="menu.menuId">
-                <cardmenu :service="menu" :buttonValue="buttonValue"  v-on:handleclick="clickCallBack" />
-                <md-divider name="-"></md-divider>
-            </div>-->
 </template>
 
 <script>
@@ -71,10 +66,7 @@ export default {
         align-items: center;
         flex-direction: column;
         justify-content: center;
+        max-width: 80%;
   }
 
-.card-custom {
-  max-width: 128px;
-  margin:0 auto;
-}
 </style>

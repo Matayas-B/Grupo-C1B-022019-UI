@@ -22,7 +22,10 @@ export default {
     methods: {
             clickCallBack(menuid){
                 query.deleteMenu(this.serviceId,menuid)
-                    .then( () => { alert("Done");this.$router.go(-1);})
+                    .then( () => { 
+                        //alert("Done"); 
+                        this.menues = query.menuesfromservice(this.serviceId);
+                        }) //this will be better refreshing..?
                     .catch( (r) => alert(r + " or Already deleted"));
             }
     },
@@ -31,7 +34,7 @@ export default {
         return this.$store.state.serviceId;
       },
       page(){
-        return this.menues / this.elements;
+        return 3; //this.menues / this.elements;
       },
     },
     data() {
@@ -49,6 +52,9 @@ export default {
         height: 100%;
         align-content: center;
         margin-top: 10%;
+        margin-bottom: 10%;
+        margin-left: 5%;
+        margin-right: 5%;
         background-color: rgba(0,0,0,0.5) !important;
     }
     /* STRUCTURE */
