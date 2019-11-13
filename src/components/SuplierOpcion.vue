@@ -6,15 +6,14 @@
 
             <!-- Icon -->
             <div class="fadeIn first">
-                <p id="burguer">Suplier user: {{username}}</p>
+                <p class="labelColor">Suplier user: {{this.post.name}}</p>
             </div>
 
                 <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createUser" >
                 <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
-                <input type="submit" class="fadeIn fourth" value="update"  >
-                <input type="submit" class="fadeIn fourth" value="Delete" >
+                <input type="submit" class="fadeIn fourth" value="Update And Delete"  v-on:click="deleteAndUpdateMenu">
         </div>
-            <botonsupplier></botonsupplier>
+            <botonsupplier :post="this.post"></botonsupplier>
     </div>
 </template>
 
@@ -24,6 +23,7 @@
     export default {
         name: "SuplierOpcion",
         components: {botonsupplier},
+        props: ['post'],
         data(){
             return{
                 username: localStorage.getItem('name')
@@ -31,17 +31,27 @@
         },
         methods:{
             createUser(){
-                this.$router.push('/createservice')
+               // this.$router.push('/createservice')
+                this.$router.push({ name: 'createservice', params: {post: this.post }})
+
             },
             createMenu(){
-                this.$router.push('/adddmenusupplier')
+                //this.$router.push('/adddmenusupplier')
+                this.$router.push({ name: 'adddmenusupplier', params: {post: this.post }})
+
             },
+            deleteAndUpdateMenu(){
+                //this.$router.push('/deleteandupdate')
+                this.$router.push({ name: 'deleteandupdate', params: {post: this.post }})
+
+            }
         }
     }
 </script>
 
 
 <style scoped>
+
     #formContent{
         height: 100%;
         align-content: center;
@@ -228,11 +238,12 @@
         animation-delay: 0.4s;
     }
 
-
     .fadeIn.fourth {
         -webkit-animation-delay: 1s;
         -moz-animation-delay: 1s;
         animation-delay: 1s;
     }
 
+    .labelColor{
+        color: #1fffc5;}
 </style>

@@ -80,7 +80,7 @@
             loadUser() {
                 API.get('/supplier/getById?supplierId=3')
                     .then(response => this.callBack(response))
-                    .catch(e => alert(e));
+                    .catch(e => this.$toastr.error(':(', e));
             },
             callBack(r){
                 this.loaduser = r;
@@ -90,14 +90,17 @@
             logear: function () {
                 if (this.user.username != "" && this.user.password != "") {
                     if (this.user.username == "matias" && this.user.password == "123456") {
-                        localStorage.setItem('name',this.loaduser.name)
-                        localStorage.setItem('id', this.loaduser.id)
-                        this.$router.push('/suplieropcion')
+                        // localStorage.setItem('name',this.loaduser.name)
+                        // localStorage.setItem('id', this.loaduser.id)
+                        //
+                        // this.$router.push({ name: 'updatemenu', params: {post: this.post }})
+                        // localStorage.setItem('serviceId', this.loaduser.service.serviceId)
+                        this.$router.push({ name: 'suplieropcion', params: {post: this.loaduser }})
                     } else {
-                        alert("The username and / or password is incorrect");
+                        alert(this.$toastr.error(':(', 'The username and / or password is incorrect'));
                     }
                 } else {
-                    alert("A username and password must be present");
+                    alert(this.$toastr.error(':(','A username and password must be present'));
                 }
             },
             createUserCustomer (){

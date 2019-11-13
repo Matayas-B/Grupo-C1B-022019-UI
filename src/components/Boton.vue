@@ -19,7 +19,7 @@
         </li>
         <li>
             <a href="#" data-toggle="tooltip" data-placement="top" title="Link 3">
-            <i class="fa fa-money-bill-alt " v-on:click="account()"></i></a>
+            <i class="fa fa-money-bill-alt"  v-on:click="account()"></i></a>
         </li>
         </ul>
     </div>

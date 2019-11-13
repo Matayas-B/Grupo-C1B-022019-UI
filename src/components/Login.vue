@@ -83,7 +83,7 @@
 
                 API.get('/customer/getById?customerId=1')
                     .then(response => this.callBack(response))
-                    .catch(e => alert(e));
+                    .catch(e => this.$toastr.error(':(', e));
             },
             callBack(r){
                 this.loaduser = r;
@@ -97,12 +97,12 @@
             logear: function () {
                 if (this.user.username != "" && this.user.password != "") {
                     if (this.user.username == "facundo" && this.user.password == "123456") {
-                        this.$router.push('/category')
+                        this.$router.push('/prueba')
                     } else {
-                        alert("The username and / or password is incorrect");
+                        alert( 'The username and / or password is incorrect');
                     }
                 } else {
-                    alert("A username and password must be present");
+                    alert('A username and password must be present');
                 }
             },
             changeLocale(locale) {

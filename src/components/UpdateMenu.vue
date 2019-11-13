@@ -1,143 +1,107 @@
 <template>
     <div class="wrapper fadeInDown">
-        <div id="formContent">
-        <form >
-            <div class="form-row">
+    <div id="formContent">
+        <form>
+            <div class="form-row" >
                 <div class="form-group col-md-6">
-                    <label class="labelColor">Menu Name</label>
-                    <input type="text" class="form-control"  placeholder="menu name" v-model="menu.name" >
+                    <label class="labelColor" >Service Name</label>
+                    <input type="text" class="form-control" placeholder="serviceName" v-model="service.serviceName">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor">description</label>
-                    <input type="text" class="form-control"  placeholder="description"  v-model="menu.description">
+                    <label class="labelColor" >Address Town</label>
+                    <input type="text" class="form-control" placeholder="addressTown" v-model="service.addressTown">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor">category</label>
-                    <input type="text" class="form-control"  placeholder="category" v-model="menu.category">
+                    <label class="labelColor" >Address Location</label>
+                    <input type="text" class="form-control" placeholder="addressLocation" v-model="service.addressLocation">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor">deliveryFee</label>
-                    <input type="text" class="form-control" placeholder="deliveryFee" v-model="menu.deliveryFee" >
+                    <label class="labelColor" >Description</label>
+                    <input type="text" class="form-control"  placeholder="description" v-model="service.description">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor">startDate</label>
-                    <input type="text" class="form-control" placeholder="startDate" v-model="menu.startDate">
+                    <label class="labelColor"  >Email</label>
+                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email" v-model="service.email">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor">endDate</label>
-                    <input type="text" class="form-control"  placeholder="endDate" v-model="menu.endDate">
+                    <label class="labelColor" >Phone Number</label>
+                    <input type="text" class="form-control" id="inputPassword3" placeholder="phoneNumber" v-model="service.phoneNumber">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor">deliveryHours</label>
-                    <input type="text" class="form-control" placeholder="deliveryHours" v-model="menu.deliveryHours" >
+                    <label class="labelColor" >Office Days</label>
+                    <input type="text" class="form-control" placeholder="officeDays" v-model="service.officeDays">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor">averageDeliveryMinutes</label>
-                    <input type="text" class="form-control"  placeholder="averageDeliveryMinutes" v-model="menu.averageDeliveryMinutes">
+                    <label class="labelColor" >Office Hours</label>
+                    <input type="text" class="form-control" placeholder="officeHours" v-model="service.officeHours">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor">price</label>
-                    <input type="text" class="form-control"  placeholder="price" v-model="menu.price" >
+                    <label class="labelColor" >Delivery Distance</label>
+                    <input type="text" class="form-control" placeholder="deliveryDistance" v-model="service.deliveryDistance">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor">minQuantity</label>
-                    <input type="text" class="form-control" placeholder="minQuantity" v-model="menu.minQuantity" >
+                    <label class="labelColor" >Delivery Distance</label>
+                    <input type="text" class="form-control" placeholder="deliveryDistance" v-model="service.deliveryDistance">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor">minQuantityPrice</label>
-                    <input type="text" class="form-control" placeholder="price" v-model="menu.minQuantityPrice" >
+                    <label class="labelColor" >Delivery Distance</label>
+                    <input type="text" class="form-control"  placeholder="deliveryDistance" v-model="service.deliveryDistance">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor">maxDailySales</label>
-                    <input type="text" class="form-control"  placeholder="maxDailySales" v-model="menu.maxDailySales" >
+                    <label class="labelColor" >Delivery Distance</label>
+                    <input type="text" class="form-control" placeholder="deliveryDistance" v-model="service.deliveryDistance">
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="labelColor" >Delivery Distance</label>
+                    <input type="text" class="form-control"  placeholder="deliveryDistance" v-model="service.deliveryDistance">
                 </div>
             </div>
-            <div class="d-flex links">
+            <div class=" d-flex links">
+                <button type="button" class="btn btn-primary" v-on:click="deleteService">Update</button>
 
-                <button type="button" class="btn btn-primary " v-on:click="createMenu">Create</button>
-                <router-link to="suplieropcion"></router-link>
+                <router-link to="/deleteandupdate"></router-link>
                 <button type="button" class="btn btn-primary" v-on:click="back">Back</button>
 
             </div>
-
         </form>
     </div>
     </div>
+
 </template>
-
 <script>
-    import API from "../service/api";
-
     export default {
-        name: "AdddMenuSupplier",
-        mounted() {
-            this.loadUser()
-        },
+        name: "UpdateMenu",
         props: ['post'],
         data() {
             return {
-                loaduser: [],
-                serid: '',
-                menu: {
-                    serviceId: this.post.service.serviceId,//localStorage.getItem('service'),
-                    menuId: 3,
-                    name: "Whopper",
-                    description: "Hamburguer riquisima ! ! !",
-                    category: "Hamburguesa",
-                    deliveryFee: "10",
-                    startDate: "2017-05-04",
-                    endDate: "2017-05-04",
-                    deliveryHours: "Afternoon",
-                    averageDeliveryMinutes: "10",
-                    price: "100",
-                    minQuantity: "10",
-                    minQuantityPrice: "35",
-                    maxDailySales: "10"
+                service: {
+                    supplierId: this.post.id,//localStorage.getItem('id'),
+                    serviceName: "Burguer King",
+                    icon: "",
+                    addressTown: "Quilmes",
+                    addressLocation: "Rivadavia 123",
+                    description: "Best Hamburguers in town",
+                    email: "burguer@gmail.com",
+                    phoneNumber: "123454545",
+                    officeDays: ["Monday"],
+                    officeHours:["Afternoon"],
+                    deliveryDistance: "10"
 
                 }
-
             }
         },
-        methods: {
-            loadUser() {
-                API.get('/supplier/getSupplierService?supplierId=3')
-                    .then(response => this.callBack(response))
-                    .catch(e => alert(e));
-            },
-            callBack(r){
-                this.loaduser = r;
-               // localStorage.setItem('service',this.loaduser.serviceId);
-                this.serid = this.loaduser.serviceId
-                // eslint-disable-next-line no-console
-                console.log(this.serid)
-            },
-            createMenu(){
-                let self = this;
-                let menus = self.menu;
-                API.post("/service/addMenu", menus)
-                    .then( () => this.$toastr.success('Menu created successfully','User :)'))
-                    .catch(e => this.$toastr.error(e,'error :('))
-                //.catch(e => alert(e));
-            },
+        methods:{
             back(){
-                //this.$router.push('/suplieropcion')
-                this.$router.push({ name: 'suplieropcion', params: {post: this.post }})
+                //this.$router.push('/deleteandupdate')
+                this.$router.push({ name: 'deleteandupdate', params: {post: this.post }})
 
             }
         }
     }
 </script>
 
-
 <style scoped>
 
-    .labelColor{
-        color: #1fffc5;
-    }
-    .boton{
-        margin-right: 5px;
-        margin-left: 5px;
-    }
     #formContent{
         height: 100%;
         align-content: center;
@@ -270,7 +234,7 @@
         animation-delay: 1s;
     }
 
-    .labelColor{
-        color: #1fffc5;
-    }
+.labelColor{
+    color: #1fffc5;
+}
 </style>

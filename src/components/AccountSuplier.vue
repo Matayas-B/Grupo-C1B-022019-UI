@@ -3,7 +3,7 @@
 
         <nav id="barra-principal" class="navbar fixed-top">
             <h2 class="text-white" id="ViendasYa">ViendasYa</h2>
-            <h2 class="text-white" id="user">My Account: {{user.username}}</h2>
+            <h2 class="text-white" id="user">My Account: {{this.post.name}}</h2>
         </nav>
         <div class="d-flex justify-content-center h-100">
             <div class="card">
@@ -35,6 +35,7 @@
 
     export default {
         name: "AccountSuplier",
+        props:['post'],
 
         mounted() {
             this.loadUser();
@@ -43,7 +44,7 @@
             return {
                 loaduser: [],
                 user: {
-                    username: localStorage.getItem('name')
+                    username: this.post.name//localStorage.getItem('name')
                 },
                 money: 0,
                 count: null
@@ -62,19 +63,18 @@
             },
 
             extractMoney(newAmount) {
-                // TODO: needs to add proper customerId
-                API.get('/supplier/extractMoney?supplierId=' + localStorage.getItem('id') + '&money=' + newAmount)
+                API.get('/supplier/extractMoney?supplierId=' + this.post.id + '&money=' + newAmount)
                     .then(response => this.money = response)
-                    .catch(this.$toastr.error('hola', 'prueba'))
+                    .catch(this.$toastr.error(':(', 'prueba'))
             },
             logOut (){
-                localStorage.clear();
+                //localStorage.clear();
                 this.$router.push('/');
             },
             back(){
-                this.$router.push('/suplieropcion')
+               // this.$router.push('/suplieropcion')
+                this.$router.push({ name: 'suplieropcion', params: {post: this.post }})
             },
-
         }
     }
 
