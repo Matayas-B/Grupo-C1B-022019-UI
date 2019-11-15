@@ -40,12 +40,13 @@
                     <input type="text" class="form-control" placeholder="deliveryDistance" v-model="service.deliveryDistance">
                 </div>
             </div>
+        </form>
+
             <div class="d-flex  btn-group " >
                 <button type="button" class="btn btn-primary boton " v-on:click="deleteService">Delete</button>
                 <button type="button " class="btn btn-primary boton" v-on:click="createService">Create</button>
                 <button type="button" class="btn btn-primary boton" v-on:click="back">Back</button>
             </div>
-        </form>
         </div>
 
     </div>
@@ -87,8 +88,9 @@
                 let self = this
                 let servicee = self.service
                 API.post("/supplier/addService", servicee)
-                    .then(() => this.$toastr.success(' Service created successfully','Service :)'))
-                    .catch(() => this.$toastr.error('Error Create Service.','Service :('))
+                    .then(() => this.$toastr.success('Service :)','Service created successfully'))
+                    .catch(() => this.$toastr.error('Service :(','Error Create Service'))
+                //this.$toastr.error(':(', 'prueba')
             },
             deleteService(){
                 API.get("/supplier/deleteService?supplierId=3")

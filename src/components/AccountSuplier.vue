@@ -37,8 +37,8 @@
         name: "AccountSuplier",
         props:['post'],
 
-        mounted() {
-            this.loadUser();
+        updated() {
+            this.callBack();
         },
         data() {
             return {
@@ -51,21 +51,15 @@
             }
         },
         methods: {
-            loadUser() {
-
-                API.get('/supplier/getById?supplierId=3')
-                    .then(response => this.callBack(response))
-                    .catch(e => alert(e));
-            },
-            callBack(r){
-                this.loaduser = r;
-                this.money = r.account.funds
+            callBack(){
+                this.loaduser = this.post;
+                this.money = this.post.account.funds
             },
 
             extractMoney(newAmount) {
                 API.get('/supplier/extractMoney?supplierId=' + this.post.id + '&money=' + newAmount)
-                    .then(response => this.money = response)
-                    .catch(this.$toastr.error(':(', 'prueba'))
+                    .then(() => this.$toastr.success('correct extraction',':)'))
+                    .catch(() => this.$toastr.error('has no funds in the account', ':('))
             },
             logOut (){
                 //localStorage.clear();

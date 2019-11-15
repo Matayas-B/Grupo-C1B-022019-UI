@@ -71,7 +71,7 @@
     export default {
         name: "AdddMenuSupplier",
         mounted() {
-            this.loadUser()
+            //this.loadUser()
         },
         props: ['post'],
         data() {
@@ -99,28 +99,26 @@
             }
         },
         methods: {
-            loadUser() {
+/*            loadUser() {
                 API.get('/supplier/getSupplierService?supplierId=3')
                     .then(response => this.callBack(response))
                     .catch(e => alert(e));
             },
-            callBack(r){
+            callBack(r) {
                 this.loaduser = r;
-               // localStorage.setItem('service',this.loaduser.serviceId);
+                // localStorage.setItem('service',this.loaduser.serviceId);
                 this.serid = this.loaduser.serviceId
                 // eslint-disable-next-line no-console
                 console.log(this.serid)
-            },
+            },*/
             createMenu(){
                 let self = this;
                 let menus = self.menu;
                 API.post("/service/addMenu", menus)
-                    .then( () => this.$toastr.success('Menu created successfully','User :)'))
+                    .then( () => this.$toastr.success('Menu created successfully',' :)'))
                     .catch(e => this.$toastr.error(e,'error :('))
-                //.catch(e => alert(e));
             },
             back(){
-                //this.$router.push('/suplieropcion')
                 this.$router.push({ name: 'suplieropcion', params: {post: this.post }})
 
             }

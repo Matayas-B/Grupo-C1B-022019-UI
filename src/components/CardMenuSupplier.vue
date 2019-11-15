@@ -17,7 +17,7 @@
     export default {
 
         name: "CardMenuSupplier",
-        props: ['post'],
+        props: ['post', 'prueba'],
         data(){
             return {
                 id: this.post.serviceId,
@@ -27,9 +27,13 @@
         methods:{
             deletee(){
                 API.get(`/service/deleteMenu?serviceId=${this.id}&menuId=${this.p}`)
+                    .then( () => this.$toastr.success(':)',' Menu Borrado correctamente'))
+                    .catch(() => this.$toastr.error(':(', 'No se Pudo Borrar el Menu favor de probar nuevamente'))
+
+
             },
             update(){
-                this.$router.push({ name: 'updatemenu', params: {post: this.post }})
+                this.$router.push({ name: 'updatemenu', params: {post: this.post, prueba: this.prueba }})
             }
         }
 

@@ -11,18 +11,14 @@
 
             <!-- Login Form -->
             <form v-on:submit.prevent>
-                <input type="text" id="name" class="fadeIn second" name="login" placeholder="name"  required v-model="user.name">
-                <input type="text" id="lastname" class="fadeIn third" name="login" placeholder="last name" required v-model="user.lastName" >
-                <input type="text" id="email" class="fadeIn third" name="login" placeholder="email" required v-model="user.email" >
-                <input type="text" id="phone" class="fadeIn third" name="login" placeholder="phone" required v-model="user.phone" >
-                <input type="text" id="address" class="fadeIn third" name="login" placeholder="address" required v-model="user.address">
-
-                <input type="password" id="pass" class="fadeIn third"  name="login" placeholder="Password" required v-model="user.password">
-
-
-                <input type="submit" class="fadeIn fourth" value="Create" v-on:click="createUser" >
-
+                <input type="text" id="name" class="fadeIn second"     placeholder="name"  required v-model="user.name">
+                <input type="text" id="lastname" class="fadeIn third"  placeholder="last name" required v-model="user.lastname" >
+                <input type="text" id="email" class="fadeIn third"     placeholder="email" required v-model="user.email" >
+                <input type="text" id="phone" class="fadeIn third"     placeholder="phone" required v-model="user.phone" >
+                <input type="text" id="address" class="fadeIn third"   placeholder="address" required v-model="user.address">
+                <input type="password" id="pass" class="fadeIn third"  placeholder="Password" required v-model="user.password">
             </form>
+            <input type="button" class="fadeIn fourth" value="Create" v-on:click="createUser" >
         </div>
     </div>
 
@@ -30,32 +26,34 @@
 
 <script>
     import API from "../service/api";
-
-
     export default {
         name: "Loginform",
         data() {
             return {
                 user: {
                     name: "",
-                    lastName: "",
+                    lastname: "",
                     email: "",
+                    password: "",
                     phone: "",
-                    address: "",
-                    password: ""
+                    address: ""
                 }
             }
         },
         methods: {
 
                 createUser(){
-                    let self = this
-                    let user = self.user
-                    API.post("/customer",JSON.stringify(user))
-                        .then( () => this.$router.push('/registration') )
-                        .catch(e => alert(e))
-                        .finally(alert("try again"));
-                }
+                    let self = this;
+                    let m = self.user;
+                    API.post("/customer", m)
+                        .then( () => this.sendMail())
+                        .catch(() => this.$toastr.error(' Error User not Created ',':)'))
+                },
+            sendMail(){
+               // API.post(`/miscellaneous/sendFakeWelcomeMail?toMail=${this.user.email}&userName=${this.user.name}`)
+                this.$toastr.success('User Created', ':)')
+                 this.$router.push('/registration')
+            }
         }
 
     }
@@ -337,7 +335,7 @@
         bottom: -10px;
         width: 0;
         height: 2px;
-        background-color: #56baed;
+        background-color: #2586ed;
         content: "";
         transition: width 0.2s;
     }

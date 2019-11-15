@@ -38,7 +38,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-center links">
-                        {{ $t('login3') }} <router-link to="/loginform">{{ $t('login4') }} </router-link>
+                        {{ $t('login3') }} <router-link to="/loginformsuplier">{{ $t('login4') }} </router-link>
                     </div>
                     <div class="form-group text-center" >
 <!--                        <input type="button" value="Sing in Customer" class="btn float-right login_btn" v-on:click="createUserCustomer">-->
@@ -78,7 +78,7 @@
         },
         methods: {
             loadUser() {
-                API.get('/supplier/getById?supplierId=3')
+                API.get('/supplier/getById?supplierId=8')
                     .then(response => this.callBack(response))
                     .catch(e => this.$toastr.error(':(', e));
             },

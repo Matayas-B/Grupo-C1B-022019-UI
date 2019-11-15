@@ -4,60 +4,60 @@
         <form>
             <div class="form-row" >
                 <div class="form-group col-md-6">
-                    <label class="labelColor" >Service Name</label>
-                    <input type="text" class="form-control" placeholder="serviceName" v-model="service.serviceName">
-                </div>
-                <div class="form-group col-md-6">
-                    <label class="labelColor" >Address Town</label>
-                    <input type="text" class="form-control" placeholder="addressTown" v-model="service.addressTown">
-                </div>
-                <div class="form-group col-md-6">
-                    <label class="labelColor" >Address Location</label>
-                    <input type="text" class="form-control" placeholder="addressLocation" v-model="service.addressLocation">
+                    <label class="labelColor" >Menu Name</label>
+                    <input type="text" class="form-control" placeholder="name" v-model="service.name">
                 </div>
                 <div class="form-group col-md-6">
                     <label class="labelColor" >Description</label>
-                    <input type="text" class="form-control"  placeholder="description" v-model="service.description">
+                    <input type="text" class="form-control" placeholder="description" v-model="service.description">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor"  >Email</label>
-                    <input type="email" class="form-control" id="inputEmail3" placeholder="Email" v-model="service.email">
+                    <label class="labelColor" >Category</label>
+                    <input type="text" class="form-control" placeholder="category" v-model="service.category">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor" >Phone Number</label>
-                    <input type="text" class="form-control" id="inputPassword3" placeholder="phoneNumber" v-model="service.phoneNumber">
+                    <label class="labelColor" >Delivery Fee</label>
+                    <input type="text" class="form-control"  placeholder="deliveryFee" v-model="service.deliveryFee">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor" >Office Days</label>
-                    <input type="text" class="form-control" placeholder="officeDays" v-model="service.officeDays">
+                    <label class="labelColor"  >Start Date</label>
+                    <input type="text" class="form-control" id="inputEmail3" placeholder="startDate" v-model="service.startDate">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor" >Office Hours</label>
-                    <input type="text" class="form-control" placeholder="officeHours" v-model="service.officeHours">
+                    <label class="labelColor" >End Date</label>
+                    <input type="text" class="form-control" id="inputPassword3" placeholder="endDate" v-model="service.endDate">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor" >Delivery Distance</label>
-                    <input type="text" class="form-control" placeholder="deliveryDistance" v-model="service.deliveryDistance">
+                    <label class="labelColor" >Delivery Hours</label>
+                    <input type="text" class="form-control" placeholder="deliveryHours" v-model="service.deliveryHours">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor" >Delivery Distance</label>
-                    <input type="text" class="form-control" placeholder="deliveryDistance" v-model="service.deliveryDistance">
+                    <label class="labelColor" >Average Delivery Minutes</label>
+                    <input type="text" class="form-control" placeholder="averageDeliveryMinutes" v-model="service.averageDeliveryMinutes">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor" >Delivery Distance</label>
-                    <input type="text" class="form-control"  placeholder="deliveryDistance" v-model="service.deliveryDistance">
+                    <label class="labelColor" >Price</label>
+                    <input type="text" class="form-control" placeholder="price" v-model="service.price">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor" >Delivery Distance</label>
-                    <input type="text" class="form-control" placeholder="deliveryDistance" v-model="service.deliveryDistance">
+                    <label class="labelColor" >Min Quantity</label>
+                    <input type="text" class="form-control" placeholder="minQuantity" v-model="service.minQuantity">
                 </div>
                 <div class="form-group col-md-6">
-                    <label class="labelColor" >Delivery Distance</label>
-                    <input type="text" class="form-control"  placeholder="deliveryDistance" v-model="service.deliveryDistance">
+                    <label class="labelColor" >Min QuantityPrice</label>
+                    <input type="text" class="form-control"  placeholder="minQuantityPrice" v-model="service.minQuantityPrice">
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="labelColor" >Max Daily Sales</label>
+                    <input type="text" class="form-control" placeholder="maxDailySales" v-model="service.maxDailySales">
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="labelColor" >Menu Id</label>
+                    <input type="text" class="form-control"  placeholder="menuId" v-model="service.menuId">
                 </div>
             </div>
             <div class=" d-flex links">
-                <button type="button" class="btn btn-primary" v-on:click="deleteService">Update</button>
+                <button type="button" class="btn btn-primary" v-on:click="updateMenu">Update</button>
 
                 <router-link to="/deleteandupdate"></router-link>
                 <button type="button" class="btn btn-primary" v-on:click="back">Back</button>
@@ -69,32 +69,59 @@
 
 </template>
 <script>
+    import API from "../service/api";
     export default {
         name: "UpdateMenu",
-        props: ['post'],
+        props: ['post', 'prueba'],
         data() {
             return {
-                service: {
-                    supplierId: this.post.id,//localStorage.getItem('id'),
-                    serviceName: "Burguer King",
-                    icon: "",
-                    addressTown: "Quilmes",
-                    addressLocation: "Rivadavia 123",
-                    description: "Best Hamburguers in town",
-                    email: "burguer@gmail.com",
-                    phoneNumber: "123454545",
-                    officeDays: ["Monday"],
-                    officeHours:["Afternoon"],
-                    deliveryDistance: "10"
-
-                }
+      /*          service: {
+                    menuId: this.post.menuId,
+                    serviceId: this.post.serviceId,
+                    name: this.post.name,
+                    description: this.post.description,
+                    category: this.post.category,
+                    deliveryFee:  this.post.deliveryFee,
+                    startDate: this.post.startDate,
+                    endDate: this.post.endDate,
+                    deliveryHours: this.post.deliveryHours,
+                    averageDeliveryMinutes: this.post.averageDeliveryMinutes,
+                    price: this.post.price,
+                    minQuantity: this.post.minQuantity,
+                    minQuantityPrice: this.post.minQuantityPrice,
+                    maxDailySales: this.post.maxDailySales
+                }*/
+      service: {
+          menuId: this.post.menuId,
+          serviceId:this.post.serviceId,
+          name: this.post.name,
+          description: this.post.description,
+          category: this.post.category,
+          deliveryFee: this.post.deliveryFee,
+          startDate: "2017-05-04",
+          endDate: "2017-05-04",
+          deliveryHours: this.post.deliveryHours,
+          averageDeliveryMinutes: this.post.averageDeliveryMinutes,
+          price: this.post.price,
+          minQuantity: this.post.minQuantity,
+          minQuantityPrice: this.post.minQuantityPrice,
+          maxDailySales: this.post.maxDailySales
+      }
             }
         },
         methods:{
             back(){
                 //this.$router.push('/deleteandupdate')
-                this.$router.push({ name: 'deleteandupdate', params: {post: this.post }})
-
+                this.$router.push({ name: 'deleteandupdate', params: {post: this.prueba }})
+            },
+            updateMenu(){
+                  let self = this;
+                //let menus = self.service;
+                API.post("/service/updateMenu", self.service)
+                    .then( () => this.$toastr.success('Menu modified successfully',' :)'))
+                    .catch( () => this.$toastr.error('Error modified Menu ',' :('))
+                // eslint-disable-next-line no-console
+                console.log(self.service)
             }
         }
     }

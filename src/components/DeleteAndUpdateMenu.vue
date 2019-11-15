@@ -13,7 +13,6 @@
                         <option>Empanadas</option>
                         <option>Green</option>
                         <option>Vegano</option>
-
                     </select>
                     <button class="btn btn-success" type="button" v-on:click="menuss">search</button>
 
@@ -23,12 +22,11 @@
         <div class="d-flex justify-content-center">
             <div class="card">
                 <div class="card-header">
-                    <p  class="text-center labelColor">  {{this.loaduser.name}}</p>
-
+                    <p  class="text-center labelColor">  {{this.post.name}}</p>
                 </div>
                 <div class="card-container">
                     <div class="card-footer" v-for="p in getMenus()" :key="p.menuId">
-                        <CardMenu :post="p"></CardMenu>
+                        <CardMenu :post="p" :prueba='post' ></CardMenu>
                     </div>
                 </div>
                 <div class="card-footer" >
@@ -38,8 +36,6 @@
                             <li class="page-item"  v-for="(k, index) in menus" :key="k"><a class="page-link" value="0" v-on:click="setPage(index)">{{index}}</a></li>
                             <li class="page-item"><a class="page-link" v-on:click="nextt">Next</a></li>
                             <li class="page-item"><a class="page-link" v-on:click="back">back</a></li>
-
-
                         </ul>
                     </div>
                 </div>
@@ -57,10 +53,6 @@
         components: {CardMenu},
         props: ['post'],
         mounted(){
-            this.loadUser()
-            this.menuss()
-        },
-        updated(){
             this.menuss()
         },
         data(){
@@ -68,29 +60,21 @@
 
                 menus: [],
                 info: {
-                    menuname : "",
+                    menuname : "Whopper4",
                     menucategory : "All",
                     servicetown : "",
                 },
                 page: 0,
                 loaduser: '',
-                serviceId: this.post.service.serviceId //localStorage.getItem('serviceId')
+                serviceId: this.post.service.serviceId,
+                prueba: this.post,
             }
         },
         methods: {
-            async loadUser() {
-                const p = await API.get('/supplier/getById?supplierId=3')
-                this.callBack2(p)
-            },
-            callBack2(r){
-                this.loaduser = r;
-                // eslint-disable-next-line no-console
-                console.log(this.loaduser.name)
-                // eslint-disable-next-line no-console
-                console.log(this.serviceId)
-            },
             async   menuss(){
-                let p = await API.get('/service/getMenus?serviceId=' + this.serviceId)
+                let self = this
+                let m = self.info
+                let p = await API.post('/search', m )
                 this.callBack(p)
             },
             callBack(r){
@@ -111,7 +95,6 @@
             back(){
                 //this.$router.push('/suplieropcion')
                 this.$router.push({ name: 'suplieropcion', params: {post: this.post }})
-
             }
 
         },

@@ -26,7 +26,7 @@
         props: ['post'],
         data(){
             return{
-                username: localStorage.getItem('name')
+                //username: localStorage.getItem('name')
             }
         },
         methods:{
