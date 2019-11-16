@@ -6,44 +6,50 @@
 
             <!-- Icon -->
             <div class="fadeIn first">
-                <p class="labelColor">Suplier user: {{this.post.name}}</p>
+                <p id="burguer">Suplier user: {{this.userName}}</p>
             </div>
 
-                <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createUser" >
-                <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
-                <input type="submit" class="fadeIn fourth" value="Update And Delete"  v-on:click="deleteAndUpdateMenu">
+                <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createService" >
+                <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" :disabled="this.serviceId==-1">
+                <input type="submit" class="fadeIn fourth" value="update" v-on:click="updateMenu" :disabled="this.serviceId==-1">
+                <input type="submit" class="fadeIn fourth" value="Delete" v-on:click="deleteMenu" :disabled="this.serviceId==-1">
         </div>
-            <botonsupplier :post="this.post"></botonsupplier>
+            <botonsupplier></botonsupplier>
     </div>
 </template>
 
 <script>
     import botonsupplier from "./BotonSupplier";
-
+    import API from '../service/api';
+    
     export default {
         name: "SuplierOpcion",
         components: {botonsupplier},
-        props: ['post'],
-        data(){
-            return{
-                //username: localStorage.getItem('name')
+        computed:{
+            userName(){
+                return this.$store.state.userName;
+            },
+            serviceId(){
+                return this.$store.state.serviceId;
             }
         },
+        mounted(){
+            API.get("/supplier/getSupplierService?supplierId="+this.$store.state.userId)
+                .then(res => { this.$store.commit('changeService', res.serviceId)})
+                .catch( ()=>   this.$store.commit('changeService', -1) );
+        },
         methods:{
-            createUser(){
-               // this.$router.push('/createservice')
-                this.$router.push({ name: 'createservice', params: {post: this.post }})
-
+            createService(){
+                this.$router.push('/createservice');
             },
             createMenu(){
-                //this.$router.push('/adddmenusupplier')
-                this.$router.push({ name: 'adddmenusupplier', params: {post: this.post }})
-
+                this.$router.push('/adddmenusupplier');
             },
-            deleteAndUpdateMenu(){
-                //this.$router.push('/deleteandupdate')
-                this.$router.push({ name: 'deleteandupdate', params: {post: this.post }})
-
+            updateMenu(){
+                this.$router.push({path:'/updatemenues'});
+            },
+            deleteMenu(){ 
+                this.$router.push('/deletemenues');
             }
         }
     }
@@ -51,14 +57,11 @@
 
 
 <style scoped>
-
     #formContent{
         height: 100%;
         align-content: center;
         margin-top: 8%;
         background-color: rgba(0,0,0,0.5) !important;
-
-
     }
     /* STRUCTURE */
 
@@ -238,12 +241,20 @@
         animation-delay: 0.4s;
     }
 
+
     .fadeIn.fourth {
         -webkit-animation-delay: 1s;
         -moz-animation-delay: 1s;
         animation-delay: 1s;
     }
 
-    .labelColor{
-        color: #1fffc5;}
+
+  .md-list {
+    width: 320px;
+    max-width: 100%;
+    display: inline-block;
+    vertical-align: top;
+    border: 1px solid rgba(#000, .12);
+    background-color: rgba(0,0,0,0.5) !important;
+  }
 </style>
