@@ -1,39 +1,36 @@
 <template>
-<div class="card widder upper">
-      <img class="card-img-top" :src="menu.icon" alt="Barger">
-      <h5 class="card-title text-white"> {{menu.name}}</h5>
-      <h6 class="card-subtitle font-italic mb-2 text-muted"> {{menu.description}} </h6>
-      <p class="card-text"> {{menu.officeDays}};{{menu.officeHours}} </p>
-      <div slot="footer">
-        <button type="button" class="btn btn-light upper" v-on:click="$emit('handleclick', menu.menuId)">
-          {{buttonValue}}
-        </button>
+    <div class="card" >
+      <img class="card-img-top" :src="service.icon" alt="Card image">
+      <div class="card-body">
+        <h4 class="card-title"> {{service.serviceName}} </h4>
+        <p class="card-text"> {{service.description}} </p>
+        <a href="#" class="btn btn-primary">See Contact</a>
+        {{service.address}} ,{{service.email}}, {{service.phoneNumber}}
+        <!-- Next patch
+         List<OfficeDays> officeDays, List<OfficeHours> officeHours,
+        .deliveryDistanceKm
+        .supplier
+        .isValidService -->
       </div>
-</div> 
+    </div>
 </template>
 
 <script>
 
 export default {
-  computed: {
+  
+     computed: {
        theimage: function () {
         
         return '@/assets/iconfinder-hamburger.svg'
        }
      
         },
-  props:["menu","buttonValue"]
+    props:["service"]
 }
         
 </script>
 
 <style scoped>
-    .widder{
-        max-width: 70%;
-    }
-    .upper{
-        margin-bottom: 10%;
-        margin-left: 5%;
-        margin-right: 5%;
-    }
+
 </style>

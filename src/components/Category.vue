@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="d-flex-box col-sm-7">
-            <paginate :menues="menues" :page="3" buttonValue="See Contact" v-on:handleclick="clickCallBack"/>
+            <paginate :menues="menues" :page="3"/>
         </div>
         </div>
         <div class="row justify-content-bottom botonlogout">
@@ -46,7 +46,6 @@
 
     export default {
         name: "Category",
-        event:['handleclick'],
         components: {
             list,
             boton,
