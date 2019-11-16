@@ -33,18 +33,18 @@
                 </div>
                 <div class="card-footer" >
                     <div >
-                    <ul class="pagination" >
-                        <li class="page-item"><a class="page-link"  v-on:click="previus">Previous</a></li>
-                        <li class="page-item"  v-for="(k, index) in menus" :key="k"><a class="page-link" value="0" v-on:click="setPage(index)">{{index}}</a></li>
-                        <li class="page-item"><a class="page-link" v-on:click="nextt">Next</a></li>
+                        <ul class="pagination" >
+                            <li class="page-item"><a class="page-link"  v-on:click="previus">Previous</a></li>
+                            <li class="page-item"  v-for="(k, index) in menus" :key="k"><a class="page-link" value="0" v-on:click="setPage(index)">{{index}}</a></li>
+                            <li class="page-item"><a class="page-link" v-on:click="nextt">Next</a></li>
 
-                    </ul>
+                        </ul>
                     </div>
                 </div>
             </div>
 
         </div>
-<boton></boton>
+        <boton></boton>
     </div>
 </template>
 
@@ -59,7 +59,7 @@
         mounted(){
             this.menuss()
         },
-   data(){
+        data(){
             return{
 
                 menus: [],
@@ -77,8 +77,8 @@
                 let m = self.info
                 let p = await API.post('/search', m )
                 this.callBack(p)
-                    //.then(response => {this.callBack(response)})
-                    //.catch(e => alert(e));
+                //.then(response => {this.callBack(response)})
+                //.catch(e => alert(e));
             },
             callBack(r){
                 this.menus = chunk(r,2)
@@ -87,17 +87,17 @@
                 // eslint-disable-next-line no-console
                 console.log(this.menus.length)
             },
-           setPage(r){
-               return this.page=r
+            setPage(r){
+                return this.page=r
             },
             getMenus(){
                 return this.menus[this.page]
             },
             previus(){
-                 if (this.page !== 0) this.page = this.page -1
+                if (this.page !== 0) this.page = this.page -1
             },
             nextt(){
-                 if (this.page !== this.menus.length -1 ) this.page ++
+                if (this.page !== this.menus.length -1 ) this.page ++
             }
         },
 

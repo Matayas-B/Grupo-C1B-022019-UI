@@ -34,12 +34,9 @@
         props: ['post'],
         methods: {
             account(){
-               // this.$router.push('/accountsupplier')
                 this.$router.push({ name: 'accountsupplier', params: {post: this.post }})
-
             },
             logOut (){
-                //localStorage.clear();
                 this.$router.push('/');
             },
         }

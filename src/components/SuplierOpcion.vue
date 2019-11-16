@@ -1,19 +1,15 @@
 <template>
-
     <div class="wrapper fadeInDown">
-
         <div id="formContent">
-
             <!-- Icon -->
             <div class="fadeIn first">
                 <p class="labelColor">Suplier user: {{this.post.name}}</p>
             </div>
-
-                <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createUser" >
-                <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
-                <input type="submit" class="fadeIn fourth" value="Update And Delete"  v-on:click="deleteAndUpdateMenu">
+            <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createUser" >
+            <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
+            <input type="submit" class="fadeIn fourth" value="Update And Delete"  v-on:click="deleteAndUpdateMenu">
         </div>
-            <botonsupplier :post="this.post"></botonsupplier>
+        <botonsupplier :post="this.post"></botonsupplier>
     </div>
 </template>
 
@@ -31,7 +27,7 @@
         },
         methods:{
             createUser(){
-               // this.$router.push('/createservice')
+                // this.$router.push('/createservice')
                 this.$router.push({ name: 'createservice', params: {post: this.post }})
 
             },

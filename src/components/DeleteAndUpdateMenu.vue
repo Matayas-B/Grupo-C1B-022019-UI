@@ -57,7 +57,6 @@
         },
         data(){
             return{
-
                 menus: [],
                 info: {
                     menuname : "Whopper4",

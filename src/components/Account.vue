@@ -31,8 +31,6 @@
 
 <script>
     import API from "../service/api";
-
-    // eslint-disable-next-line no-unused-vars
     export default {
         name: "Account",
 

@@ -18,7 +18,6 @@
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
                             <input type="text" class="form-control" placeholder="username" v-model="user.username" required>
-
                         </div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
@@ -26,7 +25,6 @@
                             </div>
                             <input type="password" class="form-control" placeholder="password" v-model="user.password" required>
                         </div>
-
                         <div class="form-group">
 <!--                            <input type="bu" value="Login" class="btn float-right login_btn" v-on:click="logear">-->
                             <button class="btn float-right login_btn " v-on:click="logear"> {{ $t('login2') }}</button>
@@ -41,19 +39,12 @@
                         {{ $t('login3') }} <router-link to="/loginformsuplier">{{ $t('login4') }} </router-link>
                     </div>
                     <div class="form-group text-center" >
-<!--                        <input type="button" value="Sing in Customer" class="btn float-right login_btn" v-on:click="createUserCustomer">-->
                         <button class="btn float-right login_btn " v-on:click="createUserCustomer"> {{ $t('message') }}</button>
-
-
                     </div>
-
                 </div>
             </div>
-
         </div>
-
     </div>
-
 </template>
 
 <script>
@@ -90,11 +81,6 @@
             logear: function () {
                 if (this.user.username != "" && this.user.password != "") {
                     if (this.user.username == "matias" && this.user.password == "123456") {
-                        // localStorage.setItem('name',this.loaduser.name)
-                        // localStorage.setItem('id', this.loaduser.id)
-                        //
-                        // this.$router.push({ name: 'updatemenu', params: {post: this.post }})
-                        // localStorage.setItem('serviceId', this.loaduser.service.serviceId)
                         this.$router.push({ name: 'suplieropcion', params: {post: this.loaduser }})
                     } else {
                         alert(this.$toastr.error(':(', 'The username and / or password is incorrect'));

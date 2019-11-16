@@ -1,6 +1,6 @@
 <template>
     <div id="floatingdiv" > 
-        {{ state }} 
+        {{ state }}
     </div>    
 </template>
 
