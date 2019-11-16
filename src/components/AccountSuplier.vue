@@ -3,7 +3,7 @@
 
         <nav id="barra-principal" class="navbar fixed-top">
             <h2 class="text-white" id="ViendasYa">ViendasYa</h2>
-            <h2 class="text-white" id="user">My Account: {{user.username}}</h2>
+            <h2 class="text-white" id="user">My Account: {{this.post.name}}</h2>
         </nav>
         <div class="d-flex justify-content-center h-100">
             <div class="card">
@@ -19,7 +19,7 @@
 
                 </div>
                 <div class="card-footer">
-                    <input type="submit" value="add Money" class="btn float-right login_btn" v-on:click="extractMoney()" >
+                    <input type="submit" value="extract Money" class="btn float-right login_btn" v-on:click="extractMoney(count)" >
                     <input type="submit" value="Back" class="btn float-right login_btn" v-on:click="back()">
                     <input type="submit" value="Log Out" class="btn float-right login_btn" v-on:click="logOut()">
                 </div>
@@ -35,45 +35,40 @@
 
     export default {
         name: "AccountSuplier",
+        props:['post'],
 
-        mounted() {
-            this.loadUser();
+        updated() {
+            this.callBack();
         },
         data() {
             return {
                 loaduser: [],
                 user: {
-                    username: localStorage.getItem('name')
+                    username: this.post.name//localStorage.getItem('name')
                 },
                 money: 0,
                 count: null
             }
         },
         methods: {
-            loadUser() {
-
-                API.get('/supplier/getById?supplierId=3')
-                    .then(response => this.callBack(response))
-                    .catch(e => alert(e));
-            },
-            callBack(r){
-                this.loaduser = r;
-                this.money = r.account.funds
+            callBack(){
+                this.loaduser = this.post;
+                this.money = this.post.account.funds
             },
 
-            extractMoney() {
-
-                API.get('/customer/depositMoney?customerId=1&money=3000')
-                    .then(this.money = this.money + this.count)
+            extractMoney(newAmount) {
+                API.get('/supplier/extractMoney?supplierId=' + this.post.id + '&money=' + newAmount)
+                    .then(() => this.$toastr.success('correct extraction',':)'))
+                    .catch(() => this.$toastr.error('has no funds in the account', ':('))
             },
             logOut (){
-                localStorage.clear();
+                //localStorage.clear();
                 this.$router.push('/');
             },
             back(){
-                this.$router.push('/suplieropcion')
+               // this.$router.push('/suplieropcion')
+                this.$router.push({ name: 'suplieropcion', params: {post: this.post }})
             },
-
         }
     }
 

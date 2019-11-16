@@ -14,26 +14,6 @@
                 <input type="submit" class="fadeIn fourth" value="update" v-on:click="updateMenu" :disabled="this.serviceId==-1">
                 <input type="submit" class="fadeIn fourth" value="Delete" v-on:click="deleteMenu" :disabled="this.serviceId==-1">
         </div>
-        <!--
-        <div>
-        <md-list class="md-double-line" v-for="service in services" :key="service.serviceId">
-            <md-subheader>::Services::</md-subheader>
-
-            <md-list-item>
-                <div class="md-list-item-text">
-                    <span>{{service.serviceName}}</span>
-                    <span>{{service.description}}</span>
-                </div>
-
-                <md-button class="md-icon-button md-list-action" v-on:click="$store.commit('changeService', service.serviceId)">
-                    <i class="fa fa-pencil fa-fw" > {{service.serviceId}} </i>
-                </md-button>
-            </md-list-item>
-            <md-divider></md-divider>
-            
-        </md-list>
-        </div>
-         -->
             <botonsupplier></botonsupplier>
     </div>
 </template>
