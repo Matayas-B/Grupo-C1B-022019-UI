@@ -3,6 +3,8 @@
       <Name></Name>
         <router-view></router-view>
     </div>
+
+
 </template>
 
 <script>

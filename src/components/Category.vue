@@ -51,7 +51,6 @@
 
     export default {
         name: "Category",
-        event:['handleclick'],
         components: {
             list,
             boton,
@@ -100,12 +99,7 @@
                                                                                
             }
     },
-        computed:{
-            userName(){
-                return this.$store.state.userName;
-            }
-        },
-        data() {
+    data() {
             return {
                 items: [],
                 bottonalert: "",

@@ -1,10 +1,7 @@
 import axios from 'axios';
 
-//const server = process.env.VUE_APP_LOCALSERVER;
 const server = 'https://viendasya-c1b-backend.herokuapp.com';
-//axios.defaults.headers.common['Content-Type'] = 'application/json; charset=utf-8';
-
-//axios.defaults.headers.common['Content-Type'] = 'application/json' //; charset=utf-8';
+//const server = 'http://localhost:8080';
 
 const API = {
     get: path => axios.get(`${server}${path}`).then(response => response.data),

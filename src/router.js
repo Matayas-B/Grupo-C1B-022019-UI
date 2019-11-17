@@ -12,9 +12,9 @@ import Prueba from "./components/Prueba";
 import SuplierOpcion from "./components/SuplierOpcion";
 import AccountSuplier from "./components/AccountSuplier";
 import AdddMenuSupplier from "./components/AdddMenuSupplier";
+import DeleteAndUpdateMenu from "./components/DeleteAndUpdateMenu";
+import UpdateMenu from "./components/UpdateMenu";
 
-import DeleteMenues from "./components/DeleteMenues";
-import UpdateMenues from "./components/UpdateMenues";
 
 Vue.use(Router)
 
@@ -29,14 +29,12 @@ export default new Router({
         {path: '/loginformsuplier', component: LoginformSuplier},
         {path: '/category', component:Category},
         {path: '/account', component:Account},
-        {path: '/createservice', component: CreateService},
+        {path: '/createservice', component: CreateService, name: 'createservice', props: true},
         {path: '/prueba', component: Prueba},
-        {path: '/suplieropcion', component: SuplierOpcion},
-        {path: '/accountsupplier', component: AccountSuplier},
-
-        {path: '/deletemenues', component: DeleteMenues},
-        {path: '/updatemenues', component: UpdateMenues},
-        {path: '/adddmenusupplier', component: AdddMenuSupplier },
-        {path: '/adddmenusupplier/:m', component: AdddMenuSupplier, props: true }
+        {path: '/suplieropcion', component: SuplierOpcion, name: 'suplieropcion', props: true},
+        {path: '/adddmenusupplier', component: AdddMenuSupplier, name: 'adddmenusupplier', props: true},
+        {path: '/accountsupplier', component: AccountSuplier, name: 'accountsupplier', props: true},
+        {path: '/deleteandupdate', component: DeleteAndUpdateMenu, name: 'deleteandupdate', props: true},
+        {path: '/updatemenu', component: UpdateMenu, name: 'updatemenu', props:  true }
     ]
 })

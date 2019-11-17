@@ -4,7 +4,7 @@
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
-                    <h3>Sign In Suplier</h3>
+                    <h3>{{ $t('message2') }}</h3>
                     <div class="d-flex justify-content-end social_icon">
                         <span><i class="fab fa-facebook-square"></i></span>
                         <span><i class="fab fa-google-plus-square"></i></span>
@@ -26,29 +26,40 @@
                             </div>
                             <input type="password" class="form-control" placeholder="password" v-model="user.password" required>
                         </div>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch1">
-                            <label class="custom-control-label" for="customSwitch1" v-on:click="createUserCustomer">Sign in Customer </label>
-                        </div>
+
                         <div class="form-group">
-                            <input type="submit" value="Login" class="btn float-right login_btn" v-on:click="logear">
+<!--                            <input type="bu" value="Login" class="btn float-right login_btn" v-on:click="logear">-->
+                            <button class="btn float-right login_btn " v-on:click="logear"> {{ $t('login2') }}</button>
+                            <button class="btn login_btn" v-for="entry in languages" :key="entry.title" @click="changeLocale(entry.language)">
+                                <flag :iso="entry.flag"  v-bind:squared=false /> {{entry.title}}
+                            </button>
                         </div>
                     </form>
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-center links">
-                        Don't have an account? <router-link to="/loginformsuplier">Sign Up</router-link>
+                        {{ $t('login3') }} <router-link to="/loginformsuplier">{{ $t('login4') }} </router-link>
+                    </div>
+                    <div class="form-group text-center" >
+<!--                        <input type="button" value="Sing in Customer" class="btn float-right login_btn" v-on:click="createUserCustomer">-->
+                        <button class="btn float-right login_btn " v-on:click="createUserCustomer"> {{ $t('message') }}</button>
+
+
                     </div>
 
                 </div>
             </div>
+
         </div>
+
     </div>
 
 </template>
 
 <script>
     import API from "../service/api";
+    import i18n from "../i18n";
+
 
     export default {
         name: "LoginSupllier",
@@ -58,14 +69,18 @@
         data() {
             return {
                 loaduser: [],
-                user: { username: '', password: ''}
+                user: { username: '', password: ''},
+                languages: [
+                    { flag: 'us', language: 'en', title: '' },
+                    { flag: 'es', language: 'es', title: '' }
+                ]
             }
         },
         methods: {
             loadUser() {
-                API.get('/supplier/getById?supplierId=3')
+                API.get('/supplier/getById?supplierId=8')
                     .then(response => this.callBack(response))
-                    .catch(e => alert(e));
+                    .catch(e => this.$toastr.error(':(', e));
             },
             callBack(r){
                 this.loaduser = r;
@@ -75,22 +90,26 @@
             logear: function () {
                 if (this.user.username != "" && this.user.password != "") {
                     if (this.user.username == "matias" && this.user.password == "123456") {
-                        this.$store.commit("changeName", this.user.username);
-                        this.$store.commit("changeId", 3);
-                        
-                        this.$router.push('/suplieropcion')
+                        // localStorage.setItem('name',this.loaduser.name)
+                        // localStorage.setItem('id', this.loaduser.id)
+                        //
+                        // this.$router.push({ name: 'updatemenu', params: {post: this.post }})
+                        // localStorage.setItem('serviceId', this.loaduser.service.serviceId)
+                        this.$router.push({ name: 'suplieropcion', params: {post: this.loaduser }})
                     } else {
-                        alert("The username and / or password is incorrect");
+                        alert(this.$toastr.error(':(', 'The username and / or password is incorrect'));
                     }
                 } else {
-                    alert("A username and password must be present");
+                    alert(this.$toastr.error(':(','A username and password must be present'));
                 }
             },
-
             createUserCustomer (){
 
                 this.$router.push('/')
-            }
+            },
+            changeLocale(locale) {
+                i18n.locale = locale;
+            },
         },
 
     }

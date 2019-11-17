@@ -6,70 +6,44 @@
 
             <!-- Icon -->
             <div class="fadeIn first">
-                <p id="burguer">Suplier user: {{this.userName}}</p>
+                <p class="labelColor">Suplier user: {{this.post.name}}</p>
             </div>
 
-                <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createService" >
-                <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" :disabled="this.serviceId==-1">
-                <input type="submit" class="fadeIn fourth" value="update" v-on:click="updateMenu" :disabled="this.serviceId==-1">
-                <input type="submit" class="fadeIn fourth" value="Delete" v-on:click="deleteMenu" :disabled="this.serviceId==-1">
+                <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createUser" >
+                <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
+                <input type="submit" class="fadeIn fourth" value="Update And Delete"  v-on:click="deleteAndUpdateMenu">
         </div>
-        <!--
-        <div>
-        <md-list class="md-double-line" v-for="service in services" :key="service.serviceId">
-            <md-subheader>::Services::</md-subheader>
-
-            <md-list-item>
-                <div class="md-list-item-text">
-                    <span>{{service.serviceName}}</span>
-                    <span>{{service.description}}</span>
-                </div>
-
-                <md-button class="md-icon-button md-list-action" v-on:click="$store.commit('changeService', service.serviceId)">
-                    <i class="fa fa-pencil fa-fw" > {{service.serviceId}} </i>
-                </md-button>
-            </md-list-item>
-            <md-divider></md-divider>
-            
-        </md-list>
-        </div>
-         -->
-            <botonsupplier></botonsupplier>
+            <botonsupplier :post="this.post"></botonsupplier>
     </div>
 </template>
 
 <script>
     import botonsupplier from "./BotonSupplier";
-    import API from '../service/api';
-    
+
     export default {
         name: "SuplierOpcion",
         components: {botonsupplier},
-        computed:{
-            userName(){
-                return this.$store.state.userName;
-            },
-            serviceId(){
-                return this.$store.state.serviceId;
+        props: ['post'],
+        data(){
+            return{
+                //username: localStorage.getItem('name')
             }
         },
-        mounted(){
-            API.get("/supplier/getSupplierService?supplierId="+this.$store.state.userId)
-                .then(res => { this.$store.commit('changeService', res.serviceId)})
-                .catch( ()=>   this.$store.commit('changeService', -1) );
-        },
         methods:{
-            createService(){
-                this.$router.push('/createservice');
+            createUser(){
+               // this.$router.push('/createservice')
+                this.$router.push({ name: 'createservice', params: {post: this.post }})
+
             },
             createMenu(){
-                this.$router.push('/adddmenusupplier');
+                //this.$router.push('/adddmenusupplier')
+                this.$router.push({ name: 'adddmenusupplier', params: {post: this.post }})
+
             },
-            updateMenu(){
-                this.$router.push({path:'/updatemenues'});
-            },
-            deleteMenu(){ 
-                this.$router.push('/deletemenues');
+            deleteAndUpdateMenu(){
+                //this.$router.push('/deleteandupdate')
+                this.$router.push({ name: 'deleteandupdate', params: {post: this.post }})
+
             }
         }
     }
@@ -77,11 +51,14 @@
 
 
 <style scoped>
+
     #formContent{
         height: 100%;
         align-content: center;
         margin-top: 8%;
         background-color: rgba(0,0,0,0.5) !important;
+
+
     }
     /* STRUCTURE */
 
@@ -261,20 +238,12 @@
         animation-delay: 0.4s;
     }
 
-
     .fadeIn.fourth {
         -webkit-animation-delay: 1s;
         -moz-animation-delay: 1s;
         animation-delay: 1s;
     }
 
-
-  .md-list {
-    width: 320px;
-    max-width: 100%;
-    display: inline-block;
-    vertical-align: top;
-    border: 1px solid rgba(#000, .12);
-    background-color: rgba(0,0,0,0.5) !important;
-  }
+    .labelColor{
+        color: #1fffc5;}
 </style>
