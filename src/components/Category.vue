@@ -8,16 +8,21 @@
                 <input type="search"  placeholder="search..">
                 <button class="btn btn-success" type="submit">search</button>
             </form>
+            <span v-if="purchases.length>0">
+                <h6>They are "{{purchases.length}}" element in the carrito </h6>
+                <button class="btn btn-success" v-on:click="purchase"> Purchase </button>
+                <button class="btn btn-danger" v-on:click="purchases = []"> Drop All </button>   
+            </span>            
         </nav>
-        <div class="row">
-        <div class="d-flex-box col-sm-7 h-100">
+        <div class="col">
+        <div class="d-flex-box col-sm-4 h-100">
             <div class="card">
                 <div class="card-header">
                     <h3>choose food category</h3>
                 </div>
                 <div class="card-body">
-                    <div v-for="item in items" :key="item.message">
-                        <list :title="item.message" />
+                    <div v-for="(item,index) in items" :key="index">
+                        <list :title="item" />
                     </div>
                 </div>
                 <div class="card-footer">
@@ -26,7 +31,7 @@
             </div>
         </div>
         <div class="d-flex-box col-sm-7">
-            <paginate :menues="menues" :page="3" buttonValue="See Contact" v-on:handleclick="clickCallBack"/>
+            <paginate :menues="menues" :page="3" buttonValue="Add to carrito" v-on:handleclick="clickCallBack"/>
         </div>
         </div>
         <div class="row justify-content-bottom botonlogout">
@@ -58,10 +63,10 @@
             
             function addCategories(res){
                     // eslint-disable-next-line
-                    console.log("backend-categories:ok" + "   " + res);
-                    //console.log(res.toString())
-                    res.categories.forEach(element => {
-                       comp.items.push(element); 
+                    console.log("backend-categories:ok");
+                    res.forEach(element => {
+                        if(!comp.items.includes(element.category))
+                            comp.items.push(element.category);
                     });
             }
             function handlError(e){
@@ -72,7 +77,7 @@
             }
             let addmenu = (res)=> {
                 // eslint-disable-next-line
-                    console.log("backend-menu:ok");
+                console.log("backend-menu:ok");
                 res.forEach(element => {
                        this.menues.push(element); 
                     })
@@ -82,11 +87,19 @@
                 menucategory : "All",
                 servicetown : location
             }};
-            let categories = JSON.stringify( categoryInLocation("") );
+            let categories = categoryInLocation("");
 
-            API.get("/menues").then(addmenu).catch( handlError );
+            API.post("/search", categories ).then(addmenu).catch( handlError );
             API.post("/search",categories).then( addCategories ).catch( handlError ); //.finally(() => this.loading = false);
         },
+    methods: {
+            clickCallBack(idmenu){
+                this.purchases.push(idmenu);
+            },
+            purchase(){
+                                                                               
+            }
+    },
         computed:{
             userName(){
                 return this.$store.state.userName;
@@ -96,7 +109,7 @@
             return {
                 items: [],
                 bottonalert: "",
-
+                purchases:[],
                 menues: [],
                 page: 3
             }
