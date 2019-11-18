@@ -27,6 +27,15 @@
                 <div class="card-header">
                 </div>
                 <div class="card-container">
+                    <GmapMap :center="{ lat: -34.7273289, lng: -58.279851 }" :zoom="10" map-type-id="terrain"
+                                style="width: 100%; height: 80%">
+                        <GmapMarker
+                            v-for="(m, index) in markers"
+                            :key="index"
+                            :position="m.position"
+                            @click="center = m.position"
+                        />
+                    </GmapMap>
                     <div class="card-footer" v-for="p in getMenus()" :key="p.menuId">
                         <CardMenu :post="p"></CardMenu>
                     </div>
@@ -53,13 +62,16 @@
     import API from "../service/api";
     import chunk from "lodash/chunk" ;
     import Boton from "./Boton";
+    import Vue from "vue";
+    import * as VueGoogleMaps from "vue2-google-maps";
+
     export default {
         name: "Prueba",
         components: {Boton, CardMenu},
         mounted(){
             this.menuss()
         },
-   data(){
+       data(){
             return{
 
                 menus: [],
@@ -69,6 +81,10 @@
                     servicetown : "",
                 },
                 page: 0,
+                markers: [ 
+                    { position:{ lat: -34.72733, lng: -58.28 } }
+                
+                ]
             }
         },
         methods: {
