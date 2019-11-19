@@ -31,8 +31,6 @@
 
 <script>
     import API from "../service/api";
-
-    // eslint-disable-next-line no-unused-vars
     export default {
         name: "Account",
 
@@ -71,7 +69,7 @@
                 this.$router.push('/');
             },
             back(){
-              this.$router.push('/category')
+              this.$router.push('prueba')
             },
 
         }

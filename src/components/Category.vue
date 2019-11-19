@@ -87,9 +87,9 @@
                 servicetown : location
             }};
             let categories = categoryInLocation("");
-
             API.post("/search", categories ).then(addmenu).catch( handlError );
             API.post("/search",categories).then( addCategories ).catch( handlError ); //.finally(() => this.loading = false);
+
         },
     methods: {
             clickCallBack(idmenu){

@@ -1,46 +1,46 @@
 <template>
     <div class="wrapper fadeInDown">
         <div id="formContent">
-        <form>
-            <div class="form-row" >
-                <div class="form-group col-md-6">
-                    <label class="labelColor">Service Name</label>
-                    <input type="text" class="form-control" placeholder="serviceName" v-model="service.serviceName">
+            <form>
+                <div class="form-row" >
+                    <div class="form-group col-md-6">
+                        <label class="labelColor">Service Name</label>
+                        <input type="text" class="form-control" placeholder="serviceName" v-model="service.serviceName">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="labelColor">Address Town</label>
+                        <input type="text" class="form-control"  placeholder="addressTown" v-model="service.addressTown">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="labelColor">Address Location</label>
+                        <input type="text" class="form-control"  placeholder="addressLocation" v-model="service.addressLocation">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="labelColor">Description</label>
+                        <input type="text" class="form-control"  placeholder="description" v-model="service.description">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="labelColor">Email</label>
+                        <input type="email" class="form-control"  placeholder="Email" v-model="service.email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="labelColor">Phone Number</label>
+                        <input type="text" class="form-control"  placeholder="phoneNumber" v-model="service.phoneNumber">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="labelColor">Office Days</label>
+                        <input type="text" class="form-control" placeholder="officeDays" v-model="service.officeDays">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="labelColor">Office Hours</label>
+                        <input type="text" class="form-control"  placeholder="officeHours" v-model="service.officeHours">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="labelColor">Delivery Distance</label>
+                        <input type="text" class="form-control" placeholder="deliveryDistance" v-model="service.deliveryDistance">
+                    </div>
                 </div>
-                <div class="form-group col-md-6">
-                    <label class="labelColor">Address Town</label>
-                    <input type="text" class="form-control"  placeholder="addressTown" v-model="service.addressTown">
-                </div>
-                <div class="form-group col-md-6">
-                    <label class="labelColor">Address Location</label>
-                    <input type="text" class="form-control"  placeholder="addressLocation" v-model="service.addressLocation">
-                </div>
-                <div class="form-group col-md-6">
-                    <label class="labelColor">Description</label>
-                    <input type="text" class="form-control"  placeholder="description" v-model="service.description">
-                </div>
-                <div class="form-group col-md-6">
-                    <label class="labelColor">Email</label>
-                    <input type="email" class="form-control"  placeholder="Email" v-model="service.email">
-                </div>
-                <div class="form-group col-md-6">
-                    <label class="labelColor">Phone Number</label>
-                    <input type="text" class="form-control"  placeholder="phoneNumber" v-model="service.phoneNumber">
-                </div>
-                <div class="form-group col-md-6">
-                    <label class="labelColor">Office Days</label>
-                    <input type="text" class="form-control" placeholder="officeDays" v-model="service.officeDays">
-                </div>
-                <div class="form-group col-md-6">
-                    <label class="labelColor">Office Hours</label>
-                    <input type="text" class="form-control"  placeholder="officeHours" v-model="service.officeHours">
-                </div>
-                <div class="form-group col-md-6">
-                    <label class="labelColor">Delivery Distance</label>
-                    <input type="text" class="form-control" placeholder="deliveryDistance" v-model="service.deliveryDistance">
-                </div>
-            </div>
-        </form>
+            </form>
 
             <div class="d-flex  btn-group " >
                 <button type="button" class="btn btn-primary boton " v-on:click="deleteService">Delete</button>
@@ -50,13 +50,10 @@
         </div>
 
     </div>
-
 </template>
 
 <script>
-    //import botonsupplier from "./BotonSupplier";
     import API from "../service/api";
-    //import axios from 'axios';
 
     export default {
         name: "CreateMenus",

@@ -8,14 +8,12 @@
     </div>
 </template>
 
-
 <script>
     export default {
 
         name: "CardMenu",
         //props: ['title','text'],
         props: ['post']
-
     }
 </script>
 

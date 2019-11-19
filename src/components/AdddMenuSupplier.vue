@@ -93,24 +93,11 @@
                     minQuantity: "10",
                     minQuantityPrice: "35",
                     maxDailySales: "10"
-
                 }
-
             }
         },
         methods: {
-/*            loadUser() {
-                API.get('/supplier/getSupplierService?supplierId=3')
-                    .then(response => this.callBack(response))
-                    .catch(e => alert(e));
-            },
-            callBack(r) {
-                this.loaduser = r;
-                // localStorage.setItem('service',this.loaduser.serviceId);
-                this.serid = this.loaduser.serviceId
-                // eslint-disable-next-line no-console
-                console.log(this.serid)
-            },*/
+
             createMenu(){
                 let self = this;
                 let menus = self.menu;

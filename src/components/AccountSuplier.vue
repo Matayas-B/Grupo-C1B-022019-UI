@@ -1,32 +1,28 @@
 <template>
     <div class="container">
-
-        <nav id="barra-principal" class="navbar fixed-top">
-            <h2 class="text-white" id="ViendasYa">ViendasYa</h2>
-            <h2 class="text-white" id="user">My Account: {{this.post.name}}</h2>
-        </nav>
+<!--        <nav id="barra-principal" class="navbar-nav fixed-top labelColor">-->
+<!--            <h2 class="text-white text-right" >My Account: {{this.post.name}}</h2>-->
+<!--        </nav>-->
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
-                    <h3>Founds: {{money}}</h3>
+                    <h2 class=" labelColor text-center " >My Account: {{this.post.name}}</h2>
 
+                </div>
+                <div class="card-header">
+                    <h3>Founds: {{money}}</h3>
                 </div>
                 <div class="card-body">
                     <input type="text "  class="form-control" id="cant" placeholder="amount to account"
                            v-model="count">
-
-
-
                 </div>
                 <div class="card-footer">
                     <input type="submit" value="extract Money" class="btn float-right login_btn" v-on:click="extractMoney(count)" >
                     <input type="submit" value="Back" class="btn float-right login_btn" v-on:click="back()">
                     <input type="submit" value="Log Out" class="btn float-right login_btn" v-on:click="logOut()">
                 </div>
-
             </div>
         </div>
-
     </div>
 </template>
 
@@ -36,7 +32,6 @@
     export default {
         name: "AccountSuplier",
         props:['post'],
-
         updated() {
             this.callBack();
         },
@@ -75,5 +70,7 @@
 </script>
 
 <style scoped>
-
+    .labelColor{
+        color: #1fffc5;
+    }
 </style>

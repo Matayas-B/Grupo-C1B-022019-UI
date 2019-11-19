@@ -20,6 +20,10 @@ import VueMaterial from 'vue-material'
 import i18n from './i18n'
 import FlagIcon from 'vue-flag-icon';
 
+import VueSidebarMenu from 'vue-sidebar-menu'
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+Vue.use(VueSidebarMenu)
+
 import * as VueGoogleMaps from "vue2-google-maps";
 
 let googlekey = process.env.VUE_APP_GOOGLEKEY;

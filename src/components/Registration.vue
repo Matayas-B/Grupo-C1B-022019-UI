@@ -9,10 +9,9 @@
                 <p id="burguer">user</p>
             </div>
             <div>
-            <p>User created
-                Please login</p>
+                <p>User created
+                    Please login</p>
             </div>
-
             <!-- Login Form -->
             <input type="submit" class="fadeIn fourth" value="Login" v-on:click="prueba">
         </div>

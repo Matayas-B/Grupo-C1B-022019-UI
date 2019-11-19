@@ -3,13 +3,11 @@
     <div class="wrapper fadeInDown">
         <div id="formContent">
             <!-- Tabs Titles -->
-
             <!-- Icon -->
             <div class="fadeIn first">
                 <img src="../assets/iconfinder-hamburger.svg" id="icon" alt="User Icon" />
                 <p id="burguer">Suplier user</p>
             </div>
-
             <!-- Login Form -->
             <form v-on:submit.prevent>
                 <input type="text" id="name" class="fadeIn second"     placeholder="name" required v-model="user.name">
