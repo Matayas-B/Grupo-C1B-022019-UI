@@ -24,10 +24,9 @@ import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 Vue.use(VueSidebarMenu)
 
-import * as VueGoogleMaps from "vue2-google-maps";
-
 let googlekey = process.env.VUE_APP_GOOGLEKEY;
 
+import * as VueGoogleMaps from "vue2-google-maps";
 Vue.use(VueGoogleMaps, {
     load: {
         key: googlekey,
@@ -35,6 +34,17 @@ Vue.use(VueGoogleMaps, {
     },
     installComponents: true
 });
+
+import Geocoder from "@pderas/vue2-geocoder";
+Vue.use(Geocoder, {
+    defaultCountryCode: null, // e.g. 'CA'
+    defaultLanguage:    null, // e.g. 'en'
+    defaultMode:        'address', // or 'lat-lng'
+    googleMapsApiKey:   googlekey
+});
+
+
+
 
 window.toastr = require('toastr')
 

@@ -62,21 +62,23 @@
         </form>
 
         <div class="d-flex justify-content-center">
+
             <div class="card">
                 <div class="card-header">
-
                 </div>
-                <div class="card-container">
-                    <GmapMap :center="center" :zoom="10" map-type-id="terrain"
-                                style="width: 100%; height: 80%">
-                        <GmapMarker
-                            v-for="(m, index) in markers"
-                            :key="index"
-                            :position="m.position"
-                            @click="center = m.position"
-                        />
-                    </GmapMap>
-                    <div class="card-footer" v-for="p in getMenus()" :key="p.menuId">
+                <div class="card-container"> 
+                    <div style="width: 500px; height: 300px">
+                        <GmapMap  :center="center" :zoom="10" map-type-id="terrain"
+                                    style="width: 100%; height: 80%">
+                            <GmapMarker
+                                v-for="(m, index) in markers"
+                                :key="index"
+                                :position="m.position"
+                                @click="center = m.position"
+                            />
+                        </GmapMap>
+                    </div>
+                    <div class="card-footer col" v-for="p in getMenus()" :key="p.menuId">
                         <CardMenu :post="p"></CardMenu>
                     </div>
                 </div>
@@ -100,19 +102,13 @@
     import CardMenu from "./CardMenu";
     import API from "../service/api";
     import chunk from "lodash/chunk" ;
-    import Boton from "./Boton";
-    import Vue from "vue";
-    import * as VueGoogleMaps from "vue2-google-maps";
-
-
-    import axios from 'axios';
 
     export default {
         name: "Prueba",
         components: {CardMenu},
         mounted(){
             this.menuss();
-            this.geolocate();
+            this.geolocate();            
         },
         data(){
             return{
@@ -126,10 +122,7 @@
                 page: 0,
 
                 center: { lat: -34.7273289, lng: -58.279851 },
-                markers: [ 
-                    { position:{ lat: -34.72733, lng: -58.28 } }
-                
-                ]
+                markers: []
             }
         },
         methods: {
@@ -143,6 +136,7 @@
             },
             callBack(r){
                 this.menus = chunk(r,2)
+                this.markersforMenus(this.menus);
                 // eslint-disable-next-line no-console
                 console.log(r.length)
                 // eslint-disable-next-line no-console
@@ -161,16 +155,24 @@
                 if (this.page !== this.menus.length -1 ) this.page ++
             },
             geolocate(){
-                let gkey = process.env.VUE_APP_GOOGLEKEY,
-                    thequery="Calle+58+nro.480".replace(" ","+");
-                //axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&key=${gkey}&region=ar`).then(response => response.data)
-                axios.post(`https://maps.googleapis.com/maps/api/place/textsearch/json`,{
-                    query:  thequery,
-                    key:    gkey,
-                    region: "ar"
-                }).then(response => response.data)
-                    .then(r=>alert(r))
-                    .catch(r=>alert(r));
+                var self = this;
+                var adress = 'Calle 58 nro.480';
+                API.get(`/customer/getById?customerId=${localStorage.getItem('id')}`)
+                    .then(res => {
+                        var addressObj = {
+                            address_line_1: res.adress?res.adress : adress,
+                            city:           'Berazategui', //Not the real city, bruh
+                            state:          'AR',               // province also valid
+                            //zip_code:       '94043',             postal_code also valid
+                            country:        'Argentina'
+                        };
+
+                        this.$geocoder.send(addressObj, response => {
+                            //console.log(response.results[0].geometry.location)
+                            self.center = response.results[0].geometry.location;
+                            });
+                    });
+
             },
             realgeolocate(){
                 navigator.geolocation.getCurrentPosition(position => {
@@ -179,6 +181,45 @@
                     lng: position.coords.longitude
                     };
                 });
+            },
+            markersforMenus(menus){
+                this.markers = [];
+
+                if( typeof(menus) == undefined || menus==null ) return;
+                
+                //TODO:Make a better concatenation
+                let menues = menus[0].concat(menus[1]);
+                let servicesId = new Set(menues.map(menu=>menu.serviceId));
+
+                let self = this;
+                API.get("/supplier")
+                    .then(suppliers => { suppliers.forEach(supplier => {
+                            //      
+                            /*API.get("/supplier/getSupplierService?supplierId="+supplier.supplierId)
+                                .then(service => {
+                                    if(service.serviceId == serviceId){*/
+                                    if(supplier.service==null) return;
+                                    if(servicesId.has(supplier.service.serviceId)){
+                                        var addressObj = {
+                                            address_line_1: supplier.service.address.location,
+                                            city:           supplier.service.address.town,
+                                            state:          'AR', //zip_code: 'xx', postal_code also valid
+                                            country:        'Argentina'
+                                        };
+                                        self.$geocoder.send(addressObj, response => {
+                                            // eslint-disable-next-line no-console
+                                            //console.log(response.results[0].geometry.location)
+                                            self.markers.push(
+                                                { 
+                                                    position:   response.results[0].geometry.location,
+                                                    id:         supplier.service.serviceId,
+                                                });
+                                            });
+                                        }
+                                //})
+                            }
+                            );
+                        })
             }
         },
 
