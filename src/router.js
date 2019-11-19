@@ -40,6 +40,7 @@ export default new Router({
         {path: '/registration', component: Registration},
         ///{path: '/category', component:Category},
        // {path: '/prueba', component: Prueba},
+        
         {path: '/loginsupllier', component: LoginSupllier},
 
         ///////////////////Supplier//////////////////////////////////////////////////////////////
