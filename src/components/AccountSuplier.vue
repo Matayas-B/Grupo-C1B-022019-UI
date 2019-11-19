@@ -1,8 +1,6 @@
 <template>
     <div class="container">
-<!--        <nav id="barra-principal" class="navbar-nav fixed-top labelColor">-->
-<!--            <h2 class="text-white text-right" >My Account: {{this.post.name}}</h2>-->
-<!--        </nav>-->
+
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
@@ -13,8 +11,7 @@
                     <h3>Founds: {{money}}</h3>
                 </div>
                 <div class="card-body">
-                    <input type="text "  class="form-control" id="cant" placeholder="amount to account"
-                           v-model="count">
+                    <input type="text "  class="form-control" placeholder="amount to account" v-model="count">
                 </div>
                 <div class="card-footer">
                     <input type="submit" value="extract Money" class="btn float-right login_btn" v-on:click="extractMoney(count)" >
@@ -32,29 +29,44 @@
     export default {
         name: "AccountSuplier",
         props:['post'],
-        updated() {
-            this.callBack();
+        mounted() {
+            this.loadUser()
         },
         data() {
             return {
                 loaduser: [],
                 user: {
-                    username: this.post.name//localStorage.getItem('name')
+                    username: this.post.name,//localStorage.getItem('name')
+                    id: this.post.id,
                 },
-                money: 0,
-                count: null
+                cuenta: '',
+                money: 0,// this.loaduser.account,
+                count: 0,
             }
         },
         methods: {
-            callBack(){
-                this.loaduser = this.post;
-                this.money = this.post.account.funds
+            loadUser() {
+
+                API.get(`/supplier/getById?supplierId=${this.user.id}`)
+                    .then(response => this.callBack(response))
+                    .catch(e => alert(e));
+            },
+            callBack(r){
+                this.loaduser = r;
+                this.cuenta = r.account
+                this.money = this.cuenta.funds
             },
 
             extractMoney(newAmount) {
-                API.get('/supplier/extractMoney?supplierId=' + this.post.id + '&money=' + newAmount)
-                    .then(() => this.$toastr.success('correct extraction',':)'))
+                API.get('/supplier/extractMoney?supplierId=' + this.user.id + '&money=' + newAmount)
+                    .then(res => this.prueba(res))
                     .catch(() => this.$toastr.error('has no funds in the account', ':('))
+            },
+            prueba(r){
+                // eslint-disable-next-line no-console
+                console.log(r)
+                this.loadUser()
+                this.$toastr.success('correct extraction',':)')
             },
             logOut (){
                 //localStorage.clear();

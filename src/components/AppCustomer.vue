@@ -36,7 +36,7 @@
                         header: false,
                         title: 'Shopping Cart',
                         icon: 'fas fa-cart-plus',
-                        onClick:  ()=> {this.$router.push({ name: 'account', params: {post: this.post }})}
+                        //onClick:  ()=> {this.$router.push({ name: 'account', params: {post: this.post }})}
                     },
                     {
                         hiddenOnCollapse: false,

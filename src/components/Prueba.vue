@@ -46,7 +46,8 @@
 
         <form class="form-inline justify-content-end prueba py-5" >
             <div class="form-group ">
-                <input  v-model="info.menuname"  class="form-control" placeholder="search..">
+                <input  v-model="info.servicetown"  class="form-control" placeholder="Locate search..">
+                <input  v-model="info.menuname"  class="form-control" placeholder="Name search..">
                 <select v-model="info.menucategory" class="form-control" id="exampleFormControlSelect1">
                     <option value="All"> todas las Categorias</option>
                     <option>Pizza</option>
@@ -64,7 +65,7 @@
         <div class="d-flex justify-content-center">
             <div class="card">
                 <div class="card-header">
-
+                    <h3 class=" labelColor text-center " >{{username}}</h3>
                 </div>
                 <div class="card-container">
                     <div class="card-footer" v-for="p in getMenus()" :key="p.menuId">
@@ -107,6 +108,7 @@
                     servicetown : "",
                 },
                 page: 0,
+                username: this.$store.state.user.name
             }
         },
         methods: {

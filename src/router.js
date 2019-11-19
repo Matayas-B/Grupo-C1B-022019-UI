@@ -16,6 +16,7 @@ import UpdateMenu from "./components/UpdateMenu";
 import TheNavBAr from "./components/TheNavBAr";
 import AppSupplier from "./components/AppSupplier";
 import AppCustomer from "./components/AppCustomer";
+import Buy from "./components/Buy";
 
 Vue.use(Router)
 
@@ -30,6 +31,7 @@ export default new Router({
         {path: '/appCustomer', component: AppCustomer, name: 'appCustomer', props: true, children:[
                 {path: '/account', component:Account, name: 'account'},
                 {path: '/prueba', component: Prueba, name: 'prueba'},
+                {path: '/buy', component: Buy, name: 'buy', props: true},
 
 
             ]},
@@ -51,7 +53,6 @@ export default new Router({
             {path: 'accountsupplier', component: AccountSuplier, name: 'accountsupplier', props: true},
             {path: 'adddmenusupplier', component: AdddMenuSupplier, name: 'adddmenusupplier', props: true},
                 {path: '/updatemenu', component: UpdateMenu, name: 'updatemenu', props:  true },
-
 
             ]},
 
