@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
 import App from './App.vue'
 import VueRouter from "vue-router"
 import router from './router'
@@ -9,6 +8,7 @@ import 'popper.js'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.css';
 import '@fortawesome/fontawesome-free/css/all.css'
+import {store} from './store/store';
 
 import VueToastr2 from 'vue-toastr-2'
 import 'vue-toastr-2/dist/vue-toastr-2.min.css'
@@ -34,7 +34,6 @@ Vue.use(FlagIcon);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VueToastr2)
 
-Vue.use(Vuex)
 Vue.use(VueSession)
 Vue.use(VueRouter)
 Vue.use(VueMaterial)
@@ -44,5 +43,6 @@ Vue.config.productionTip = false
 new Vue({
   router,
   i18n,
+  store,
   render: h => h(App)
 }).$mount('#app')

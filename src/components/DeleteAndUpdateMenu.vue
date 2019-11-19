@@ -56,6 +56,9 @@
         mounted(){
             this.menuss()
         },
+        updated(){
+            this.menuss()
+        },
         data(){
             return{
                 menus: [],
