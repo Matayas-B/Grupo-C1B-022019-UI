@@ -186,9 +186,9 @@
                 this.markers = [];
 
                 if( typeof(menus) == undefined || menus==null ) return;
-                
                 //TODO:Make a better concatenation
-                let menues = menus[0].concat(menus[1]);
+                let menues = menus.reduce( (a,b) => a.concat(b), [] );
+                console.log(menues)
                 let servicesId = new Set(menues.map(menu=>menu.serviceId));
 
                 let self = this;
