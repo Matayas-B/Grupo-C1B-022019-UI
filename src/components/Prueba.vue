@@ -27,7 +27,7 @@
                 <div class="card-header">
                 </div>
                 <div class="card-container">
-                    <GmapMap :center="{ lat: -34.7273289, lng: -58.279851 }" :zoom="10" map-type-id="terrain"
+                    <GmapMap :center="center" :zoom="10" map-type-id="terrain"
                                 style="width: 100%; height: 80%">
                         <GmapMarker
                             v-for="(m, index) in markers"
@@ -69,7 +69,8 @@
         name: "Prueba",
         components: {Boton, CardMenu},
         mounted(){
-            this.menuss()
+            this.menuss();
+            this.geolocate();
         },
        data(){
             return{
@@ -81,6 +82,8 @@
                     servicetown : "",
                 },
                 page: 0,
+
+                center: { lat: -34.7273289, lng: -58.279851 },
                 markers: [ 
                     { position:{ lat: -34.72733, lng: -58.28 } }
                 
@@ -114,7 +117,21 @@
             },
             nextt(){
                  if (this.page !== this.menus.length -1 ) this.page ++
-            }
+            },
+            geolocate(){
+                let gkey = process.env.VUE_APP_GOOGLEKEY,
+                    query="Calle 58 nro.480".replace(" ","+");
+                API.get("https://maps.googleapis.com/maps/api/place/textsearch/json?query="+query+"&key=" + gkey)
+                    .then(r=>console.log(r));
+            },
+            realgeolocate(){
+                navigator.geolocation.getCurrentPosition(position => {
+                    this.center = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                    };
+                });
+            }   
         },
 
     }
