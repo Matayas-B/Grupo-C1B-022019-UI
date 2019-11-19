@@ -18,7 +18,7 @@
                 </div>
             </form>
 
-
+        <div class="d-flex justify-content-center">
             <div class="card">
                 <div class="card-header">
                     <p  class="text-center labelColor">  {{this.post.name}}</p>
@@ -40,6 +40,7 @@
                 </div>
             </div>
 
+        </div>
 
     </div>
 </template>

@@ -2,7 +2,6 @@
     <div class="flex-row">
         <nav  class="navbar-nav">
             <h2 class="text-white text-center" >ViendasYa</h2>
-
         </nav>
         <div class="flex-column px-2 prueba">
             <sidebar-menu :menu="menu"  :collapsed="true"  @item-click="onItemClick"/>
@@ -17,9 +16,9 @@
     import API from "../service/api";
 
     export default {
-        name: "AppSupplier",
+        name: "AppCustomer",
         mounted(){
-          this.getSupplier()
+            this.getSupplier()
         },
         data(){
             return{
@@ -28,7 +27,7 @@
                     {
                         hiddenOnCollapse: false,
                         header: false,
-                        href: '/LoginSupllier',
+                        href: '/',
                         title: 'Sign off',
                         icon: 'fa fa-sign-out-alt',
                     },
@@ -37,14 +36,16 @@
                         header: false,
                         title: 'Shopping Cart',
                         icon: 'fas fa-cart-plus',
-                        onClick:  ()=> {this.$router.push({ name: 'account', params: {post: this.post }})}
+                       // onClick:  ()=> {this.$router.push({ name: 'account', params: {post: this.post }})}
                     },
                     {
                         hiddenOnCollapse: false,
                         header: false,
                         title: 'Account',
                         icon: 'fa fa-money-bill-alt ',
-                        onClick:  ()=> {this.$router.push({ name: 'account', params: {post: this.post }})}
+                        href: 'account',
+
+                        //onClick:  ()=> {this.$router.push({ name: 'account', params: {post: this.post }})}
 
                     },
                 ]
@@ -55,18 +56,18 @@
                 item.onClick()
             },
             getSupplier(){
-                API.get(`/supplier/getById?supplierId=${localStorage.getItem('id')}`)
+                API.get(`/customer/getById?customerId=${localStorage.getItem('id')}`)
                     .then(res => this.callback(res) )
             },
             callback(r){
                 this.post=r
             }
-    }
+        }
     }
 </script>
 
 <style scoped>
-.prueba{
-    margin-left: 2rem;
-}
+    .prueba{
+        margin-left: 2rem;
+    }
 </style>

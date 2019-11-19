@@ -69,7 +69,7 @@
                 this.$router.push('/');
             },
             back(){
-              this.$router.push('/category')
+              this.$router.push('prueba')
             },
 
         }
