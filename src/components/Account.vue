@@ -1,12 +1,15 @@
 <template>
     <div class="container">
 
-        <nav id="barra-principal" class="navbar fixed-top">
-            <h2 class="text-white" id="ViendasYa">ViendasYa</h2>
-            <h2 class="text-white" id="user">My Account: {{user.username}}</h2>
-        </nav>
+<!--        <nav id="barra-principal" class="navbar fixed-top">-->
+<!--            <h2 class="text-white" id="ViendasYa">ViendasYa</h2>-->
+<!--            <h2 class="text-white" id="user">My Account: {{user.name}}</h2>-->
+<!--        </nav>-->
         <div class="d-flex justify-content-center h-100">
             <div class="card">
+                <div class="card-header">
+                    <h2 class=" labelColor text-center " >My Account: {{user.name}}</h2>
+                </div>
                 <div class="card-header">
                     <h3>Funds: {{money}}</h3>
 
@@ -40,9 +43,7 @@
         data() {
             return {
                 loaduser: [],
-                user: {
-                    username: localStorage.getItem('name')
-                },
+                user: this.$store.state.user,// localStorage.getItem('name')
                 money: 0,
                 count: null
             }
@@ -50,7 +51,7 @@
         methods: {
             loadUser() {
 
-                API.get('/customer/getById?customerId=1')
+                API.get(`/customer/getById?customerId=${this.user.id}`)
                     .then(response => this.callBack(response))
                     .catch(e => alert(e));
             },
@@ -61,8 +62,13 @@
 
             addMoney(newAmount) {
                 // TODO: needs to add proper customerId
-                API.get('/customer/depositMoney?customerId=' + 1 + '&money=' + newAmount)
-                    .then(response => this.money = response)
+                API.get('/customer/depositMoney?customerId=' + this.user.id + '&money=' + newAmount)
+                    .then(response => this.callback2(response))
+                    .catch(() => this.$toastr.error('I couldnt add money',':('))
+            },
+            callback2(r){
+                this.$toastr.success('Money could be added correctly',':)')
+                this.money = r
             },
             logOut (){
                 localStorage.clear();
@@ -77,5 +83,7 @@
 </script>
 
 <style scoped>
-
+    .labelColor{
+        color: #1fffc5;
+    }
 </style>

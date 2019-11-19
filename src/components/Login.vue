@@ -95,6 +95,7 @@
             logear: function () {
                 if (this.user.username != "" && this.user.password != "") {
                     if (this.user.username == "facundo" && this.user.password == "123456") {
+                        this.$store.state.user = this.loaduser
                         localStorage.setItem('id', this.loaduser.id)
                         this.$router.push('prueba')
                     } else {
