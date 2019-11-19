@@ -162,9 +162,15 @@
             },
             geolocate(){
                 let gkey = process.env.VUE_APP_GOOGLEKEY,
-                    query="Calle 58 nro.480".replace(" ","+");
-                axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&key=${gkey}`).then(response => response.data)
-                    .then(r=>console.log(r));
+                    thequery="Calle+58+nro.480".replace(" ","+");
+                //axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&key=${gkey}&region=ar`).then(response => response.data)
+                axios.post(`https://maps.googleapis.com/maps/api/place/textsearch/json`,{
+                    query:  thequery,
+                    key:    gkey,
+                    region: "ar"
+                }).then(response => response.data)
+                    .then(r=>alert(r))
+                    .catch(r=>alert(r));
             },
             realgeolocate(){
                 navigator.geolocation.getCurrentPosition(position => {
