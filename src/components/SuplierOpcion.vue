@@ -1,46 +1,43 @@
 <template>
+
     <div class="wrapper fadeInDown">
+
         <div id="formContent">
             <!-- Icon -->
             <div class="fadeIn first">
                 <p class="labelColor">Suplier user: {{this.post.name}}</p>
             </div>
-            <input type="submit" class="fadeIn fourth" value="add Service" v-on:click="createUser" >
-            <input type="submit" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
-            <input type="submit" class="fadeIn fourth" value="Update And Delete"  v-on:click="deleteAndUpdateMenu">
+            <input type="button" class="fadeIn fourth" value="add Service" v-on:click="createUser" >
+            <input type="button" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
+            <input type="button" class="fadeIn fourth " value="Update And Delete"  v-on:click="deleteAndUpdateMenu">
         </div>
-        <botonsupplier :post="this.post"></botonsupplier>
+
     </div>
 </template>
 
 <script>
-    import botonsupplier from "./BotonSupplier";
 
     export default {
         name: "SuplierOpcion",
-        components: {botonsupplier},
         props: ['post'],
-        data(){
-            return{
-                //username: localStorage.getItem('name')
-            }
-        },
+
         methods:{
             createUser(){
-                // this.$router.push('/createservice')
                 this.$router.push({ name: 'createservice', params: {post: this.post }})
 
             },
             createMenu(){
-                //this.$router.push('/adddmenusupplier')
                 this.$router.push({ name: 'adddmenusupplier', params: {post: this.post }})
 
             },
             deleteAndUpdateMenu(){
-                //this.$router.push('/deleteandupdate')
                 this.$router.push({ name: 'deleteandupdate', params: {post: this.post }})
 
-            }
+            },
+            account(){
+                this.$router.push({ name: 'accountsupplier', params: {post: this.post }})
+            },
+
         }
     }
 </script>
@@ -85,7 +82,7 @@
         background-color: #56baed;
         border: none;
         color: white;
-        padding: 15px 80px;
+        padding: 15px;
         text-align: center;
         text-decoration: none;
         display: inline-block;

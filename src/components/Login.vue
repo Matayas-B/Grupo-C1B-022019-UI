@@ -1,6 +1,7 @@
 <template>
- 
-    <div class="container">
+    <div>
+        <Name></Name>
+        <div class="container">
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
@@ -46,16 +47,21 @@
             </div>
         </div>
     </div>
-
+    </div>
 </template>
 
 <script>
     import API from "../service/api";
     import i18n from "../i18n";
+    import Name from "./Name";
 
 
     export default {
         name: 'Login',
+        components: {Name},
+        comments: {
+            Name,
+        },
         mounted() {
             this.loadUser();
         },
