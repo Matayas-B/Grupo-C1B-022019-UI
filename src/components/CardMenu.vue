@@ -3,7 +3,7 @@
         <div class="card-body">
             <h4 class="card-text">{{post.name}}</h4>
             <h4 class="card-text">{{post.description}}</h4>
-            <button type="button" class="btn btn-primary">Primary</button>
+            <button type="button" class="btn btn-primary" v-on:click="$emit('addmenu', post)">Primary</button>
         </div>
     </div>
 </template>

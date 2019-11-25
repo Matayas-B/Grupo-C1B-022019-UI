@@ -48,7 +48,7 @@
             <div class="form-group ">
                 <input  v-model="info.menuname"  class="form-control" placeholder="search..">
                 <select v-model="info.menucategory" class="form-control" id="exampleFormControlSelect1">
-                    <option value="All"> todas las Categorias</option>
+                    <option value="All"> All Categories</option>
                     <option>Pizza</option>
                     <option>Cerveza</option>
                     <option>Hamburguesa</option>
@@ -67,8 +67,8 @@
                 <div class="card-header">
                 </div>
                 <div class="card-container"> 
-                    <div style="width: 500px; height: 300px">
-                        <GmapMap  :center="center" :zoom="10" map-type-id="terrain"
+                    <div style="width: 100%; height: 80%"> <!-- style="width: 500px; height: 300px" -->
+                        <GmapMap :center="center" :zoom="10" map-type-id="terrain"
                                     style="width: 100%; height: 80%">
                             <GmapMarker
                                 v-for="(m, index) in markers"
@@ -79,15 +79,15 @@
                         </GmapMap>
                     </div>
                     <div class="card-footer col" v-for="p in getMenus()" :key="p.menuId">
-                        <CardMenu :post="p"></CardMenu>
+                        <CardMenu :post="p" @addmenu="addtoshopping"></CardMenu>
                     </div>
                 </div>
                 <div class="card-footer" >
                     <div class="flex-sm-column">
                         <ul class="pagination" >
                             <li class="page-item"><a class="page-link"  v-on:click="previus">Previous</a></li>
-                            <li class="page-item"  v-for="(k, index) in menus" :key="k"><a class="page-link" value="0" v-on:click="setPage(index)">{{index}}</a></li>
-                                    <li class="page-item"><a class="page-link" v-on:click="nextt">Next</a></li>
+                            <li class="page-item" v-for="(k, index) in menus" :key="k"><a class="page-link" value="0" v-on:click="setPage(index)">{{index}}</a></li>
+                            <li class="page-item"><a class="page-link" v-on:click="nextt">Next</a></li>
                         </ul>
                     </div>
                 </div>
@@ -108,12 +108,12 @@
         components: {CardMenu},
         mounted(){
             this.menuss();
-            this.geolocate();            
+            this.geolocate();
         },
         data(){
             return{
-
                 menus: [],
+                shopping:[],
                 info: {
                     menuname : "",
                     menucategory : "All",
@@ -168,12 +168,35 @@
                         };
 
                         this.$geocoder.send(addressObj, response => {
-                            //console.log(response.results[0].geometry.location)
                             self.center = response.results[0].geometry.location;
                             });
                     });
 
             },
+            addtoshopping(menu){
+                if(this.shopping.length == 0){
+                    this.shopping.push({
+                        menuId:menu.menuId,
+                        serviceId: menu.serviceId,
+                        count:1
+                     });
+                }
+                else {
+                    const existentmenu = this.shopping.findIndex( elem => elem.menuId == menu.menuId );
+                    const prevCount = (existentmenu == -1)? 0: this.shopping[existentmenu].count;
+                    this.shopping.push({
+                            menuId:menu.menuId,
+                            serviceId: menu.serviceId,
+                            count: prevCount + 1
+                        });
+                    this.shopping = this.shopping.filter( (el,ind) => ind != existentmenu);
+                }
+                sessionStorage.setItem("shopping", JSON.stringify(this.shopping) );
+                //console.log(this.shopping);
+                //console.log( JSON.parse(sessionStorage.getItem( "shopping" )) );
+
+            }
+            ,
             realgeolocate(){
                 navigator.geolocation.getCurrentPosition(position => {
                     this.center = {
@@ -182,6 +205,7 @@
                     };
                 });
             },
+
             markersforMenus(menus){
                 this.markers = [];
 
