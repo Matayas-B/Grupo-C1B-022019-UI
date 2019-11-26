@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav id="barra-principal" class="navbar fixed-top">
+        <nav class="navbar navbar-expand-lg">
             <h2 class="text-white" id="ViendasYa">ViendasYa</h2>
         </nav>
     </div>
