@@ -18,18 +18,38 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import VueMaterial from 'vue-material'
 import i18n from './i18n'
-
 import FlagIcon from 'vue-flag-icon';
 
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 Vue.use(VueSidebarMenu)
 
+let googlekey = process.env.VUE_APP_GOOGLEKEY;
+
+import * as VueGoogleMaps from "vue2-google-maps";
+Vue.use(VueGoogleMaps, {
+    load: {
+        key: googlekey,
+        libraries: "places,drawing,visualization",
+    },
+    installComponents: true
+});
+
+import Geocoder from "@pderas/vue2-geocoder";
+Vue.use(Geocoder, {
+    defaultCountryCode: null, // e.g. 'CA'
+    defaultLanguage:    null, // e.g. 'en'
+    defaultMode:        'address', // or 'lat-lng'
+    googleMapsApiKey:   googlekey
+});
+
+
+
+
 window.toastr = require('toastr')
 
 library.add(faSpinner)
 Vue.use(FlagIcon);
-
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VueToastr2)
