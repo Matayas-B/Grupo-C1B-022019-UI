@@ -17,22 +17,24 @@ import TheNavBAr from "./components/TheNavBAr";
 import AppSupplier from "./components/AppSupplier";
 import AppCustomer from "./components/AppCustomer";
 import Buy from "./components/Buy";
+import NotFound from "./components/NotFound";
+
 
 Vue.use(Router)
 
 export default new Router({
-    mode: 'history',
+    mode: 'history', //saca el # de la direccion url
 
     routes: [
 
+        {path: '*', component: NotFound},
         ////////////////////Customer//////////////////////////////////////////////////////////////
 
         {path: '/',component: Login  },
         {path: '/appCustomer', component: AppCustomer, name: 'appCustomer', props: true, children:[
                 {path: '/account', component:Account, name: 'account'},
                 {path: '/prueba', component: Prueba, name: 'prueba'},
-                {path: '/buy', component: Buy, name: 'buy', props: true},
-
+                {path: '/buy', component: Buy, name: 'buy', props: true },
 
             ]},
 

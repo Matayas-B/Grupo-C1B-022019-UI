@@ -23,6 +23,14 @@ import FlagIcon from 'vue-flag-icon';
 
 import VueSidebarMenu from 'vue-sidebar-menu'
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+
+// import StarRating from 'vue-star-rating'
+// Vue.use('star-rating', StarRating)
+
+import rate from 'vue-rate';
+
+Vue.use(rate)
+
 Vue.use(VueSidebarMenu)
 
 window.toastr = require('toastr')

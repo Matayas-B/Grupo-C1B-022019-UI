@@ -1,47 +1,5 @@
 <template>
-<!--    <div class="container flex-column" >-->
 
-<!--            <form class="form-inline justify-content-end prueba py-5">-->
-<!--                <div class="form-group">-->
-<!--                    <input  v-model="info.menuname"  class="form-control" placeholder="search..">-->
-<!--                    <select v-model="info.menucategory" class="form-control" id="exampleFormControlSelect1">-->
-<!--                        <option value="All"> todas las Categorias</option>-->
-<!--                        <option>Pizza</option>-->
-<!--                        <option>Cerveza</option>-->
-<!--                        <option>Hamburguesa</option>-->
-<!--                        <option>Empanadas</option>-->
-<!--                        <option>Green</option>-->
-<!--                        <option>Vegano</option>-->
-<!--                    </select>-->
-<!--                    <button class="btn btn-success" type="button" v-on:click="menuss">search</button>-->
-
-<!--                </div>-->
-<!--            </form>-->
-
-<!--        <div class="d-flex justify-content-center">-->
-<!--            <div class="card">-->
-<!--                <div class="card-header">-->
-<!--&lt;!&ndash;                    <p class="labelColor">Customer User: {{this.post.name}}</p>&ndash;&gt;-->
-<!--                </div>-->
-<!--                <div class="card-container">-->
-<!--                    <div class="card-footer" v-for="p in getMenus()" :key="p.menuId">-->
-<!--                        <CardMenu :post="p"></CardMenu>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div class="card-footer" >-->
-<!--                    <div class="flex-sm-column">-->
-<!--                        <ul class="pagination" >-->
-<!--                            <li class="page-item"><a class="page-link"  v-on:click="previus">Previous</a></li>-->
-<!--                            <li class="page-item"  v-for="(k, index) in menus" :key="k"><a class="page-link" value="0" v-on:click="setPage(index)">{{index}}</a></li>-->
-<!--                            <li class="page-item"><a class="page-link" v-on:click="nextt">Next</a></li>-->
-
-<!--                        </ul>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-
-<!--        </div>-->
-<!--    </div>-->
     <div class="container flex-column">
 
         <form class="form-inline justify-content-end prueba py-5" >
