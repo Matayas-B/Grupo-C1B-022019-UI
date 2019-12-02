@@ -68,7 +68,7 @@
                 <div class="card-header">
                     <h3 class=" labelColor text-center " >{{username}}</h3>
                 </div>
-                <div class="card-container"> 
+                <div class="card-body"> 
                     <div style="width: 100%; height: 80%"> <!-- style="width: 500px; height: 300px" -->
                         <GmapMap :center="center" :zoom="10" map-type-id="terrain"
                                     style="width: 100%; height: 80%">
@@ -80,8 +80,8 @@
                             />
                         </GmapMap>
                     </div>
-                    <div class="card-footer col" v-for="p in getMenus()" :key="p.menuId">
-                        <CardMenu :post="p" @addmenu="addtoshopping"></CardMenu>
+                    <div class="card-body col" v-for="p in getMenus()" :key="p.menuId">
+                        <CardMenu :post="p"></CardMenu>
                     </div>
                 </div>
                 <div class="card-footer" >
@@ -109,6 +109,7 @@
         name: "Prueba",
         components: {CardMenu},
         mounted(){
+            //this.push directo a HistoryAndPunctuation
             this.menuss();
             this.geolocate();
         },
@@ -173,32 +174,7 @@
                             self.center = response.results[0].geometry.location;
                             });
                     });
-
             },
-            addtoshopping(menu){
-                if(this.shopping.length == 0){
-                    this.shopping.push({
-                        menuId:menu.menuId,
-                        serviceId: menu.serviceId,
-                        count:1
-                     });
-                }
-                else {
-                    const existentmenu = this.shopping.findIndex( elem => elem.menuId == menu.menuId );
-                    const prevCount = (existentmenu == -1)? 0: this.shopping[existentmenu].count;
-                    this.shopping.push({
-                            menuId:menu.menuId,
-                            serviceId: menu.serviceId,
-                            count: prevCount + 1
-                        });
-                    this.shopping = this.shopping.filter( (el,ind) => ind != existentmenu);
-                }
-                sessionStorage.setItem("shopping", JSON.stringify(this.shopping) );
-                //console.log(this.shopping);
-                //console.log( JSON.parse(sessionStorage.getItem( "shopping" )) );
-
-            }
-            ,
             realgeolocate(){
                 navigator.geolocation.getCurrentPosition(position => {
                     this.center = {
@@ -214,7 +190,7 @@
                 if( typeof(menus) == undefined || menus==null ) return;
                 //TODO:Make a better concatenation
                 let menues = menus.reduce( (a,b) => a.concat(b), [] );
-                console.log(menues)
+                //console.log(menues)
                 let servicesId = new Set(menues.map(menu=>menu.serviceId));
 
                 let self = this;

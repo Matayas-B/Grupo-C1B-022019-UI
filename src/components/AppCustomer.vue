@@ -37,7 +37,7 @@
                         title: 'Shopping Cart',
                         icon: 'fas fa-cart-plus',
                         onClick:  () => { 
-                            //this.$router.push({ name: 'account', params: {post: this.post }})
+                            this.$router.push({ name: 'historyAndPunctuation' })
                         }
                     },
                     {

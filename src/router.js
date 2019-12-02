@@ -17,6 +17,7 @@ import TheNavBAr from "./components/TheNavBAr";
 import AppSupplier from "./components/AppSupplier";
 import AppCustomer from "./components/AppCustomer";
 import Buy from "./components/Buy";
+import HistoryAndPunctuation from "./components/HistoryAndPunctuation";
 
 Vue.use(Router)
 
@@ -32,7 +33,7 @@ export default new Router({
                 {path: '/account', component:Account, name: 'account'},
                 {path: '/prueba', component: Prueba, name: 'prueba'},
                 {path: '/buy', component: Buy, name: 'buy', props: true},
-
+                {path: '/historyAndPunctuation', component: HistoryAndPunctuation, name: 'historyAndPunctuation'},
 
             ]},
 
