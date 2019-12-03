@@ -72,13 +72,20 @@
                     <div style="width: 100%; height: 80%"> <!-- style="width: 500px; height: 300px" -->
                         <GmapMap :center="center" :zoom="10" map-type-id="terrain"
                                     style="width: 100%; height: 80%">
-                            <GmapMarker
-                                v-for="(m, index) in markers"
-                                :key="index"
-                                :position="m.position"
+                            <!--<GmapMarker/>-->
+                            <gmap-custom-marker 
+                                v-for="(m, index) in markers" :key="index"
                                 @click="center = m.position"
-                            />
+                                :marker="m.position">
+                                <i :class="icons(category(m))"></i>
+                                <!--
+                                 <my-component></my-component>
+                                <img src="../assets/empanada.png" />
+                                -->
+                            </gmap-custom-marker>
                         </GmapMap>
+                        <input type="button" value="mostrarDistancias" class="btn float-right login_btn"
+                         v-on:click="distanceToServices">
                     </div>
                     <div class="card-body col" v-for="p in getMenus()" :key="p.menuId">
                         <CardMenu :post="p"></CardMenu>
@@ -104,10 +111,11 @@
     import CardMenu from "./CardMenu";
     import API from "../service/api";
     import chunk from "lodash/chunk" ;
-
+    import GmapCustomMarker from 'vue2-gmap-custom-marker';
+    import {gmapApi} from "vue2-google-maps"
     export default {
         name: "Prueba",
-        components: {CardMenu},
+        components: {CardMenu, GmapCustomMarker},
         mounted(){
             //this.push directo a HistoryAndPunctuation
             this.menuss();
@@ -157,6 +165,20 @@
             nextt(){
                 if (this.page !== this.menus.length -1 ) this.page ++
             },
+            icons(category){
+                const icons = {
+                    Hamburguesa:"fas fa-hamburger",
+                    Pizza:"fas fa-pizza-slice",
+                };
+                return icons[category];
+            },
+            category(m){
+                //collapse menus and find correct service
+                return this.menus
+                            .reduce( (a,b) => a.concat(b), [] )
+                            .find(menu=>menu.serviceId == m.id)
+                            .category;
+            },
             geolocate(){
                 var self = this;
                 var adress = 'Calle 58 nro.480';
@@ -182,6 +204,32 @@
                     lng: position.coords.longitude
                     };
                 });
+            },
+
+            distanceToServices(){
+                
+                function addDistance(response, status) {
+                    if (status == 'OK') {
+                        var results = response.rows[0].elements;
+                        for (var j = 0; j < results.length; j++) {
+                            var element = results[j];
+                            this.markers["duration"] = element.duration.text;
+                            this.markers["distance"] = element.distance.text;
+                            
+                        }
+                        console.log(this.markers)
+                    }
+                }
+                
+                let servicio = new gmapApi().maps.DistanceMatrixService();
+                console.log(servicio)
+                    servicio.getDistanceMatrix({
+                        origins: [this.center],
+                        destinations: this.markers.map( marker => marker.position),
+                        travelMode: 'DRIVING',
+                        //transitOptions: TransitOptions,
+                        //drivingOptions: DrivingOptions,
+                    }, (distance) => addDistance(distance) )
             },
 
             markersforMenus(menus){
