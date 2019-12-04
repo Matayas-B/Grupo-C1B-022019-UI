@@ -1,24 +1,27 @@
 <template>
-    <div>
-        <div class="d-flex justify-content-center h-100">
+    <div class="container flex-column">
+        <div class="justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
-                    <h2 class=" labelColor text-center " > bruh  {{user.customerScores}}</h2>
+                    <h2 class="labelColor text-center " > History </h2>
                 </div>
-                    <div class="card ">
-                        <span class="card-body" v-for="score in user.customerScores" v-bind:key="score.customerScoreId">
-                            <h4 class="card-text labelColor ">{{score.menuId}}</h4>
-                            <h4 class="card-text labelColor" v-if="score.finished">{{score.punctuation}}</h4>
-                            <span v-else>
-                                <input type="number" class="form-control" 
-                                    v-model="puntuationtoSend" min="1" max="5">
-                                    {{user.customerId}}
-                                <input type="button" value="Puntuate" class="btn float-right login_btn" v-on:click="puntuate(score.serviceId, score.menuId)">
-                            </span>
-                            
-                            <!--<h4 class="card-text labelColor" v-else>{{score.finished}}</h4> -->
+                <div class="card-body" v-for="p in purchases" :key="p.purchaseId">
+                    <CardHistory :purchase="p" :menu="p.purchasedMenu" />
+                    <!-- {{user.customerScores}}
+                    <span class="card-body" v-for="score in user.customerScores" v-bind:key="score.customerScoreId">
+                        
+                        <h4 class="card-text labelColor ">{{score.menuId}}</h4>
+                        <h4 class="card-text labelColor" v-if="score.finished">{{score.punctuation}}</h4>
+                        <span v-else>        
+                            <input type="number" class="form-control" 
+                                v-model="puntuationtoSend" min="1" max="5">
+                                {{user.customerId}}
+                            <input type="button" value="Puntuate" class="btn float-right login_btn" v-on:click="puntuate(score.serviceId, score.menuId)">
                         </span>
-                    </div>
+                            
+                           <h4 class="card-text labelColor" v-else>{{score.finished}}</h4> 
+                    </span>-->
+                </div>
                 <div class="card-footer">
                     <input type="button" value="Back" class="btn float-right login_btn" v-on:click="back">
                     <input type="button" value="Log Out" class="btn float-right login_btn" v-on:click="logOut" >
@@ -30,16 +33,21 @@
 
 <script>
     import API from "../service/api";
+    import CardHistory from "./CardHistory";
 
     export default {
         name: "HistoryAndPunctuation",
+        components: {CardHistory},
+
         mounted(){
-            
+            API.get("/customer/purchase?customerId="+ this.$store.state.user.id)
+                .then(this.callBack)
         },
         data(){
             return{
                 user: this.$store.state.user,
                 puntuationtoSend: 0,
+                purchases: []
             }
         },
         methods:{
@@ -50,13 +58,9 @@
             back(){
                 this.$router.push('prueba')
             },
-            async menuss(menuId){
-                let p = await API.get('/service/getMenu?menuId'+menuId );
-                this.callBack(p);
-                //.then(response => {this.callBack(response)})
-                //.catch(e => alert(e));
-            },
-            callBack(r){
+            callBack(res){
+                //Ordenated from most recent to older
+                this.purchases = res.reverse();
             },
 
             puntuate(_serviceId,_menuId){

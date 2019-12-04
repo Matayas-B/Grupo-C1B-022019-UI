@@ -12,7 +12,6 @@
     export default {
 
         name: "CardMenu",
-        //props: ['title','text'],
         props: ['post'],
         methods:{
                 buy(){ this.$router.push({ name: 'buy', params: {post: this.post }})}
