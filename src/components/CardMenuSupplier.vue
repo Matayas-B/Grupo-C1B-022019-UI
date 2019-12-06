@@ -4,11 +4,11 @@
             <h4 class="card-text">{{post.name}}</h4>
             <h4 class="card-text" >{{post.description}}</h4>
             <div class="prueba">
-            <a class="distancia" data-toggle="tooltip" data-placement="top" >
-                <i class="fa fa-pen-square estilodeboton"  v-on:click="update"></i></a>
+                <a class="distancia" data-toggle="tooltip" data-placement="top" >
+                    <i class="fa fa-pen-square estilodeboton"  v-on:click="update"></i></a>
                 <a data-toggle="tooltip" data-placement="top" >
-                <i class="fa fa-trash estilodeboton "  v-on:click="deletee"></i></a>
-        </div>
+                    <i class="fa fa-trash estilodeboton "  v-on:click="deletee"></i></a>
+            </div>
         </div>
     </div>
 </template>
@@ -48,10 +48,10 @@
         justify-content: space-between
     }
     .estilodeboton{
-    font-size: 2rem;
-    color: #16ff4b;
-    padding: 3%;
-}
+        font-size: 2rem;
+        color: #16ff4b;
+        padding: 3%;
+    }
     .card-text{
         color: white;
 

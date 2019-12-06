@@ -35,19 +35,6 @@ export const mutations = {
   }
 };
 
-/*
-import Vue from "vue";
-export const store = Vue.observable({
-  count: 0
-});
-export const mutations = {
-  setCount(count) {
-    store.count = count;
-  }
-};
-Change to Vuex
-*/
-
 export default {
     name: "Category",
     components: {
@@ -64,10 +51,7 @@ export default {
             menulimits: (menues,count) => {
                 let menuindex = this.$store.state.menuindex; 
                 return menues.slice(menuindex,count);
-                /*
-                if(menues.length != 0) 
-                    return menues.filter( (elem,ix)  => { return !(ix >= menuindex && ix < (menuindex + count)); } )
-                else return [];*/
+
             }
     },
     computed: {

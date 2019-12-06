@@ -1,30 +1,30 @@
 <template>
     <div class="container">
-    <div class="row">
-    <div id="inboxstyle">
-    <div class="fab btn-group show-on-hover dropup">
-    <div data-toggle="tooltip" data-placement="left" title="Compose" style="margin-left: 50px;">
-    <button type="button" class="btn btn-info btn-io" >
+        <div class="row">
+            <div id="inboxstyle">
+                <div class="fab btn-group show-on-hover dropup">
+                    <div data-toggle="tooltip" data-placement="left" title="Compose" style="margin-left: 50px;">
+                        <button type="button" class="btn btn-info btn-io" >
       <span class="fa fa-user ">
           <!-- <i class="fa fa-plus fa-stack-1x fa-inverse fab-primary"></i>
           <i class="fa fa-pencil fa-stack-1x fa-inverse fab-secondary"></i> -->
       </span>
-    </button>
-  </div>
-        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        </button>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
 
-        <li>
-            <a href="#" data-toggle="tooltip" data-placement="top" title="Link 3">
-            <i class="fa fa-sign-out-alt" style="color:red;" v-on:click="logOut"></i></a>
-        </li>
-        <li>
-            <a href="#" data-toggle="tooltip" data-placement="top" title="Link 3">
-            <i class="fa fa-money-bill-alt"  v-on:click="account()"></i></a>
-        </li>
-        </ul>
-    </div>
-    </div>
-    </div>
+                        <li>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Link 3">
+                                <i class="fa fa-sign-out-alt" style="color:red;" v-on:click="logOut"></i></a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="tooltip" data-placement="top" title="Link 3">
+                                <i class="fa fa-money-bill-alt"  v-on:click="account()"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

@@ -3,19 +3,20 @@
         <div class="card-body">
             <h4 class="card-text">{{post.name}}</h4>
             <h4 class="card-text">{{post.description}}</h4>
-            <button type="button" class="btn btn-primary">Primary</button>
+            <button type="button" class="btn btn-primary" v-on:click="buy">Buy</button>
         </div>
     </div>
 </template>
-
 
 <script>
     export default {
 
         name: "CardMenu",
         //props: ['title','text'],
-        props: ['post']
-
+        props: ['post'],
+        methods:{
+                buy(){ this.$router.push({ name: 'buy', params: {post: this.post }})}
+        }
     }
 </script>
 

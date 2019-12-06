@@ -18,10 +18,8 @@
 <script>
 
 export default {
-  
      computed: {
        theimage: function () {
-        
         return '@/assets/iconfinder-hamburger.svg'
        }
      

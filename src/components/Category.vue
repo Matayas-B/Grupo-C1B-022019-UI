@@ -84,13 +84,12 @@
             let categories = JSON.stringify( categoryInLocation("") );
 
             API.get("/menues").then(addmenu).catch( handlError );
-            API.post("/search",categories).then( addCategories ).catch( handlError ); //.finally(() => this.loading = false);
+            API.post("/search",categories).then( addCategories ).catch( handlError );
         },
         data() {
             return {
                 items: [],
                 bottonalert: "",
-
                 menues: [],
                 page: 3
             }

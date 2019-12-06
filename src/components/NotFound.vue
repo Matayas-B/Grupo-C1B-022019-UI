@@ -4,37 +4,23 @@
             <!-- Tabs Titles -->
 
             <!-- Icon -->
-            <div class="fadeIn first">
-                <img src="../assets/iconfinder-hamburger.svg" id="icon" alt="User Icon" />
-                <p id="burguer">user</p>
-            </div>
-            <div>
-                <p>User created
-                    Please login</p>
+            <div class="fadeIn first text-white">
+                <p id="burguer">ERROR 404</p>
             </div>
             <!-- Login Form -->
-            <input type="submit" class="fadeIn fourth" value="Login" v-on:click="prueba">
+            <form  >
+<!--                <img class="card-img-top" src="../assets/error-404.jpg" alt="Card image">-->
+
+            </form>
+            <input type="button" class="fadeIn fourth" value="Login" >
         </div>
     </div>
+
 </template>
 
 <script>
-
     export default {
-        name: "Registration",
-        data() {
-            return {
-
-            }
-        },
-        methods: {
-
-            prueba(){
-                this.$router.push('/')
-            }
-        }
-
-
+        name: "NotFound"
     }
 </script>
 
@@ -314,7 +300,7 @@
         bottom: -10px;
         width: 0;
         height: 2px;
-        background-color: #56baed;
+        background-color: #2586ed;
         content: "";
         transition: width 0.2s;
     }
@@ -330,5 +316,4 @@
 
 
     /* OTHERS */
-
 </style>
