@@ -16,8 +16,6 @@
                             <h4 class="card-text labelColor">{{post.description}}</h4>
                             <h4 class="card-text labelColor">{{post.category}}</h4>
                             <h5 class="card-text labelColor"> Price: {{post.price}}</h5>
-
-
                         </div>
                 </div>
                 <div class="card-body">
@@ -37,6 +35,7 @@
                     <div class="d-flex justify-content-center card-footer">
                         <input type="button" value="Puntuar" class="btn float-right login_btn" v-on:click="puntuar">
                     </div>
+
 
                 </div>
             </div>
