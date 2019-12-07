@@ -62,32 +62,14 @@
             </div>
         </form>
 
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center row">
 
             <div class="card">
                 <div class="card-header">
                     <h3 class=" labelColor text-center " >{{username}}</h3>
                 </div>
                 <div class="card-body"> 
-                    <div style="width: 100%; height: 80%"> <!-- style="width: 500px; height: 300px" -->
-                        <GmapMap :center="center" :zoom="10" map-type-id="terrain"
-                                    style="width: 100%; height: 80%">
-                            <!--<GmapMarker/>-->
-                            <gmap-custom-marker 
-                                v-for="(m, index) in markers" :key="index"
-                                @click="center = m.position"
-                                :marker="m.position">
-                                <i :class="icons(category(m))"></i>
-                                <!--
-                                 <my-component></my-component>
-                                <img src="../assets/empanada.png" />
-                                -->
-                            </gmap-custom-marker>
-                        </GmapMap>
-                        <input type="button" value="mostrarDistancias" class="btn float-right login_btn"
-                         v-on:click="distanceToServices">
-                    </div>
-                    <div class="card-body col" v-for="p in getMenus()" :key="p.menuId">
+                    <div class="card-body" v-for="p in getMenus()" :key="p.menuId">
                         <CardMenu :post="p"></CardMenu>
                     </div>
                 </div>
@@ -102,8 +84,32 @@
                 </div>
             </div>
 
+        <div class="card" id="map_canvas_container">
+        <!--<b-container class="bv-example-row ">-->
+            <div class="justify-content-md-center card-body row" id="map-canva" > 
+                    <GmapMap class="col" :center="center" :zoom="10" map-type-id="terrain"  >
+                                <!--<GmapMarker/>-->
+                                <gmap-custom-marker 
+                                    v-for="(m, index) in markers" :key="index"
+                                    @click="center = m.position"
+                                    :marker="m.position">
+                                    <i :class="icons(category(m))"></i>
+                                    <!--
+                                    <my-component></my-component>
+                                    <img src="../assets/empanada.png" />
+                                    -->
+                                </gmap-custom-marker>
+                    </GmapMap>
+            </div>
+            <div class="card-footer" >
+                <input type="button" value="mostrarDistancias" class="btn float-right login_btn"
+                    v-on:click="distanceToServices">
+            </div>
+        <!--</b-container>-->
         </div>
 
+
+        </div>
     </div>
 </template>
 
@@ -287,4 +293,11 @@
 
         width: auto;
     }
+    #map_canvas_container {
+        position: relative;
+        width: 300px;
+        height: 300px;
+    }
+    #map_canvas {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
+
 </style>
