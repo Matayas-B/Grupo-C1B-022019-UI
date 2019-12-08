@@ -18,6 +18,7 @@ import AppSupplier from "./components/AppSupplier";
 import AppCustomer from "./components/AppCustomer";
 import Buy from "./components/Buy";
 import HistoryAndPunctuation from "./components/HistoryAndPunctuation";
+import historyAndDelivery from "./components/historyAndDelivery";
 
 Vue.use(Router)
 
@@ -50,6 +51,7 @@ export default new Router({
         {path: '/loginformsuplier', component: LoginformSuplier},
         {path: '/app', component: AppSupplier, name: 'app', props: true, children:[
             {path: 'suplieropcion', component: SuplierOpcion, name: 'suplieropcion', props: true},
+            {path: 'historyAndDelivery', component: historyAndDelivery, name: 'historyAndDelivery'},
             {path: 'createservice', component: CreateService, name: 'createservice', props: true} ,
             {path: 'deleteandupdate', component: DeleteAndUpdateMenu, name: 'deleteandupdate', props: true},
             {path: 'accountsupplier', component: AccountSuplier, name: 'accountsupplier', props: true},

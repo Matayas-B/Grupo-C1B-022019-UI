@@ -13,5 +13,18 @@ app.get(/.*/, function (req, res) {
 })
 
 const port = process.env.PORT || 8080
+
+const fetchAuthConfig = () => fetch("/auth_config.json")
+const configureClient = async () => {
+	const response = await fetchAuthConfig();
+	const config = await response.json();
+  
+	auth0 = await createAuth0Client({
+	  domain: config.domain,
+	  client_id: config.clientId
+	});
+}
+
+
 app.listen(port)
 console.log(`app is listening on port: ${port}`)

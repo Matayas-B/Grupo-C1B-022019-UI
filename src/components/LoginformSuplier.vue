@@ -17,13 +17,15 @@
                 <input type="text" id="address" class="fadeIn third"   placeholder="address" required v-model="user.address">
                 <input type="password" id="pass" class="fadeIn third"  placeholder="Password"  required v-model="user.password">
             </form>
-            <input type="button" class="fadeIn fourth" value="Create" v-on:click="createUser" >
+            <input type="button" class="fadeIn fourth" value="Create" :disabled="isAuthenticated" v-on:click="createUser" >
         </div>
     </div>
 </template>
 
 <script>
     import API from "../service/api";
+    import createAuth0Client from '@auth0/auth0-spa-js';
+
     export default {
         name: "LoginformSuplier",
         data() {
@@ -34,15 +36,24 @@
                     email: "",
                     password: "",
                     phone: "",
-                    address: ""
-                }
+                    address: "",
+                    userType:"supplier"
+                },
+                isAuthenticated: true
+            }
+        },
+        async created() {
+            try {
+            await this.$auth.renewTokens();
+            } catch (e) {
+            console.log(e);
             }
         },
         methods: {
             createUser(){
                 let self = this;
                 let m = self.user;
-                API.post("/supplier", m)
+                API.post("/signup", m)
                     .then( () => this.sendMail())
                     .catch(() => this.$toastr.error(' Error User not Created ',':)'))
             },
@@ -50,6 +61,11 @@
                 //API.post(`/miscellaneous/sendFakeWelcomeMail?toMail=${this.user.email}&userName=${this.user.name}`)
                 this.$toastr.success('User Created', ':)')
                 this.$router.push('/registration')
+            },
+            isauth(){
+                const updateUI = async () => {
+                const isAuthenticated = ! await auth0.isAuthenticated();
+                };
             }
         }
     }
