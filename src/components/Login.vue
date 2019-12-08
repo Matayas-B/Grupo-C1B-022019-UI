@@ -66,13 +66,25 @@
                 ]
             }
         },
+        created() {
+            var loginParams = this.$route.query;
+            if (loginParams.email != null && loginParams.password != null) {
+                this.logUser({
+                    email: loginParams.email,
+                    password: loginParams.password
+                });
+            }
+        },
         methods: {
             login() {
                 var self = this;
                 if (self.user.email == "" || self.user.password == "")
                     this.$toastr.error("An email and password must be present");
 
-                API.post("/auth/login", self.user)
+                this.logUser(self.user);
+            },
+            logUser(loginRequest) {
+                API.post("/auth/login", loginRequest)
                 .then((info) => this.userLoggedIn(info))
                 .catch((message) => {
                     if (message.response.data.errors != null) {
