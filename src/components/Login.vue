@@ -7,18 +7,16 @@
                 <div class="card-header">
                     <h3>{{ $t('message') }}</h3>
                     <div class="d-flex justify-content-end social_icon">
-                        <span><i class="fab fa-facebook-square"></i></span>
                         <span><i class="fab fa-google-plus-square"></i></span>
-                        <span><i class="fab fa-twitter-square"></i></span>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form v-on:submit.prevent>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="username" v-model="user.username" required>
+                            <input type="text" class="form-control" placeholder="email" v-model="user.email" required>
                         </div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
@@ -27,8 +25,7 @@
                             <input type="password" class="form-control" placeholder="password" v-model="user.password" required>
                         </div>
                         <div class="form-group">
-<!--                            <input type="button" value="Login" class="btn float-right login_btn" v-on:click="logear">-->
-                            <button class="btn float-right login_btn " v-on:click="logear"> {{ $t('login2') }}</button>
+                            <button class="btn float-right login_btn " v-on:click="login"> {{ $t('login2') }}</button>
                             <button class="btn login_btn" v-for="entry in languages" :key="entry.title" @click="changeLocale(entry.language)">
                                 <flag :iso="entry.flag"  v-bind:squared=false /> {{entry.title}}
                             </button>
@@ -38,10 +35,6 @@
                 <div class="card-footer">
                     <div class="d-flex justify-content-center links">
                         {{ $t('login3') }} <router-link to="/loginform">{{ $t('login4') }}  </router-link>
-                    </div>
-                    <div class="form-group text-center" >
-<!--                        <input type="button" value="Sing in Supplier" class="btn float-right login_btn" v-on:click="createUserSupllier">-->
-                        <button class="btn float-right login_btn " v-on:click="createUserSupllier"> {{ $t('login5') }}</button>
                     </div>
                 </div>
             </div>
@@ -55,20 +48,18 @@
     import i18n from "../i18n";
     import Name from "./Name";
 
-
     export default {
         name: 'Login',
         components: {Name},
         comments: {
             Name,
         },
-        mounted() {
-            this.loadUser();
-        },
         data() {
             return {
-                loaduser: [],
-                user: { username: '', password: ''},
+                user: {
+                    email: "", 
+                    password: ""
+                },
                 languages: [
                     { flag: 'us', language: 'en', title: '' },
                     { flag: 'es', language: 'es', title: '' }
@@ -76,34 +67,37 @@
             }
         },
         methods: {
+            login() {
+                var self = this;
+                if (self.user.email == "" || self.user.password == "")
+                    this.$toastr.error("An email and password must be present");
 
-            loadUser() {
-
-                API.get('/customer/getById?customerId=1')
-                    .then(response => this.callBack(response))
-                    .catch(e => this.$toastr.error(':(', e));
-            },
-            callBack(r){
-                this.loaduser = r;
-                // eslint-disable-next-line no-console
-                console.log(this.loaduser.name)
-            },
-            createUserSupllier (){
-
-                this.$router.push('/loginsupllier')
-            },
-            logear: function () {
-                if (this.user.username != "" && this.user.password != "") {
-                    if (this.user.username == "facundo" && this.user.password == "123456") {
-                        this.$store.state.user = this.loaduser
-                        localStorage.setItem('id', this.loaduser.id)
-                        this.$router.push('prueba')
-                    } else {
-                        alert( 'The username and / or password is incorrect');
+                API.post("/auth/login", self.user)
+                .then((info) => this.userLoggedIn(info))
+                .catch((message) => {
+                    if (message.response.data.errors != null) {
+                        var errors = message.response.data.errors;
+                        if (errors.email != null)
+                            this.$toastr.error(errors.email);
+                        if (errors.password != null)
+                            this.$toastr.error(errors.password);
                     }
-                } else {
-                    alert('A username and password must be present');
-                }
+                    else if (message.response.data != "")
+                        this.$toastr.error("Credenciales invalidas: el email o la contraseña son incorrectos");
+                    else
+                        this.$toastr.error("An unexpected error has happened.");
+                });
+            },
+            userLoggedIn(info) {
+                localStorage.setItem("accessToken", "Bearer " + info.accessToken);
+                API.get("/user/me")
+                .then((userInfo) => {
+                    this.$store.state.user = userInfo;
+
+                    // A partir de aca, maneja la aplicacion como quieras ! ! !
+                    this.$router.push('/account');
+                })
+                .catch((message) => this.$toastr.error(message))
             },
             changeLocale(locale) {
                 i18n.locale = locale;
@@ -112,18 +106,14 @@
     }
 </script>
 
-
 <style >
-
     .container{
         height: 100%;
         align-content: center;
         margin-top: 15%;
-
     }
 
     .card{
-
         background-color: rgba(0,0,0,0.5) !important;
     }
 
@@ -172,6 +162,4 @@
     .links a{
         margin-left: auto;
     }
-
-
 </style>
