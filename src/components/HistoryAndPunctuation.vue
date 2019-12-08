@@ -3,7 +3,7 @@
         <div class="justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="labelColor text-center " > History </h2>
+                    <h2 class="labelColor text-center " > {{$t('history')}}  </h2>
                 </div>
                 <div class="card-body" v-for="p in purchases" :key="p.purchaseId">
                     <CardHistory :purchase="p" :menu="p.purchasedMenu" />

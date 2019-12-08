@@ -4,8 +4,11 @@
   "login2": "Ingresar",
   "login3": "No tienes una cuenta?",
   "login4": "Regístrate",
-  "login5": "Iniciar sesión Proveedor"
+  "login5": "Iniciar sesión Proveedor",
 
-
-
+  "history":"Historial",
+  "purchasestatus": "Estado de compra",
+  "purchasedate":"Fecha de compra",
+  "purchaseamount":"Cantidad",
+  "userpuntuation":"Tu puntuacion"
 }
