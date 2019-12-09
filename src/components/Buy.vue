@@ -1,16 +1,16 @@
 <template>
     <div class="container">
 
-        <!--        <nav id="barra-principal" class="navbar fixed-top">-->
-        <!--            <h2 class="text-white" id="ViendasYa">ViendasYa</h2>-->
-        <!--            <h2 class="text-white" id="user">My Account: {{user.name}}</h2>-->
-        <!--        </nav>-->
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
                     <h2 class=" labelColor text-center " >Facundo</h2>
                 </div>
                     <div class="card ">
+                        <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
+                            <div class="spinner-border text-primary " style="height: 7rem; width: 7rem"></div>
+                        </div>
+                        <img class="card-img-top" :src=post.imageUrl alt="Card image">
                         <div class="card-body">
                             <h4 class="card-text labelColor ">{{post.name}}</h4>
                             <h4 class="card-text labelColor">{{post.description}}</h4>
@@ -52,6 +52,7 @@
         props: ['post'],
         data(){
             return{
+                loading: false,
                 myRate: 3,
                 compra: {
                     "customerId": this.$store.state.user.id,
@@ -77,10 +78,17 @@
                 this.$router.push('prueba')
             },
             buy(){
+                this.loading=true;
                 let self = this
                 API.post('/customer/purchase', self.compra)
-                    .then(() => this.score())
-                    .catch(res => this.$toastr.error(res,':('))
+                    .then(() => {
+                        this.score()
+                        this.loading= false;
+                    })
+                    .catch(res => {
+                        this.$toastr.error(res,':(')
+                        this.loading=false;
+                    })
             },
             score(){
                 this.$toastr.success('Compra Realizada', ':)')
@@ -92,7 +100,6 @@
             rating(){
             },
             puntuar(){
-
                 let self = this
                 API.post('/customer/score', self.pun)
                     .then(() => this.$toastr.success('Puntuacion Realizada', ':)'))

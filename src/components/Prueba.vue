@@ -3,6 +3,7 @@
     <div class="container flex-column">
 
         <form class="form-inline justify-content-end prueba py-5" >
+
             <div class="form-group ">
                 <input  v-model="info.servicetown"  class="form-control" placeholder="Locate search..">
                 <input  v-model="info.menuname"  class="form-control" placeholder="Name search..">
@@ -21,8 +22,12 @@
         </form>
 
         <div class="d-flex justify-content-center">
+
             <div class="card">
                 <div class="card-header">
+                    <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
+                        <div class="spinner-border text-primary " style="height: 7rem; width: 7rem"></div>
+                    </div>
                     <h3 class=" labelColor text-center " >{{username}}</h3>
                 </div>
                 <div class="card-container">
@@ -34,7 +39,7 @@
                     <div class="flex-sm-column">
                         <ul class="pagination" >
                             <li class="page-item"><a class="page-link"  v-on:click="previus">Previous</a></li>
-                            <li class="page-item"  v-for="(k, index) in menus" :key="k"><a class="page-link" value="0" v-on:click="setPage(index)">{{index}}</a></li>
+                            <li class="page-item"  v-for="(k, index) in menus" :key="index"><a class="page-link" value="0" v-on:click="setPage(index)">{{index}}</a></li>
                                     <li class="page-item"><a class="page-link" v-on:click="nextt">Next</a></li>
                         </ul>
                     </div>
@@ -58,7 +63,7 @@
         },
         data(){
             return{
-
+                loading: false,
                 menus: [],
                 info: {
                     menuname : "",
@@ -70,13 +75,19 @@
             }
         },
         methods: {
-            async   menuss(){
-                let self = this
-                let m = self.info
-                let p = await API.post('/search', m )
-                this.callBack(p)
-                //.then(response => {this.callBack(response)})
-                //.catch(e => alert(e));
+               menuss(){
+                this.loading= true;
+                let self = this;
+                let m = self.info;
+               API.post('/search', m )
+                   .then(res => {
+                       this.callBack(res)
+                       this.loading=false;
+                   })
+                   .catch(res => {
+                       this.$toastr.error(res,':(')
+                       this.loading=false;
+                   })
             },
             callBack(r){
                 this.menus = chunk(r,2)
