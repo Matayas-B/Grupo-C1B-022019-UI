@@ -34,7 +34,7 @@ export default new Router({
                 {path: '/account', component:Account, name: 'account'},
                 {path: '/prueba', component: Prueba, name: 'prueba'},
                 {path: '/buy', component: Buy, name: 'buy', props: true},
-                {path: '/historyAndPunctuation', component: HistoryAndPunctuation, name: 'historyAndPunctuation'},
+                {path: '/historyAndPunctuation', component: HistoryAndPunctuation, name: 'historyAndPunctuation',props: true},
 
             ]},
         {path: '/loginform',component: Loginform},
@@ -44,7 +44,7 @@ export default new Router({
 
         {path: '/app', component: AppSupplier, name: 'app', props: true, children:[
             {path: 'suplieropcion', component: SuplierOpcion, name: 'suplieropcion', props: true},
-            {path: 'historyAndDelivery', component: historyAndDelivery, name: 'historyAndDelivery'},
+            {path: 'historyAndDelivery', component: historyAndDelivery, name: 'historyAndDelivery', props: true},
             {path: 'createservice', component: CreateService, name: 'createservice', props: true} ,
             {path: 'deleteandupdate', component: DeleteAndUpdateMenu, name: 'deleteandupdate', props: true},
             {path: 'accountsupplier', component: AccountSuplier, name: 'accountsupplier', props: true},

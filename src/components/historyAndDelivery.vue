@@ -5,8 +5,8 @@
                 <div class="card-header">
                     <h2 class="labelColor text-center " > {{$t('history')}}  </h2>
                 </div>
-                <div class="card-body" v-for="p in purchases" :key="p.purchaseId">
-                    <CardHistory :purchase="p" :menu="p.purchasedMenu" />
+                <div class="card-body" v-for="p in this.user.service.validMenus" :key="p.menuId">
+                    <CardDelivery :purchase="p" />
                 </div>
                 <div class="card-footer">
                     <input type="button" value="Back" class="btn float-right login_btn" v-on:click="back">
@@ -19,20 +19,18 @@
 
 <script>
     import API from "../service/api";
-    //import CardHistory from "./CardHistory";
+    import CardDelivery from "./CardDelivery";
 
     export default {
         name: "historyAndDelivery",
-        //components: {CardHistory},
-
+        props:["user"],
+        components:{CardDelivery},
         mounted(){
-            API.get("/supplier/getById?supplierId="+ this.$store.state.user.id)
-                .then(this.callBack)
+            console.log(this.user.service.validMenus)
+            //TODO:Need to join the object
         },
         data(){
             return{
-                user: this.$store.state.user,
-                puntuationtoSend: 0,
                 purchases: []
             }
         },
@@ -42,26 +40,13 @@
                 this.$router.push('/');
             },
             back(){
-                this.$router.push('suplieropcion')
+                this.$router.go(-1);
             },
             callBack(res){
                 //Ordenated from most recent to older
-                this.purchases = res.reverse();
+                //this.purchases = res.reverse();
             },
 
-            puntuate(_serviceId,_menuId){
-                if( this.puntuationtoSend < 1 || 5 < this.puntuationtoSend ) return;
-                let message = {
-                    customerId: this.user.id,
-                    serviceId: _serviceId,
-                    menuId: _menuId,
-                    punctuation: this.puntuationtoSend
-                };
-                console.log(this.user)
-                API.post("/customer/score",message)
-                    .then(()=>this.back())
-                    .catch(()=>console.log("error"))
-            }
         }
 
     }

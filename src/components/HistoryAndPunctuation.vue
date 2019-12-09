@@ -37,6 +37,7 @@
 
     export default {
         name: "HistoryAndPunctuation",
+        props:["user"],
         components: {CardHistory},
 
         mounted(){
@@ -45,7 +46,6 @@
         },
         data(){
             return{
-                user: this.$store.state.user,
                 puntuationtoSend: 0,
                 purchases: []
             }
@@ -56,7 +56,7 @@
                 this.$router.push('/');
             },
             back(){
-                this.$router.push('prueba')
+                this.$router.go(-1);
             },
             callBack(res){
                 //Ordenated from most recent to older
