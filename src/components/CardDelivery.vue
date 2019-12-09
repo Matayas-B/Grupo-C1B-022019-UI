@@ -5,8 +5,8 @@
         <h4 class="card-title text-center"> {{menu.name}} </h4>
         <h5> {{menu.description}} </h5>
         <span>
-          <h6> {{$t('purchaseamount')}}:{{purchase.purchaseAmount}}</h6>
-          <h6> {{$t('purchaseprice')}}:{{menu.price}}</h6>
+          <h6> {{$t('purchaseamount')}}:{{purchase.purchaseAmount/menu.price}}</h6>
+          <h6> {{$t('purchaseprice')}}:${{menu.price}}</h6>
         </span>
         <h6> {{$t('purchasedate')}}:{{purchase.purchasedDate}}</h6>
         <h6> {{$t('purchasestatus')}}: 
@@ -21,7 +21,7 @@
         <input v-if="purchase.purchaseStatus == 'InDelivery'" 
           value="$t('finish')" type="button" v-on:click="$emit('finishMenu',purchase.purchaseId)"/>
         <rate v-else :length="5" :value="purchase.punctuation" disabled/>
-        <h4 class="labelColor text-right"> {{totalprice(purchase.purchaseAmount,menu.price)}} </h4>
+        <h4 class="labelColor text-right"> ${{purchase.purchaseAmount}} </h4>
       </span>
     </div>
 </template>
@@ -39,9 +39,6 @@ export default {
       };
       return purchaseStatus[state];
     },
-    totalprice(amount,price){
-      return amount*price;
-    }
 
   },
   computed: {

@@ -44,7 +44,9 @@
 
         <div class="card" id="map_canvas_container">
             <div class="justify-content-md-center card-body row" id="map-canva" > 
-                    <GmapMap class="col" :center="center" :zoom="10" map-type-id="terrain"  >
+                    <GmapMap class="col" id="map" :center="center" :zoom="10" 
+                        map-type-id="terrain" disableDefaultUI="true"
+                        streetViewControl="false" >
                                 <!--<GmapMarker/>-->
                                 <gmap-custom-marker 
                                     v-for="(m, index) in markers" :key="index"
@@ -83,6 +85,7 @@
                     .then(res => this.username = res.name );
             this.menuss();
             this.geolocate();
+            //this.initgmaps(); gmaps
         },
         data(){
             return{
@@ -233,6 +236,44 @@
                             }
                             );
                         })
+            },
+            initgmaps(){
+                let map = document.getElementById('map');
+                var centerControlDiv = document.createElement('div');
+                var centerControl = new centerControl(centerControlDiv, map);
+
+                centerControlDiv.index = 1;
+                console.log(gmapApi)
+                map.controls[gmapApi.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
+            },
+            centerControl(controlDiv, map) {
+                // Set CSS for the control border.
+                var controlUI = document.createElement('div');
+                controlUI.style.backgroundColor = '#fff';
+                controlUI.style.border = '2px solid #fff';
+                controlUI.style.borderRadius = '3px';
+                controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+                controlUI.style.cursor = 'pointer';
+                controlUI.style.marginBottom = '22px';
+                controlUI.style.textAlign = 'center';
+                controlUI.title = 'Click to recenter the map';
+                controlDiv.appendChild(controlUI);
+
+                // Set CSS for the control interior.
+                var controlText = document.createElement('div');
+                controlText.style.color = 'rgb(25,25,25)';
+                controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+                controlText.style.fontSize = '16px';
+                controlText.style.lineHeight = '38px';
+                controlText.style.paddingLeft = '5px';
+                controlText.style.paddingRight = '5px';
+                controlText.innerHTML = 'Center Map';
+                controlUI.appendChild(controlText);
+
+                // Setup the click event listeners: simply set the map to Chicago.
+                controlUI.addEventListener('click', function() {
+                map.setCenter(this.center);
+                });
             }
         },
 
