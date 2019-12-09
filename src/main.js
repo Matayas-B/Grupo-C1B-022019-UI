@@ -45,9 +45,6 @@ Vue.use(Geocoder, {
 
 
 window.toastr = require('toastr')
-window.onload = async () => {
-    await configureClient();
-  }
 
 library.add(faSpinner)
 Vue.use(FlagIcon);
