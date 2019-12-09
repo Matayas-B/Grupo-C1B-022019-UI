@@ -15,11 +15,8 @@
 
                 </div>
                 <div class="card-body">
-                    <input type="number" min="0"  class="form-control" id="cant" placeholder="amount to account" autocomplete="off"
-                           v-model="count">
-
-
-
+                    <input type="number" min="0"  class="form-control" id="cant" placeholder="amount to account" 
+                        autocomplete="off" v-model="count" >
                 </div>
                 <div class="card-footer">
                     <input type="submit" value="add Money" class="btn float-right login_btn" v-on:click="addMoney(count)" >
@@ -36,39 +33,21 @@
     import API from "../service/api";
     export default {
         name: "Account",
-
-        mounted() {
-            this.loadUser();
-        },
         data() {
             return {
-                loaduser: [],
-                user: this.$store.state.user,// localStorage.getItem('name')
-                money: 0,
+                user: this.$store.state.user,
+                money: this.$store.state.user.account.funds,
                 count: null
             }
         },
         methods: {
-            loadUser() {
-
-                API.get(`/customer/getById?customerId=${this.user.id}`)
-                    .then(response => this.callBack(response))
-                    .catch(e => alert(e));
-            },
-            callBack(r){
-                this.loaduser = r;
-                 this.money = r.account.funds
-            },
-
             addMoney(newAmount) {
-                // TODO: needs to add proper customerId
                 API.get('/customer/depositMoney?customerId=' + this.user.id + '&money=' + newAmount)
-                    .then(response => this.callback2(response))
-                    .catch(() => this.$toastr.error('I couldnt add money',':('))
-            },
-            callback2(r){
-                this.$toastr.success('Money could be added correctly',':)')
-                this.money = r
+                .then(response => {
+                    this.$toastr.success('Money could be added correctly',':)');
+                    this.money = response;
+                })
+                .catch((message) => this.$toastr.error(message))
             },
             logOut (){
                 localStorage.clear();
@@ -77,7 +56,6 @@
             back(){
               this.$router.push('prueba')
             },
-
         }
     }
 </script>

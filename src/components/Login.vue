@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
+            <div class="spinner-border text-primary " style="height: 7rem; width: 7rem"></div>
+        </div>
         <Name></Name>
         <div class="container">
         <div class="d-flex justify-content-center h-100">
@@ -7,18 +10,16 @@
                 <div class="card-header">
                     <h3>{{ $t('message') }}</h3>
                     <div class="d-flex justify-content-end social_icon">
-                        <span><i class="fab fa-facebook-square"></i></span>
                         <span><i class="fab fa-google-plus-square"></i></span>
-                        <span><i class="fab fa-twitter-square"></i></span>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form v-on:submit.prevent>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="username" v-model="user.username" required>
+                            <input type="text" class="form-control" placeholder="email" v-model="user.email" required>
                         </div>
                         <div class="input-group form-group">
                             <div class="input-group-prepend">
@@ -27,9 +28,8 @@
                             <input type="password" class="form-control" placeholder="password" v-model="user.password" required>
                         </div>
                         <div class="form-group">
-<!--                            <input type="button" value="Login" class="btn float-right login_btn" v-on:click="logear">-->
-                            <button class="btn float-right login_btn " v-on:click="logear"> {{ $t('login2') }}</button>
-                            <button class="btn login_btn" v-for="entry in languages" :key="entry.title" @click="changeLocale(entry.language)">
+                            <button class="btn float-right login_btn " v-on:click="login"> {{ $t('login2') }}</button>
+                            <button class="btn login_btn" v-for="entry in languages" :key="entry.language" @click="changeLocale(entry.language)">
                                 <flag :iso="entry.flag"  v-bind:squared=false /> {{entry.title}}
                             </button>
                         </div>
@@ -38,10 +38,6 @@
                 <div class="card-footer">
                     <div class="d-flex justify-content-center links">
                         {{ $t('login3') }} <router-link to="/loginform">{{ $t('login4') }}  </router-link>
-                    </div>
-                    <div class="form-group text-center" >
-<!--                        <input type="button" value="Sing in Supplier" class="btn float-right login_btn" v-on:click="createUserSupllier">-->
-                        <button class="btn float-right login_btn " v-on:click="createUserSupllier"> {{ $t('login5') }}</button>
                     </div>
                 </div>
             </div>
@@ -55,55 +51,81 @@
     import i18n from "../i18n";
     import Name from "./Name";
 
-
     export default {
         name: 'Login',
         components: {Name},
         comments: {
             Name,
         },
-        mounted() {
-            this.loadUser();
-        },
         data() {
             return {
-                loaduser: [],
-                user: { username: '', password: ''},
+                loading: false,
+                loaduser: "",
+                user: {
+                    email: "", 
+                    password: ""
+                },
                 languages: [
                     { flag: 'us', language: 'en', title: '' },
                     { flag: 'es', language: 'es', title: '' }
                 ]
             }
         },
+        created() {
+            var loginParams = this.$route.query;
+            if (loginParams.email != null && loginParams.password != null) {
+                this.logUser({
+                    email: loginParams.email,
+                    password: loginParams.password
+                });
+            }
+        },
         methods: {
-
-            loadUser() {
-
-                API.get('/customer/getById?customerId=1')
-                    .then(response => this.callBack(response))
-                    .catch(e => this.$toastr.error(':(', e));
+            login() {
+                var self = this;
+                if (self.user.email == "" || self.user.password == "")
+                    this.$toastr.error("An email and password must be present");
+                this.loading = true;
+ //               API.post("/auth/login", self.user)
+                this.logUser(self.user);
             },
-            callBack(r){
-                this.loaduser = r;
-                // eslint-disable-next-line no-console
-                console.log(this.loaduser.name)
+            logUser(loginRequest) {
+                API.post("/auth/login", loginRequest)
+                .then((info) => this.userLoggedIn(info))
+                .catch((message) => {
+                    this.loading= false
+                    if (message.response.data.errors != null) {
+                        var errors = message.response.data.errors;
+                        if (errors.email != null)
+                            this.$toastr.error(errors.email);
+                        if (errors.password != null)
+                            this.$toastr.error(errors.password);
+                    }
+                    else if (message.response.data != "")
+                        this.$toastr.error("Credenciales invalidas: el email o la contraseña son incorrectos");
+                    else
+                        this.$toastr.error("An unexpected error has happened.");
+                });
             },
-            createUserSupllier (){
-
-                this.$router.push('/loginsupllier')
-            },
-            logear: function () {
-                if (this.user.username != "" && this.user.password != "") {
-                    if (this.user.username == "facundo" && this.user.password == "123456") {
-                        this.$store.state.user = this.loaduser
+            userLoggedIn(info) {
+                localStorage.setItem("accessToken", "Bearer " + info.accessToken);
+                API.get("/user/me")
+                .then((userInfo) => {
+                    this.loaduser= userInfo;
+                    this.$store.state.user = userInfo;
+                    // A partir de aca, maneja la aplicacion como quieras ! ! !
+                    // eslint-disable-next-line no-console
+                    console.log(this.loaduser.userType)
+                    localStorage.setItem('id', this.loaduser.id)
+                    if(this.loaduser.userType == "customer"){
                         localStorage.setItem('id', this.loaduser.id)
                         this.$router.push('prueba')
-                    } else {
-                        alert( 'The username and / or password is incorrect');
                     }
-                } else {
-                    alert('A username and password must be present');
-                }
+                    else {
+                        this.$router.push({ name: 'suplieropcion', params: {post: this.loaduser }})
+                    }
+                })
+                .catch((message) => this.$toastr.error(message))
             },
             changeLocale(locale) {
                 i18n.locale = locale;
@@ -112,18 +134,14 @@
     }
 </script>
 
-
 <style >
-
     .container{
         height: 100%;
         align-content: center;
         margin-top: 15%;
-
     }
 
     .card{
-
         background-color: rgba(0,0,0,0.5) !important;
     }
 
@@ -172,6 +190,4 @@
     .links a{
         margin-left: auto;
     }
-
-
 </style>

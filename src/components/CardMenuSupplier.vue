@@ -1,5 +1,6 @@
 <template>
-    <div class="card ">
+    <div class="card " :key="p">
+        <img class="card-img-top" :src=post.imageUrl alt="Card image">
         <div class="card-body">
             <h4 class="card-text">{{post.name}}</h4>
             <h4 class="card-text" >{{post.description}}</h4>
@@ -29,8 +30,6 @@
                 API.get(`/service/deleteMenu?serviceId=${this.id}&menuId=${this.p}`)
                     .then( () => this.$toastr.success(':)',' Menu Borrado correctamente'))
                     .catch(() => this.$toastr.error(':(', 'No se Pudo Borrar el Menu favor de probar nuevamente'))
-
-
             },
             update(){
                 this.$router.push({ name: 'updatemenu', params: {post: this.post, prueba: this.prueba }})

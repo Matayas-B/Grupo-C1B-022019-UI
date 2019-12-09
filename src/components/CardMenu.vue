@@ -1,5 +1,6 @@
 <template>
     <div class="card ">
+        <img class="card-img-top" :src=post.imageUrl alt="Card image">
         <div class="card-body">
             <h4 class="card-text">{{post.name}}</h4>
             <h4 class="card-text">{{post.description}}</h4>

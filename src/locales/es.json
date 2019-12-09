@@ -1,10 +1,12 @@
 {
-  "message": "Iniciar sesión como cliente",
-  "message2": "Iniciar sesión Proveedor",
+  "message": "Iniciar sesión",
+  "message2": "Iniciar sesión",
   "login2": "Ingresar",
   "login3": "No tienes una cuenta?",
   "login4": "Regístrate",
-  "login5": "Iniciar sesión Proveedor",
+  "login5": "Iniciar sesión",
+
+
 
   "history":"Historial",
   "purchasestatus": "Estado de compra",

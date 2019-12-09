@@ -1,73 +1,26 @@
 <template>
-
     <div class="wrapper fadeInDown">
         <div id="formContent">
             <!-- Tabs Titles -->
+
             <!-- Icon -->
-            <div class="fadeIn first">
-                <img src="../assets/iconfinder-hamburger.svg" id="icon" alt="User Icon" />
-                <p id="burguer">Suplier user</p>
+            <div class="fadeIn first text-white">
+                <p id="burguer">ERROR 404</p>
             </div>
             <!-- Login Form -->
-            <form v-on:submit.prevent>
-                <input type="text" id="name" class="fadeIn second"     placeholder="name" required v-model="user.name">
-                <input type="text" id="lastname" class="fadeIn third"  placeholder="last name" required v-model="user.lastname" >
-                <input type="text" id="email" class="fadeIn third"     placeholder="email" required v-model="user.email" >
-                <input type="text" id="phone" class="fadeIn third"     placeholder="phone" required v-model="user.phone" >
-                <input type="text" id="address" class="fadeIn third"   placeholder="address" required v-model="user.address">
-                <input type="password" id="pass" class="fadeIn third"  placeholder="Password"  required v-model="user.password">
+            <form  >
+<!--                <img class="card-img-top" src="../assets/error-404.jpg" alt="Card image">-->
+
             </form>
-            <input type="button" class="fadeIn fourth" value="Create" :disabled="isAuthenticated" v-on:click="createUser" >
+            <input type="button" class="fadeIn fourth" value="Login" >
         </div>
     </div>
+
 </template>
 
 <script>
-    import API from "../service/api";
-    import createAuth0Client from '@auth0/auth0-spa-js';
-
     export default {
-        name: "LoginformSuplier",
-        data() {
-            return {
-                user: {
-                    name: "",
-                    lastname: "",
-                    email: "",
-                    password: "",
-                    phone: "",
-                    address: "",
-                    userType:"supplier"
-                },
-                isAuthenticated: true
-            }
-        },
-        async created() {
-            try {
-            await this.$auth.renewTokens();
-            } catch (e) {
-            console.log(e);
-            }
-        },
-        methods: {
-            createUser(){
-                let self = this;
-                let m = self.user;
-                API.post("/signup", m)
-                    .then( () => this.sendMail())
-                    .catch(() => this.$toastr.error(' Error User not Created ',':)'))
-            },
-            sendMail(){
-                //API.post(`/miscellaneous/sendFakeWelcomeMail?toMail=${this.user.email}&userName=${this.user.name}`)
-                this.$toastr.success('User Created', ':)')
-                this.$router.push('/registration')
-            },
-            isauth(){
-                const updateUI = async () => {
-                const isAuthenticated = ! await auth0.isAuthenticated();
-                };
-            }
-        }
+        name: "NotFound"
     }
 </script>
 
@@ -141,6 +94,15 @@
         -webkit-box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
         box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
         text-align: center;
+    }
+
+    #formFooter {
+        background-color: #f6f6f6;
+        border-top: 1px solid #dce8f1;
+        padding: 25px;
+        text-align: center;
+        -webkit-border-radius: 0 0 10px 10px;
+        border-radius: 0 0 10px 10px;
     }
 
 
@@ -330,6 +292,7 @@
         -moz-animation-delay: 1s;
         animation-delay: 1s;
     }
+
     /* Simple CSS3 Fade-in Animation */
     .underlineHover:after {
         display: block;
@@ -337,7 +300,7 @@
         bottom: -10px;
         width: 0;
         height: 2px;
-        background-color: #56baed;
+        background-color: #2586ed;
         content: "";
         transition: width 0.2s;
     }
@@ -352,9 +315,5 @@
 
 
 
-
     /* OTHERS */
-
-
-
 </style>
