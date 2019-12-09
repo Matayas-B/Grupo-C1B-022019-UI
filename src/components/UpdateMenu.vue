@@ -65,7 +65,6 @@
                 </div>
                 <div class=" d-flex links">
                     <button type="button" class="btn btn-primary" v-on:click="updateMenu">Update</button>
-
                     <router-link to="/deleteandupdate"></router-link>
                     <button type="button" class="btn btn-primary" v-on:click="back">Back</button>
 
@@ -91,7 +90,7 @@
                     category: this.post.category,
                     deliveryFee: this.post.deliveryFee,
                     startDate: "2017-05-04",
-                    endDate: "2017-05-04",
+                    endDate: "2020-05-04",
                     deliveryHours: this.post.deliveryHours,
                     averageDeliveryMinutes: this.post.averageDeliveryMinutes,
                     price: this.post.price,

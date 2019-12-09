@@ -24,9 +24,29 @@ import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 import rate from 'vue-rate';
 import ToggleSwitch from 'vuejs-toggle-switch'
 
+let googlekey = process.env.VUE_APP_GOOGLEKEY;
+
+import * as VueGoogleMaps from "vue2-google-maps";
+Vue.use(VueGoogleMaps, {
+    load: {
+        key: googlekey,
+        libraries: "places,drawing,visualization",
+    },
+    installComponents: true
+});
+
+import Geocoder from "@pderas/vue2-geocoder";
+Vue.use(Geocoder, {
+    defaultCountryCode: null, // e.g. 'CA'
+    defaultLanguage:    null, // e.g. 'en'
+    defaultMode:        'address', // or 'lat-lng'
+    googleMapsApiKey:   googlekey
+});
+
 Vue.use(ToggleSwitch)
 Vue.use(rate)
 Vue.use(VueSidebarMenu)
+
 window.toastr = require('toastr')
 library.add(faSpinner)
 Vue.use(FlagIcon);
