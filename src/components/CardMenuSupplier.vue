@@ -1,6 +1,9 @@
 <template>
     <div class="card " :key="p">
-        <img class="card-img-top responsibe" :src=post.imageUrl alt="Card image">
+        <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
+            <div class="spinner-border text-primary " style="height: 7rem; width: 7rem"></div>
+        </div>
+        <img class="card-img-top" :src=post.imageUrl alt="Card image">
         <div class="card-body">
             <h4 class="card-text">{{post.name}}</h4>
             <h4 class="card-text" >{{post.description}}</h4>
@@ -21,15 +24,23 @@
         props: ['post', 'prueba'],
         data(){
             return {
+                loading: false,
                 id: this.post.serviceId,
                 p: this.post.menuId
             }
         },
         methods:{
             deletee(){
+                this.loading = true;
                 API.get(`/service/deleteMenu?serviceId=${this.id}&menuId=${this.p}`)
-                    .then( () => this.$toastr.success(':)',' Menu Borrado correctamente'))
-                    .catch(() => this.$toastr.error(':(', 'No se Pudo Borrar el Menu favor de probar nuevamente'))
+                    .then( () => {
+                        this.$toastr.success(':)',' Menu Borrado correctamente')
+                        this.loading = false;
+                    })
+                    .catch(() => {
+                        this.loading = false;
+                        this.$toastr.error(':(', 'No se Pudo Borrar el Menu favor de probar nuevamente')
+                    })
             },
             update(){
                 this.$router.push({ name: 'updatemenu', params: {post: this.post, prueba: this.prueba }})
@@ -55,11 +66,5 @@
         color: white;
 
     }
-    .responsibe {
-        width: 100%;
-        max-width: 400px;
-        align-items:center;
-        height: auto;
-        max-height: 300px;
-    }
+
 </style>
