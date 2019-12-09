@@ -11,6 +11,9 @@
   "purchasestatus": "Purchase Status",
   "purchasedate":"From",
   "purchaseamount":"Amount",
-  "userpuntuation":"Your puntuation"
+  "userpuntuation":"Your puntuation",
+  "purchaseprice": "Price",
+  "send":"send",
+  "finish":"finish"
 }
 

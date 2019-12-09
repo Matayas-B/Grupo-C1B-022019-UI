@@ -12,5 +12,8 @@
   "purchasestatus": "Estado de compra",
   "purchasedate":"Fecha de compra",
   "purchaseamount":"Cantidad",
-  "userpuntuation":"Tu puntuacion"
+  "userpuntuation":"Tu puntuacion",
+  "purchaseprice": "Precio",
+  "send":"mandar",
+  "finish":"finalizar"
 }

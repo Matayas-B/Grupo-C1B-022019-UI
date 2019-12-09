@@ -3,10 +3,11 @@
         <div class="justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="labelColor text-center " > {{$t('history')}}  </h2>
+                    <h2 class="labelColor text-center " > {{$t('history')}} </h2>
                 </div>
-                <div class="card-body" v-for="p in this.user.service.validMenus" :key="p.menuId">
-                    <CardDelivery :purchase="p" />
+                <div class="card-body" v-for="p in purchases" :key="p.menuId">
+                    <CardDelivery :purchase="p" :menu="p.purchasedMenu"
+                        v-on:sendMenu="sendMenu"  v-on:finishMenu="finishMenu" />
                 </div>
                 <div class="card-footer">
                     <input type="button" value="Back" class="btn float-right login_btn" v-on:click="back">
@@ -26,15 +27,19 @@
         props:["user"],
         components:{CardDelivery},
         mounted(){
-            console.log(this.user.service.validMenus)
-            //TODO:Need to join the object
+            this.refreshpurchases();
         },
         data(){
             return{
-                purchases: []
+                //menues: this.user.service.validMenus.reduce( (a,b) => a.concat(b), [] ),
+                purchases:[]
             }
         },
         methods:{
+            refreshpurchases(){
+                API.get("/supplier/purchase?supplierId="+this.user.id)
+                    .then(res => this.callBack(res));
+            },
             logOut (){
                 localStorage.clear();
                 this.$router.push('/');
@@ -42,11 +47,18 @@
             back(){
                 this.$router.go(-1);
             },
-            callBack(res){
+            callBack(r){
                 //Ordenated from most recent to older
-                //this.purchases = res.reverse();
+                this.purchases = r.reverse();
             },
-
+            sendMenu(purchaseId){
+                API.get("/supplier/startDelivery?purchaseId="+purchaseId)
+                    .then(this.refreshpurchases());
+            },
+            finishMenu(purchaseId){
+                API.get("/supplier/finishDelivery?purchaseId="+purchaseId)
+                    .then(this.refreshpurchases());
+            },
         }
 
     }
