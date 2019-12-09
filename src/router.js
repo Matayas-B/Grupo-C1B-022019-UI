@@ -24,18 +24,15 @@ export default new Router({
     mode: 'history', //saca el # de la direccion url
 
     routes: [
-
         {path: '*', component: NotFound},
         ////////////////////Customer//////////////////////////////////////////////////////////////
-
-        {path: '/',component: Login  },
+        {path: '/', redirect: '/login'},
+        {path: '/login', component: Login  },
         {path: '/appCustomer', component: AppCustomer, name: 'appCustomer', props: true, children:[
                 {path: '/account', component:Account, name: 'account'},
                 {path: '/prueba', component: Prueba, name: 'prueba'},
                 {path: '/buy', component: Buy, name: 'buy', props: true },
-
             ]},
-
         {path: '/loginform',component: Loginform},
         {path: '/registration', component: Registration},
 
@@ -50,11 +47,6 @@ export default new Router({
                 {path: '/updatemenu', component: UpdateMenu, name: 'updatemenu', props:  true },
 
             ]},
-
-
-
-
         {path: '/thneNavBar', component: TheNavBAr}
-
     ]
 })
