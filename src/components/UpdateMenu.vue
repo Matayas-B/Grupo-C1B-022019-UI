@@ -86,7 +86,7 @@
                     category: this.post.category,
                     deliveryFee: this.post.deliveryFee,
                     startDate: "2017-05-04",
-                    endDate: "2017-05-04",
+                    endDate: "2020-05-04",
                     deliveryHours: this.post.deliveryHours,
                     averageDeliveryMinutes: this.post.averageDeliveryMinutes,
                     price: this.post.price,

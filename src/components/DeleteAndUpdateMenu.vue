@@ -58,7 +58,7 @@
         },
         updated(){
             this.menuss()
-       },
+        },
         data(){
             return{
                 menus: [],
@@ -75,9 +75,10 @@
         },
         methods: {
             async   menuss(){
-                let self = this
-                let m = self.info
-                let p = await API.post('/search', m )
+                //let self = this
+                //let m = self.info
+                let p = await API.get("/service/getMenus?serviceId="+this.serviceId )
+                    //.post('/search', m )
                 this.callBack(p)
             },
             callBack(r){

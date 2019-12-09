@@ -1,6 +1,6 @@
 <template>
     <div class="card " :key="p">
-        <img class="card-img-top" :src=post.imageUrl alt="Card image">
+        <img class="card-img-top responsibe" :src=post.imageUrl alt="Card image">
         <div class="card-body">
             <h4 class="card-text">{{post.name}}</h4>
             <h4 class="card-text" >{{post.description}}</h4>
@@ -55,5 +55,11 @@
         color: white;
 
     }
-
+    .responsibe {
+        width: 100%;
+        max-width: 400px;
+        align-items:center;
+        height: auto;
+        max-height: 300px;
+    }
 </style>
