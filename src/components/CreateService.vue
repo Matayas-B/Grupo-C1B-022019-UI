@@ -65,7 +65,7 @@
             return {
                 service: {
                     supplierId: this.post.id,//localStorage.getItem('id'),
-                    serviceId: 10,
+                    serviceId: "",
                     serviceName: "Burguer King",
                     icon: "",
                     addressTown: "Quilmes",
@@ -76,7 +76,6 @@
                     officeDays: ["Monday"],
                     officeHours:["Afternoon"],
                     deliveryDistance: "10"
-
                 }
             }
         },
@@ -90,7 +89,7 @@
                 //this.$toastr.error(':(', 'prueba')
             },
             deleteService(){
-                API.get("/supplier/deleteService?supplierId=3")
+                API.get("/supplier/deleteService?supplierId=" + this.post.id)
                     .then(() => this.$toastr.success('Delete Service successfully','Service :)'))
                     .catch(() => this.$toastr.error('Error Delete Service.','Service :('))
             },

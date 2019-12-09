@@ -8,7 +8,7 @@
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
-                    <h2 class=" labelColor text-center " >Facundo</h2>
+                    <h2 class=" labelColor text-center " > r.account.funds : {{funds}} </h2>
                 </div>
                     <div class="card ">
                         <div class="card-body">
@@ -19,8 +19,8 @@
                         </div>
                 </div>
                 <div class="card-body">
-                    <input type="number" min="0"  class="form-control" id="cant" placeholder="Cant" autocomplete="off" v-model="quantity">
-
+                    <input type="number"  class="form-control" id="cant"  autocomplete="off" v-model="quantity"
+                        min="0" v-bind:max="maxQuantity" placeholder="Cant" v-on:max="() => $toastr.error('Not enough money',':(') ">
                 </div>
                 <div class="card-footer">
                     <input type="button" value="Buy" class="btn float-right login_btn"  v-on:click="buy" >
@@ -59,6 +59,8 @@
                     "menuId": this.post.menuId,
                     "quantity": 10
                 },
+                funds: this.$store.state.user.account.funds,
+                maxQuantity: typeof(this.funds) != "undefined" ? this.funds / this.post.price : 10,
                 pun: {
                     "customerId": this.$store.state.user.id,
                     "serviceId": this.post.serviceId,

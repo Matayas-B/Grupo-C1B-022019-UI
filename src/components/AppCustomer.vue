@@ -25,6 +25,7 @@
         data(){
             return{
                 post: '',
+                user: this.$store.state.user,
                 menu: [
                     {
                         hiddenOnCollapse: false,
@@ -38,7 +39,9 @@
                         header: false,
                         title: 'Shopping Cart',
                         icon: 'fas fa-cart-plus',
-                        //onClick:  ()=> {this.$router.push({ name: 'account', params: {post: this.post }})}
+                        onClick:  () => { 
+                            this.$router.push({ name: 'historyAndPunctuation' , params: {user: this.post }})
+                        }
                     },
                     {
                         hiddenOnCollapse: false,
@@ -48,7 +51,6 @@
                         href: 'account',
 
                         onClick:  ()=> {this.$router.push({ name: 'account', params: {post: this.post }})}
-
                     },
                 ]
             }
@@ -58,7 +60,7 @@
                 item.onClick()
             },
             getSupplier(){
-                API.get(`/customer/getById?customerId=${localStorage.getItem('id')}`)
+                API.get(`/customer/getById?customerId=${this.user.id}`)
                     .then(res => this.callback(res) )
             },
             callback(r){

@@ -1,5 +1,8 @@
 <template>
     <div>
+        <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
+            <div class="spinner-border text-primary " style="height: 7rem; width: 7rem"></div>
+        </div>
         <Name></Name>
         <div class="container">
         <div class="d-flex justify-content-center h-100">
@@ -26,7 +29,7 @@
                         </div>
                         <div class="form-group">
                             <button class="btn float-right login_btn " v-on:click="login"> {{ $t('login2') }}</button>
-                            <button class="btn login_btn" v-for="entry in languages" :key="entry.title" @click="changeLocale(entry.language)">
+                            <button class="btn login_btn" v-for="entry in languages" :key="entry.language" @click="changeLocale(entry.language)">
                                 <flag :iso="entry.flag"  v-bind:squared=false /> {{entry.title}}
                             </button>
                         </div>
@@ -56,6 +59,8 @@
         },
         data() {
             return {
+                loading: false,
+                loaduser: "",
                 user: {
                     email: "", 
                     password: ""
@@ -66,15 +71,29 @@
                 ]
             }
         },
+        created() {
+            var loginParams = this.$route.query;
+            if (loginParams.email != null && loginParams.password != null) {
+                this.logUser({
+                    email: loginParams.email,
+                    password: loginParams.password
+                });
+            }
+        },
         methods: {
             login() {
                 var self = this;
                 if (self.user.email == "" || self.user.password == "")
                     this.$toastr.error("An email and password must be present");
-
-                API.post("/auth/login", self.user)
+                this.loading = true;
+ //               API.post("/auth/login", self.user)
+                this.logUser(self.user);
+            },
+            logUser(loginRequest) {
+                API.post("/auth/login", loginRequest)
                 .then((info) => this.userLoggedIn(info))
                 .catch((message) => {
+                    this.loading= false
                     if (message.response.data.errors != null) {
                         var errors = message.response.data.errors;
                         if (errors.email != null)
@@ -92,10 +111,19 @@
                 localStorage.setItem("accessToken", "Bearer " + info.accessToken);
                 API.get("/user/me")
                 .then((userInfo) => {
+                    this.loaduser= userInfo;
                     this.$store.state.user = userInfo;
-
                     // A partir de aca, maneja la aplicacion como quieras ! ! !
-                    this.$router.push('/account');
+                    // eslint-disable-next-line no-console
+                    console.log(this.loaduser.userType)
+                    localStorage.setItem('id', this.loaduser.id)
+                    if(this.loaduser.userType == "customer"){
+                        localStorage.setItem('id', this.loaduser.id)
+                        this.$router.push('prueba')
+                    }
+                    else {
+                        this.$router.push({ name: 'suplieropcion', params: {post: this.loaduser }})
+                    }
                 })
                 .catch((message) => this.$toastr.error(message))
             },

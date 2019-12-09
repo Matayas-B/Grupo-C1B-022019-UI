@@ -32,7 +32,7 @@
                     <div class="flex-sm-column">
                         <ul class="pagination" >
                             <li class="page-item"><a class="page-link"  v-on:click="previus">Previous</a></li>
-                            <li class="page-item"  v-for="(k, index) in menus" :key="k"><a class="page-link" value="0" v-on:click="setPage(index)">{{index}}</a></li>
+                            <li class="page-item"  v-for="(k, index) in menus" :key="index"><a class="page-link" value="0" v-on:click="setPage(index)">{{index}}</a></li>
                             <li class="page-item"><a class="page-link" v-on:click="nextt">Next</a></li>
                             <li class="page-item"><a class="page-link" v-on:click="back">back</a></li>
                         </ul>
@@ -58,12 +58,12 @@
         },
         updated(){
             this.menuss()
-        },
+       },
         data(){
             return{
                 menus: [],
                 info: {
-                    menuname : "Whopper4",
+                    menuname : "",
                     menucategory : "All",
                     servicetown : "",
                 },
@@ -96,7 +96,6 @@
                 if (this.page !== this.menus.length -1 ) this.page ++
             },
             back(){
-                //this.$router.push('/suplieropcion')
                 this.$router.push({ name: 'suplieropcion', params: {post: this.post }})
             }
 
