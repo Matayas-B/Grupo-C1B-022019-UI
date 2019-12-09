@@ -1,5 +1,8 @@
 <template>
     <div class="wrapper fadeInDown">
+        <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
+            <div class="spinner-border text-primary " style="height: 7rem; width: 7rem"></div>
+        </div>
         <div id="formContent">
             <form>
                 <div class="form-row" >
@@ -63,8 +66,9 @@
         props: ['post'] ,
         data() {
             return {
+                loading: false,
                 service: {
-                    supplierId: this.post.id,//localStorage.getItem('id'),
+                    supplierId: this.post.id,
                     serviceId: "",
                     serviceName: "Burguer King",
                     icon: "",
@@ -81,17 +85,30 @@
         },
         methods: {
             createService(){
-                let self = this
-                let servicee = self.service
+                this.loading = true;
+                let self = this;
+                let servicee = self.service;
                 API.post("/supplier/addService", servicee)
-                    .then(() => this.$toastr.success('Service :)','Service created successfully'))
-                    .catch(() => this.$toastr.error('Service :(','Error Create Service'))
-                //this.$toastr.error(':(', 'prueba')
+                    .then(() => {
+                        this.$toastr.success('Service :)','Service created successfully')
+                        this.loading=false;
+                    })
+                    .catch(() => {
+                        this.$toastr.error('Service :(','Error Create Service')
+                        this.loading=false;
+                    })
             },
             deleteService(){
+                this.loading=true;
                 API.get("/supplier/deleteService?supplierId=" + this.post.id)
-                    .then(() => this.$toastr.success('Delete Service successfully','Service :)'))
-                    .catch(() => this.$toastr.error('Error Delete Service.','Service :('))
+                    .then(() => {
+                        this.$toastr.success('Delete Service successfully','Service :)')
+                        this.loading=false;
+                    })
+                    .catch(() => {
+                        this.$toastr.error('Error Delete Service.','Service :(')
+                        this.loading=false;
+                    })
             },
             back(){
                 this.$router.push({ name: 'suplieropcion', params: {post: this.post }})
