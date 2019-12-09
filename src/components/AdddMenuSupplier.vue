@@ -51,6 +51,10 @@
                     <label class="labelColor">maxDailySales</label>
                     <input type="text" class="form-control"  placeholder="maxDailySales" v-model="menu.maxDailySales" >
                 </div>
+                <div class="form-group col-md-12">
+                    <label class="labelColor">Image</label>
+                    <input type="text" class="form-control"  placeholder="ImageUrl" v-model="menu.imageurl" >
+                </div>
             </div>
             <div class="d-flex links">
 
@@ -79,7 +83,7 @@
                 loaduser: [],
                 serid: '',
                 menu: {
-                    serviceId: this.post.service.serviceId,//localStorage.getItem('service'),
+                    serviceId: this.post.service.serviceId,
                     menuId: 3,
                     name: "Whopper",
                     description: "Hamburguer riquisima ! ! !",
@@ -92,7 +96,8 @@
                     price: "100",
                     minQuantity: "10",
                     minQuantityPrice: "35",
-                    maxDailySales: "10"
+                    maxDailySales: "10",
+                    imageurl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRF2udKVIiFT1OC5U5uYhqBuQklq3h6WBnYPWim4nHOup97u9FQ&s"
                 }
             }
         },

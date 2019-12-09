@@ -1,5 +1,8 @@
 <template>
     <div class="wrapper fadeInDown">
+        <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
+            <div class="spinner-border text-primary " style="height: 7rem; width: 7rem"></div>
+        </div>
         <div id="formContent">
             <!-- Tabs Titles -->
             <!-- Icon -->
@@ -30,6 +33,7 @@
         name: "Loginform",
         data() {
             return {
+                loading: false,
               userType: "Customer",
               user: {
                 name: "",
@@ -77,6 +81,8 @@
                 self.user.usertype = self.userType.toLowerCase();
             },
             createUser() {
+                this.loading = true;
+
                 let self = this;
                 API.post("/auth/signup", self.user)
                 .then(() => this.userCreated())

@@ -55,6 +55,10 @@
                         <label class="labelColor" >Menu Id</label>
                         <input type="text" class="form-control"  placeholder="menuId" v-model="service.menuId">
                     </div>
+                    <div class="form-group col-md-12">
+                        <label class="labelColor">Image</label>
+                        <input type="text" class="form-control"  placeholder="ImageUrl" v-model="service.imageurl" >
+                    </div>
                 </div>
                 <div class=" d-flex links">
                     <button type="button" class="btn btn-primary" v-on:click="updateMenu">Update</button>
@@ -89,13 +93,13 @@
                     price: this.post.price,
                     minQuantity: this.post.minQuantity,
                     minQuantityPrice: this.post.minQuantityPrice,
-                    maxDailySales: this.post.maxDailySales
-                }
+                    maxDailySales: this.post.maxDailySales,
+                    imageurl: this.post.imageUrl
+        }
             }
         },
         methods:{
             back(){
-                //this.$router.push('/deleteandupdate')
                 this.$router.push({ name: 'deleteandupdate', params: {post: this.prueba }})
             },
             updateMenu(){
