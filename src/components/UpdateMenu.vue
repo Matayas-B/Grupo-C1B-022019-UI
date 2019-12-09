@@ -58,7 +58,6 @@
                 </div>
                 <div class=" d-flex links">
                     <button type="button" class="btn btn-primary" v-on:click="updateMenu">Update</button>
-
                     <router-link to="/deleteandupdate"></router-link>
                     <button type="button" class="btn btn-primary" v-on:click="back">Back</button>
 
