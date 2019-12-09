@@ -33,7 +33,7 @@
                     {
                         hiddenOnCollapse: false,
                         header: false,
-                        href: '/LoginSupllier',
+                        href: '/',
                         title: 'Sign off',
                         icon: 'fa fa-sign-out-alt',
                     },

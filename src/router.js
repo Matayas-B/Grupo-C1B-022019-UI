@@ -3,8 +3,6 @@ import Router from 'vue-router'
 import Loginform from "./components/Loginform";
 import Login from "./components/Login";
 import Registration from "./components/Registration";
-import LoginSupllier from "./components/LoginSupllier";
-import LoginformSuplier from "./components/LoginformSuplier";
 import Account from "./components/Account";
 import CreateService from "./components/CreateService";
 import Prueba from "./components/Prueba";
@@ -40,14 +38,9 @@ export default new Router({
 
         {path: '/loginform',component: Loginform},
         {path: '/registration', component: Registration},
-        ///{path: '/category', component:Category},
-       // {path: '/prueba', component: Prueba},
-        {path: '/loginsupllier', component: LoginSupllier},
 
         ///////////////////Supplier//////////////////////////////////////////////////////////////
 
-
-        {path: '/loginformsuplier', component: LoginformSuplier},
         {path: '/app', component: AppSupplier, name: 'app', props: true, children:[
             {path: 'suplieropcion', component: SuplierOpcion, name: 'suplieropcion', props: true},
             {path: 'createservice', component: CreateService, name: 'createservice', props: true} ,
