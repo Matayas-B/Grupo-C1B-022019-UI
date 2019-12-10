@@ -25,6 +25,7 @@ export default new Router({
 
     routes: [
         {path: '*', component: NotFound},
+        {path: '/error', component: NotFound},
         ////////////////////Customer//////////////////////////////////////////////////////////////
         {path: '/', redirect: '/login'},
         {path: '/login', component: Login  },
