@@ -9,7 +9,9 @@
                  :marker="m.position"
                 >
                 
-                <i :class="icons(category(m))"></i>
+                <span v-for="(iconos, index) in icons(category(m))" :key="index">
+                <i :class="iconos"></i>
+                </span>
                                     <!--@click="center = m.position"  
                                           <input type="button" value="mostrarDistancias" class="btn float-right login_btn"
         v-on:click="toggleInfoWindow(center,'<strong>Marker 1</strong>')">
@@ -31,16 +33,13 @@ export default {
     components: { GmapCustomMarker},
     props:["menues"],
     mounted(){
-            this.geolocate();
-            this.realgeolocate();
-            API.get('/supplier')
-                .then( r  => console.log("ok supllier"+ r))
-                .catch( console.log("noo"))
+        this.geolocate();
+            //this.realgeolocate();
             //this.initgmaps(); gmaps
     },
     watch:{
-        immediate: true,
-      	menues: function(newVal, oldVal) {
+        //immediate: true,
+        menues: function(newVal, oldVal) {
             if(newVal.length > 0){
                 //this.menus = newVal;
                 this.markersforMenus(newVal);
@@ -49,29 +48,27 @@ export default {
     },
     data(){
         return{
-            center:{},
-            isfakecenter: true,
-            realcenter: { lat: -34.7273289, lng: -58.279851 },
+            center:{ lat: -34.7230745 ,lng: -58.2585693 },
             markers: [],
             infoWindowPos: null,
-          infoWinOpen: false,
-          currentMidx: null,
-          infoOptions: {
-        	content: '',
-            //optional: offset infowindow so it visually sits nicely on top of our marker
-            pixelOffset: {
-              width: 0,
-              height: -35
-            }
-          },
+            infoWinOpen: false,
+            currentMidx: null,
+            infoOptions: {
+                content: '',
+                //optional: offset infowindow so it visually sits nicely on top of our marker
+                pixelOffset: {
+                width: 0,
+                height: -35
+                }
+            },
             options:{
                 zoomControl: true,
-                mapTypeControl: true,
-                scaleControl: false,
+                mapTypeControl: false,
+                scaleControl: true,
                 streetViewControl: false,
                 rotateControl: false,
                 fullscreenControl: true,
-                disableDefaultUi: true
+                disableDefaultUi: false
             }
         }
     },
@@ -139,7 +136,6 @@ export default {
                         //drivingOptions: DrivingOptions,
                     }, (distance) => addDistance(distance) )
             },
-
             markersforMenus(menus){
                 this.markers = [];
 
@@ -148,36 +144,25 @@ export default {
                 let servicesId = new Set(menues.map(menu=>menu.serviceId));
 
                 let self = this;
-                API.get("/supplier")
-                    .then(suppliers => { suppliers.forEach(supplier => {
-                        // eslint-disable-next-line no-console
-                            console.log(supplier)
-                            /*API.get("/supplier/getSupplierService?supplierId="+supplier.supplierId)
-                                .then(service => {
-                                    if(service.serviceId == serviceId){*/
-                                    if(supplier.service==null) return;
-                                    if(servicesId.has(supplier.service.serviceId)){
-                                        var addressObj = {
-                                            address_line_1: supplier.service.address.location,
-                                            city:           supplier.service.address.town,
-                                            state:          'AR', //zip_code: 'xx', postal_code also valid
-                                            country:        'Argentina'
-                                        };
-                                        self.$geocoder.send(addressObj, response => {
-                                            // eslint-disable-next-line no-console
-                                            console.log("marcador")
-                                            self.markers.push(
-                                                { 
-                                                    position:   response.results[0].geometry.location,
-                                                    id:         supplier.service.serviceId,
-                                                });
+                API.get("/service/")
+                    .then( servicios => servicios.forEach(servicio => {
+                        if(servicesId.has(servicio.serviceId)){
+                            var addressObj = {
+                                address_line_1: servicio.address.location,
+                                city:           servicio.address.town,
+                                state:          'AR',
+                                country:        'Argentina'
+                            };
+                            self.$geocoder.send(addressObj, response => {
+                                self.markers.push({ 
+                                    position:   response.results[0].geometry.location,
+                                    id:         servicio.serviceId,
+                                });
                                             
-                                            });
-                                        }
-                                //})
-                            }
-                            );
-                        }).catch( r => console.log("error"+r))
+                            });
+                        }
+                    })
+                ).catch( r => console.log("error"+r))
             },
             initgmaps(){
                 let map = document.getElementById('map');
@@ -220,21 +205,16 @@ export default {
                 });
             },
 
-            icons(category){
+            icons(categorys){
                 const icons = {
                     Hamburguesa:"fas fa-hamburger",
                     Pizza:"fas fa-pizza-slice",
                     Sushi:"fas fa-pizza-slice",
                 };
-                const evaluation = icons[category];
-                return "fas fa-hamburger";
+                return categorys.map( categ => icons[categ]);
             },
-            category(m){
-                //collapse menus and find correct service
-                return this.menus
-                            .reduce( (a,b) => a.concat(b), [] )
-                            .find(menu=>menu.serviceId == m.id)
-                            .category;
+            category(service){
+                return service.validMenus.map(menu => menu.category );
             },
     }
 }

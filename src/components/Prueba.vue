@@ -54,7 +54,7 @@
                 <input type="button" value="mostrarDistancias" class="btn float-right login_btn">
             </div>
         </div>
-
+        </div>
     </div>
 </template>
 
