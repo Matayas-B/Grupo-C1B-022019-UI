@@ -13,7 +13,6 @@
                         <option>Vegano</option>
                     </select>
                     <button class="btn btn-success" type="button" v-on:click="menuss">search</button>
-
                 </div>
             </form>
 

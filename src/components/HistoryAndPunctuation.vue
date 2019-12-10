@@ -1,20 +1,4 @@
 <template>
-<!--    <div class="container flex-column">
-        <div class="justify-content-center h-100">
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="labelColor text-center " > {{$t('history')}}  </h2>
-                </div>
-                <div class="card-body" v-for="p in purchases" :key="p.purchaseId">
-                    <CardHistory :purchase="p" :menu="p.purchasedMenu" />
-                </div>
-                <div class="card-footer">
-                    <input type="button" value="Back" class="btn float-right login_btn" v-on:click="back">
-                    <input type="button" value="Log Out" class="btn float-right login_btn" v-on:click="logOut" >
-                </div>
-            </div>
-        </div>
-    </div>-->
     <div class="container flex-column">
         <div class="d-flex justify-content-center">
             <div class="card">
@@ -28,7 +12,6 @@
                     <CardHistory :purchase="p" :menu="p.purchasedMenu" />
                 </div>
                 <div class="card-footer" >
-
                     <div class="flex-sm-column">
                         <ul class="pagination" >
                             <li class="page-item"><a class="page-link"  v-on:click="previus">Previous</a></li>

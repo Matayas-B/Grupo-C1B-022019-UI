@@ -3,7 +3,6 @@
     <div class="card-body labelColor">
       <h4 class="card-title text-center">
         {{menu.name}}
-
         <i :class="status(purchase.purchaseStatus)"
            :title="$t('purchasestatus')"
            style="text-align:right" /> <!--Not working aligment -->
@@ -13,7 +12,6 @@
       <img class="card-img-top" :src="menu.imageUrl" alt="Card image" >
     </div>
     <div class="card-body" style="color: white">
-
       <p> {{menu.description}} </p>
       <h4> {{$t('purchaseamount')}}:{{purchase.purchaseAmount}} </h4>
       <h4> {{$t('purchasedate')}}:{{purchase.purchasedDate}}</h4>
