@@ -21,6 +21,7 @@
             </div>
         </form>
 
+        <div class="container flex-row">
         <div class="d-flex justify-content-center">
 
             <div class="card">
@@ -46,13 +47,14 @@
                 </div>
             </div>
 
-        <div class="card" id="map_canvas_container">
+        <div class="card d-flex justify-content-right">
             <div class="justify-content-md-center card-body row" id="map-canva" > 
-                <Gmaps :menues="getMenus()" />
+                <Gmaps :menues="getMenus()" v-on:comprar="comprar"/>
             </div>
             <div class="card-footer" >
                 <input type="button" value="mostrarDistancias" class="btn float-right login_btn">
             </div>
+        </div> 
         </div>
         </div>
     </div>
@@ -116,6 +118,11 @@
             },
             nextt(){
                 if (this.page !== this.menus.length -1 ) this.page ++
+            },
+            comprar(id){
+                let menusr = this.menus.reduce( (a,b) => a.concat(b), [] );;
+                let menu = menusr[0];
+                this.$router.push({ name: 'buy', params: {post: menu }})
             }
         },
 

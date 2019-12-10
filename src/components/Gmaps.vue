@@ -4,22 +4,20 @@
             <GmapMarker :position="center" 
                 :clickable="true" :draggable="true" @dragend="mover"/>
 
-            <GmapMarker v-if="serviceCercanen!=null" 
-                :position="serviceCercanen.position" 
-                :clickable="true" :title="serviceCercanen.serviceName" v-on:click="comprar"/>
-
             <gmap-custom-marker 
                 v-for="(m, index) in allmarkers" :key="index"
                  :marker="m.position"
                 >
+                <GmapMarker :position="m.position" :clickable="true" 
+                    :title="m.serviceName" v-on:click="() => comprar(m)" :icon="color(m)"/>
                 <i class="fas fa-hamburger"
-                    :title="m.serviceName" v-on:focus="aaa"
+                    :title="m.serviceName"
                 />
                 
-                                    <!--@click="center = m.position"  
-                                          <input type="button" value="mostrarDistancias" class="btn float-right login_btn"
+                <!--@click="center = m.position"  
+                    <input type="button" value="mostrarDistancias" class="btn float-right login_btn"
         v-on:click="toggleInfoWindow(center,'<strong>Marker 1</strong>')">
-                                    <my-component></my-component>
+                <my-component></my-component>
                                     v-on:click="toggleInfoWindow(center,'<strong>Marker 1</strong>')"
                                     
                                     <span v-for="(iconos, index) in icons(category(m))" :key="index">
@@ -43,6 +41,7 @@ export default {
     mounted(){
         this.geolocate();
         this.markersforMenus(this.menues);
+        this.distanceToServices();
             //this.realgeolocate();
             //this.initgmaps(); gmaps
     },
@@ -84,11 +83,22 @@ export default {
         }
     },
     methods:{
-            cercano(){
-                this.serviceCercanen = this.allmarkers.sort( a,b => a.distance < b.distance);
+            color(service){
+                let color = "blue";
+                if(this.serviceCercanen == null) 
+                    color = "blue";
+                else if(this.serviceCercanen == service) {
+                    color = "green";
+                }
+
+                return  {url:"http://maps.google.com/mapfiles/ms/icons/" + color + "-dot.png"};
             },
-            compra(){
-                this.$router.push({ name: 'buy', params: {post: this.post }})
+            cercano(){
+                this.allmarkers = this.allmarkers.sort( (a,b) => a.distance < b.distance);
+            },
+            comprar(m){
+                
+                this.$emit("comprar",m.id);
             },
             toggleInfoWindow: function(marker, idx) {
                 this.infoWindowPos = marker.position;
@@ -138,6 +148,8 @@ export default {
                             self.allmarkers.distance = element.distance.text;
                         }
                         self.cercano();
+                        self.serviceCercanen = self.allmarkers[0];
+                        console.log(self.serviceCercanen )
                     }
                     else console.log(status)
                 }
@@ -170,6 +182,7 @@ export default {
                                     position:   response.results[0].geometry.location,
                                     id:         servicio.serviceId,
                                     serviceName: servicio.serviceName,
+                                    menus : servicio.validMenus,
                                     duration    : "?",
                                     distance : "?"
                                 };
@@ -240,7 +253,6 @@ export default {
                 event.preventDefault();
                 var data = event.dataTransfer.getData("Text");
                 event.target.appendChild(document.getElementById(data));
-                console.log("se termino de mover")
             },
             icons(categorys){
                 const icons = {
