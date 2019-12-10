@@ -4,13 +4,16 @@
             <GmapMarker :position="center" 
                 :clickable="true" :draggable="true" @dragend="mover"/>
 
+            <GmapMarker v-if="serviceCercanen!=null" 
+                :position="serviceCercanen.position" 
+                :clickable="true" :title="serviceCercanen.serviceName" v-on:click="comprar"/>
+
             <gmap-custom-marker 
-                v-for="(m, index) in markers" :key="index"
+                v-for="(m, index) in allmarkers" :key="index"
                  :marker="m.position"
                 >
                 <i class="fas fa-hamburger"
-                    :title="m.serviceName"
-                    v-on:click="toggleInfoWindow(center,'<strong>Marker 1</strong>')"
+                    :title="m.serviceName" v-on:focus="aaa"
                 />
                 
                                     <!--@click="center = m.position"  
@@ -39,7 +42,7 @@ export default {
     props:["menues"],
     mounted(){
         this.geolocate();
-        this.markersforMenus(newVal);
+        this.markersforMenus(this.menues);
             //this.realgeolocate();
             //this.initgmaps(); gmaps
     },
@@ -68,6 +71,7 @@ export default {
                 height: -35
                 }
             },
+            serviceCercanen: null,
             options:{
                 zoomControl: true,
                 mapTypeControl: false,
@@ -80,6 +84,12 @@ export default {
         }
     },
     methods:{
+            cercano(){
+                this.serviceCercanen = this.allmarkers.sort( a,b => a.distance < b.distance);
+            },
+            compra(){
+                this.$router.push({ name: 'buy', params: {post: this.post }})
+            },
             toggleInfoWindow: function(marker, idx) {
                 this.infoWindowPos = marker.position;
                 this.infoOptions.content = marker.infoText;
@@ -118,36 +128,31 @@ export default {
             },
 
             distanceToServices(){
-                
+                let self = this;
                 function addDistance(response, status) {
                     if (status == 'OK') {
                         var results = response.rows[0].elements;
                         for (var j = 0; j < results.length; j++) {
                             var element = results[j];
-                            this.markers["duration"] = element.duration.text;
-                            this.markers["distance"] = element.distance.text;
+                            self.allmarkers.duration = element.duration.text;
+                            self.allmarkers.distance = element.distance.text;
                         }
-                        // eslint-disable-next-line no-console
-                        console.log(this.markers)
+                        self.cercano();
                     }
                     else console.log(status)
                 }
-                
-                var servicio = new gmapApi().maps.DistanceMatrixService();
-                // eslint-disable-next-line no-console
-                
-                console.log(servicio)
-
+                const googlemaps = gmapApi().maps;
+                var servicio = new googlemaps.DistanceMatrixService();
                 servicio.getDistanceMatrix({
-                        origins: [this.center],
-                        destinations: this.markers.map( marker => marker.position),
+                        origins: [self.center],
+                        destinations: self.allmarkers.map( marker => marker.position),
                         travelMode: 'DRIVING',
                         //transitOptions: TransitOptions,
                         //drivingOptions: DrivingOptions,
-                    }, (distance) => addDistance(distance) )
+                    }, (distance,status) => addDistance(distance,status) )
             },
             markersforMenus(menus){
-                if( typeof(menus) == undefined || menus==null ) return;
+                if( typeof(menus) == undefined || menus==null ) menus = [];
                 let menues = menus;
                 let servicesId = new Set(menues.map(menu=>menu.serviceId));
 
@@ -164,7 +169,9 @@ export default {
                                 const mark = { 
                                     position:   response.results[0].geometry.location,
                                     id:         servicio.serviceId,
-                                    serviceName: servicio.serviceName
+                                    serviceName: servicio.serviceName,
+                                    duration    : "?",
+                                    distance : "?"
                                 };
                                 self.allmarkers.push(mark);
                                 if(servicesId.has(servicio.serviceId)){
