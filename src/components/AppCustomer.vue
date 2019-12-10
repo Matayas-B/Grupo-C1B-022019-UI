@@ -41,8 +41,8 @@
                     {
                         hiddenOnCollapse: false,
                         header: false,
-                        title: 'Shopping Cart',
-                        icon: 'fas fa-cart-plus',
+                        title: 'history',
+                        icon: 'fa fa-book',
                         onClick:  () => { 
                             this.$router.push({ name: 'historyAndPunctuation' , params: {user: this.post }})
                         }

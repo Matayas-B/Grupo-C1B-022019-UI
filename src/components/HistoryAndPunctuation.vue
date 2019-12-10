@@ -66,8 +66,16 @@
         },
         methods:{
             menuss(){
+                this.loading=true;
                 API.get("/customer/purchase?customerId="+ this.$store.state.user.id)
-                    .then(res =>this.callBack(res))
+                    .then(res => {
+                        this.callBack(res)
+                        this.loading=false
+                    })
+                    .catch(res => {
+                        this.loading = false;
+                        this.$toastr.error(':(', res)
+                    })
             },
             callBack(r){
                 //Ordenated from most recent to older
