@@ -36,12 +36,16 @@
                         href: '/',
                         title: 'Sign off',
                         icon: 'fa fa-sign-out-alt',
+                        onClick:  () => {
+                            this.$router.push('/')
+                            localStorage.clear()
+                        }
                     },
                     {
                         hiddenOnCollapse: false,
                         header: false,
-                        title: 'Shopping Cart',
-                        icon: 'fas fa-cart-plus',
+                        title: 'history',
+                        icon: 'fa fa-book',
                         onClick:  () => this.$router.push({ name: 'historyAndDelivery', params: {user: this.post } })
                     },
                     {
