@@ -1,21 +1,4 @@
 <template>
-<!--    <div class="container flex-column" style="height: 50%; width: 50%;">-->
-<!--        <div class="justify-content-center py-5" >-->
-<!--            <div class="card">-->
-<!--                <div class="card-header">-->
-<!--                    <h2 class="labelColor text-center " > {{$t('history')}} </h2>-->
-<!--                </div>-->
-<!--                <div class="card-body" v-for="p in purchases" :key="p.menuId">-->
-<!--                    <CardDelivery :purchase="p" :menu="p.purchasedMenu"-->
-<!--                        v-on:sendMenu="sendMenu"  v-on:finishMenu="finishMenu" />-->
-<!--                </div>-->
-<!--                <div class="card-footer">-->
-<!--                    <input type="button" value="Back" class="btn float-right login_btn" v-on:click="back">-->
-<!--                    <input type="button" value="Log Out" class="btn float-right login_btn" v-on:click="logOut" >-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
     <div class="container flex-column">
         <div class="d-flex justify-content-center">
             <div class="card">
@@ -42,9 +25,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </div>
 </template>
 

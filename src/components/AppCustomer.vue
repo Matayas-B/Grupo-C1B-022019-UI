@@ -33,6 +33,10 @@
                         href: '/',
                         title: 'Sign off',
                         icon: 'fa fa-sign-out-alt',
+                        onClick:  () => {
+                            this.$router.push('/')
+                            localStorage.clear()
+                        }
                     },
                     {
                         hiddenOnCollapse: false,
