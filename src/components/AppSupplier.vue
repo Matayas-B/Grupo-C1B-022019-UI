@@ -2,20 +2,17 @@
     <div class="flex-row">
         <nav  class="navbar-nav">
             <h2 class="text-white text-center" >ViendasYa</h2>
-
         </nav>
         <div class="flex-column px-2 prueba">
             <sidebar-menu :menu="menu"  :collapsed="true"  @item-click="onItemClick"/>
             <div class="d-flex">
                 <transition name="aparecer" appear>
-
                 <router-view></router-view>
                 </transition>
 
             </div>
         </div>
     </div>
-
 </template>
 
 <script>

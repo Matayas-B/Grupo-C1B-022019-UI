@@ -1,6 +1,5 @@
 <template>
     <div class="card" >
-
       <img class="card-img-top" :src="menu.imageUrl" alt="Card image" >
       <div class="card-body labelColor">
         <h4 class="card-title text-center"> {{menu.name}} </h4>
