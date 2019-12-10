@@ -17,10 +17,12 @@
 <!--        </div>-->
 <!--    </div>-->
     <div class="container flex-column">
-
         <div class="d-flex justify-content-center">
             <div class="card">
                 <div class="card-header">
+                    <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
+                        <div class="spinner-border text-primary " style="height: 7rem; width: 7rem"></div>
+                    </div>
                     <h2 class="labelColor text-center " > {{$t('history')}} </h2>
 
                 </div>
@@ -60,6 +62,7 @@
         },
         data(){
             return{
+                loading: false,
                 //menues: this.user.service.validMenus.reduce( (a,b) => a.concat(b), [] ),
                 purchases:[],
                 page: 0,
@@ -67,8 +70,16 @@
         },
         methods:{
             refreshpurchases(){
+                this.loading=true;
                 API.get("/supplier/purchase?supplierId="+this.user.id)
-                    .then(res => this.callBack(res));
+                    .then(res => {
+                        this.callBack(res)
+                        this.loading = false;
+                    })
+                    .catch( () => {
+                    this.$toastr.error('Error ',' :(')
+                    this.loading = false;
+                })
             },
             callBack(r){
                 //Ordenated from most recent to older
