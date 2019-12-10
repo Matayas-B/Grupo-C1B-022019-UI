@@ -135,6 +135,7 @@ export default {
                 
                 var servicio = new gmapApi().maps.DistanceMatrixService();
                 // eslint-disable-next-line no-console
+                
                 console.log(servicio)
 
                 servicio.getDistanceMatrix({
