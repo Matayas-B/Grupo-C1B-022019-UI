@@ -78,6 +78,8 @@
             }
         },
         created() {
+            localStorage.clear();
+
             if (this.$route.fullPath.includes('error'))
                 this.$router.push('/error')
 
