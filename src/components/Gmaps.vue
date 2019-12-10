@@ -2,21 +2,26 @@
     <GmapMap class="col" id="map" :center="center" :zoom="10" 
                         map-type-id="terrain" :options="options" >
             <GmapMarker :position="center" 
-                v-on:click="toggleInfoWindow(center,'<strong>Marker 1</strong>')"
-                :clickable="true" :draggable="true"/>
+                :clickable="true" :draggable="true" @dragend="mover"/>
+
             <gmap-custom-marker 
                 v-for="(m, index) in markers" :key="index"
                  :marker="m.position"
                 >
+                <i class="fas fa-hamburger"
+                    :title="m.serviceName"
+                    v-on:click="toggleInfoWindow(center,'<strong>Marker 1</strong>')"
+                />
                 
-                <span v-for="(iconos, index) in icons(category(m))" :key="index">
-                <i :class="iconos"></i>
-                </span>
                                     <!--@click="center = m.position"  
                                           <input type="button" value="mostrarDistancias" class="btn float-right login_btn"
         v-on:click="toggleInfoWindow(center,'<strong>Marker 1</strong>')">
                                     <my-component></my-component>
                                     v-on:click="toggleInfoWindow(center,'<strong>Marker 1</strong>')"
+                                    
+                                    <span v-for="(iconos, index) in icons(category(m))" :key="index">
+                
+                </span>
                                     -->
            </gmap-custom-marker>
            <GmapInfoWindow :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false" />
@@ -34,6 +39,7 @@ export default {
     props:["menues"],
     mounted(){
         this.geolocate();
+        this.markersforMenus(newVal);
             //this.realgeolocate();
             //this.initgmaps(); gmaps
     },
@@ -42,7 +48,7 @@ export default {
         menues: function(newVal, oldVal) {
             if(newVal.length > 0){
                 //this.menus = newVal;
-                this.markersforMenus(newVal);
+                this.changemarkers(newVal);
             }
         }
     },
@@ -50,6 +56,7 @@ export default {
         return{
             center:{ lat: -34.7230745 ,lng: -58.2585693 },
             markers: [],
+            allmarkers:[],
             infoWindowPos: null,
             infoWinOpen: false,
             currentMidx: null,
@@ -123,12 +130,14 @@ export default {
                         // eslint-disable-next-line no-console
                         console.log(this.markers)
                     }
+                    else console.log(status)
                 }
                 
-                let servicio = new gmapApi().maps.DistanceMatrixService();
+                var servicio = new gmapApi().maps.DistanceMatrixService();
                 // eslint-disable-next-line no-console
                 console.log(servicio)
-                    servicio.getDistanceMatrix({
+
+                servicio.getDistanceMatrix({
                         origins: [this.center],
                         destinations: this.markers.map( marker => marker.position),
                         travelMode: 'DRIVING',
@@ -137,8 +146,6 @@ export default {
                     }, (distance) => addDistance(distance) )
             },
             markersforMenus(menus){
-                this.markers = [];
-
                 if( typeof(menus) == undefined || menus==null ) return;
                 let menues = menus;
                 let servicesId = new Set(menues.map(menu=>menu.serviceId));
@@ -146,7 +153,6 @@ export default {
                 let self = this;
                 API.get("/service/")
                     .then( servicios => servicios.forEach(servicio => {
-                        if(servicesId.has(servicio.serviceId)){
                             var addressObj = {
                                 address_line_1: servicio.address.location,
                                 city:           servicio.address.town,
@@ -154,15 +160,23 @@ export default {
                                 country:        'Argentina'
                             };
                             self.$geocoder.send(addressObj, response => {
-                                self.markers.push({ 
+                                const mark = { 
                                     position:   response.results[0].geometry.location,
                                     id:         servicio.serviceId,
-                                });
-                                            
+                                    serviceName: servicio.serviceName
+                                };
+                                self.allmarkers.push(mark);
+                                if(servicesId.has(servicio.serviceId)){
+                                    self.markers.push(mark);
+                                }
                             });
-                        }
+                        
                     })
                 ).catch( r => console.log("error"+r))
+            },
+            changemarkers(menues){
+                let servicesId = new Set(menues.map(menu=>menu.serviceId));
+                this.markers = this.allmarkers.filter(m => servicesId.has(m.id) );
             },
             initgmaps(){
                 let map = document.getElementById('map');
@@ -205,6 +219,21 @@ export default {
                 });
             },
 
+            mover(event){
+                this.center = { lat: event.latLng.lat() ,lng: event.latLng.lng() };
+                //console.log(this.center)
+                this.distanceToServices();
+                
+            },
+            allowDrop(event) {
+                event.preventDefault();
+            },
+            drop(event) {
+                event.preventDefault();
+                var data = event.dataTransfer.getData("Text");
+                event.target.appendChild(document.getElementById(data));
+                console.log("se termino de mover")
+            },
             icons(categorys){
                 const icons = {
                     Hamburguesa:"fas fa-hamburger",
