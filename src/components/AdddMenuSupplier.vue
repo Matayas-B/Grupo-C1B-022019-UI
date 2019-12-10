@@ -1,6 +1,9 @@
 <template>
     <div class="wrapper fadeInDown">
         <div id="formContent">
+            <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
+                <div class="spinner-border text-primary " style="height: 7rem; width: 7rem"></div>
+            </div>
         <form >
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -80,6 +83,7 @@
         props: ['post'],
         data() {
             return {
+                loading: false,
                 loaduser: [],
                 serid: '',
                 menu: {
@@ -104,11 +108,18 @@
         methods: {
 
             createMenu(){
+                this.loading = true;
                 let self = this;
                 let menus = self.menu;
                 API.post("/service/addMenu", menus)
-                    .then( () => this.$toastr.success('Menu created successfully',' :)'))
-                    .catch(e => this.$toastr.error(e,'error :('))
+                    .then( () => {
+                        this.$toastr.success('Menu created successfully',' :)')
+                        this.loading=false;
+                    })
+                    .catch(e => {
+                        this.$toastr.error(e,'error :(')
+                        this.loading=false;
+                    })
             },
             back(){
                 this.$router.push({ name: 'suplieropcion', params: {post: this.post }})

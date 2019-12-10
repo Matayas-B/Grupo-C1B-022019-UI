@@ -33,13 +33,19 @@
                         href: '/',
                         title: 'Sign off',
                         icon: 'fa fa-sign-out-alt',
+                        onClick:  () => {
+                            this.$router.push('/')
+                            localStorage.clear()
+                        }
                     },
                     {
                         hiddenOnCollapse: false,
                         header: false,
-                        title: 'Shopping Cart',
-                        icon: 'fas fa-cart-plus',
-                        //onClick:  ()=> {this.$router.push({ name: 'account', params: {post: this.post }})}
+                        title: 'history',
+                        icon: 'fa fa-book',
+                        onClick:  () => { 
+                            this.$router.push({ name: 'historyAndPunctuation' , params: {user: this.post }})
+                        }
                     },
                     {
                         hiddenOnCollapse: false,

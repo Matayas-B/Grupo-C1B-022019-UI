@@ -1,16 +1,16 @@
 <template>
     <div class="container">
 
-        <!--        <nav id="barra-principal" class="navbar fixed-top">-->
-        <!--            <h2 class="text-white" id="ViendasYa">ViendasYa</h2>-->
-        <!--            <h2 class="text-white" id="user">My Account: {{user.name}}</h2>-->
-        <!--        </nav>-->
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
-                    <h2 class=" labelColor text-center " >Facundo</h2>
+                    <h2 class=" labelColor text-center " > r.account.funds : {{funds}} </h2>
                 </div>
                     <div class="card ">
+                        <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
+                            <div class="spinner-border text-primary " style="height: 7rem; width: 7rem"></div>
+                        </div>
+                        <img class="card-img-top" :src=post.imageUrl alt="Card image">
                         <div class="card-body">
                             <h4 class="card-text labelColor ">{{post.name}}</h4>
                             <h4 class="card-text labelColor">{{post.description}}</h4>
@@ -19,8 +19,8 @@
                         </div>
                 </div>
                 <div class="card-body">
-                    <input type="number" min="0"  class="form-control" id="cant" placeholder="Cant" autocomplete="off" v-model="quantity">
-
+                    <input type="number"  class="form-control" id="cant"  autocomplete="off" v-model="quantity"
+                        min="0" v-bind:max="maxQuantity" placeholder="Cant" v-on:max="() => $toastr.error('Not enough money',':(') ">
                 </div>
                 <div class="card-footer">
                     <input type="button" value="Buy" class="btn float-right login_btn"  v-on:click="buy" >
@@ -52,6 +52,7 @@
         props: ['post'],
         data(){
             return{
+                loading: false,
                 myRate: 3,
                 compra: {
                     "customerId": this.$store.state.user.id,
@@ -59,6 +60,8 @@
                     "menuId": this.post.menuId,
                     "quantity": 10
                 },
+                funds: this.$store.state.user.account.funds,
+                maxQuantity: typeof(this.funds) != "undefined" ? this.funds / this.post.price : 10,
                 pun: {
                     "customerId": this.$store.state.user.id,
                     "serviceId": this.post.serviceId,
@@ -77,10 +80,17 @@
                 this.$router.push('prueba')
             },
             buy(){
+                this.loading=true;
                 let self = this
                 API.post('/customer/purchase', self.compra)
-                    .then(() => this.score())
-                    .catch(res => this.$toastr.error(res,':('))
+                    .then(() => {
+                        this.score()
+                        this.loading= false;
+                    })
+                    .catch(res => {
+                        this.$toastr.error(res,':(')
+                        this.loading=false;
+                    })
             },
             score(){
                 this.$toastr.success('Compra Realizada', ':)')
@@ -92,7 +102,6 @@
             rating(){
             },
             puntuar(){
-
                 let self = this
                 API.post('/customer/score', self.pun)
                     .then(() => this.$toastr.success('Puntuacion Realizada', ':)'))

@@ -4,7 +4,16 @@
   "login2": "Login",
   "login3": "Don't have an account?",
   "login4": "Sign Up",
-  "login5": "Sign in"
+  "login5": "Sign in",
 
+
+  "history":"History",
+  "purchasestatus": "Purchase Status",
+  "purchasedate":"From",
+  "purchaseamount":"Amount",
+  "userpuntuation":"Your puntuation",
+  "purchaseprice": "Price",
+  "send":"send",
+  "finish":"finish"
 }
 

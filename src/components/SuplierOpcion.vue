@@ -1,7 +1,5 @@
 <template>
-
     <div class="wrapper fadeInDown">
-
         <div id="formContent">
             <!-- Icon -->
             <div class="fadeIn first">
@@ -11,7 +9,6 @@
             <input type="button" class="fadeIn fourth" value="add Menu" v-on:click="createMenu" >
             <input type="button" class="fadeIn fourth " value="Update And Delete"  v-on:click="deleteAndUpdateMenu">
         </div>
-
     </div>
 </template>
 

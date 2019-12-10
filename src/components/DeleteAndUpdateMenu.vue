@@ -1,6 +1,5 @@
 <template>
     <div class="container flex-column">
-
             <form class="form-inline justify-content-end prueba py-5" >
                 <div class="form-group ">
                     <input  v-model="info.menuname"  class="form-control" placeholder="search..">
@@ -14,7 +13,6 @@
                         <option>Vegano</option>
                     </select>
                     <button class="btn btn-success" type="button" v-on:click="menuss">search</button>
-
                 </div>
             </form>
 
@@ -74,11 +72,9 @@
             }
         },
         methods: {
-            async   menuss(){
-                let self = this
-                let m = self.info
-                let p = await API.post('/search', m )
-                this.callBack(p)
+            menuss(){
+                 API.get("/service/getMenus?serviceId="+this.serviceId )
+                     .then(response => this.callBack(response))
             },
             callBack(r){
                 this.menus = chunk(r,2)
