@@ -8,7 +8,6 @@
                 </div>
                 <div class="card-header">
                     <h2 class=" labelColor text-center " >My Account: {{this.post.name}}</h2>
-
                 </div>
                 <div class="card-header">
                     <h3>Founds: {{money}}</h3>
