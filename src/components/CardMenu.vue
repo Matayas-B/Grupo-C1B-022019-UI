@@ -1,6 +1,6 @@
 <template>
     <div class="card ">
-        <img class="card-img-top" :src=post.imageUrl alt="Card image">
+        <img class="card-img-top responsibe" :src=post.imageUrl alt="Card image">
         <div class="card-body">
             <h4 class="card-text">{{post.name}}</h4>
             <h4 class="card-text">{{post.description}}</h4>
@@ -14,6 +14,12 @@
 
         name: "CardMenu",
         props: ['post'],
+        data(){
+            return {
+                width: window.screen.width,
+                heigth: window.screen.heigth,
+            }
+        },
         methods:{
                 buy(){ this.$router.push({ name: 'buy', params: {post: this.post }})}
         }
@@ -31,4 +37,13 @@
 
         width: auto;
     }
+
+    .responsibe {
+        width: 100%;
+        max-width: 400px;
+        align-items:center;
+        height: auto;
+        max-height: 300px;
+    }
+
 </style>

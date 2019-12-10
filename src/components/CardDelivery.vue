@@ -56,4 +56,11 @@ export default {
     .labelColor{
         color: rgb(255, 255, 255);
     }
+    img{
+      max-width:80%;
+      height: auto;
+      align-items:center;
+      align-self: center;
+      margin-top: 2%;
+    }
 </style>

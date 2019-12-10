@@ -87,4 +87,11 @@ export default {
     .labelColor{
         color: rgb(255, 255, 255);
     }
+    .responsibe {
+        width: 100%;
+        max-width: 400px;
+        align-items:center;
+        height: auto;
+        max-height: 300px;
+    }
 </style>

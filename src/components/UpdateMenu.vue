@@ -1,5 +1,8 @@
 <template>
     <div class="wrapper fadeInDown">
+        <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
+            <div class="spinner-border text-primary " style="height: 7rem; width: 7rem"></div>
+        </div>
         <div id="formContent">
             <form>
                 <div class="form-row" >
@@ -62,7 +65,6 @@
                 </div>
                 <div class=" d-flex links">
                     <button type="button" class="btn btn-primary" v-on:click="updateMenu">Update</button>
-
                     <router-link to="/deleteandupdate"></router-link>
                     <button type="button" class="btn btn-primary" v-on:click="back">Back</button>
 
@@ -79,6 +81,7 @@
         props: ['post', 'prueba'],
         data() {
             return {
+                loading: false,
                 service: {
                     menuId: this.post.menuId,
                     serviceId:this.post.serviceId,
@@ -87,7 +90,7 @@
                     category: this.post.category,
                     deliveryFee: this.post.deliveryFee,
                     startDate: "2017-05-04",
-                    endDate: "2017-05-04",
+                    endDate: "2020-05-04",
                     deliveryHours: this.post.deliveryHours,
                     averageDeliveryMinutes: this.post.averageDeliveryMinutes,
                     price: this.post.price,
@@ -103,11 +106,18 @@
                 this.$router.push({ name: 'deleteandupdate', params: {post: this.prueba }})
             },
             updateMenu(){
+                this.loading = true;
                 let self = this;
-                //let menus = self.service;
                 API.post("/service/updateMenu", self.service)
-                    .then( () => this.$toastr.success('Menu modified successfully',' :)'))
-                    .catch( () => this.$toastr.error('Error modified Menu ',' :('))
+                    .then( () => {
+                        this.$toastr.success('Menu modified successfully',' :)')
+                        this.loading = false;
+                    })
+                    .catch( () => {
+                        this.$toastr.error('Error modified Menu ',' :(')
+                        this.loading = false;
+                    })
+
                 // eslint-disable-next-line no-console
                 console.log(self.service)
             }

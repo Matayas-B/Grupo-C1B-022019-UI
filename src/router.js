@@ -50,7 +50,6 @@ export default new Router({
             {path: 'accountsupplier', component: AccountSuplier, name: 'accountsupplier', props: true},
             {path: 'adddmenusupplier', component: AdddMenuSupplier, name: 'adddmenusupplier', props: true},
                 {path: '/updatemenu', component: UpdateMenu, name: 'updatemenu', props:  true },
-
             ]},
         {path: '/thneNavBar', component: TheNavBAr}
     ]
