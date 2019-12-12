@@ -79,17 +79,16 @@
         },
         created() {
             localStorage.clear();
-
-            if (this.$route.fullPath.includes('error'))
-                this.$router.push('/error')
-
-            var loginParams = this.$route.query;
-            if (loginParams.token != null)
-                this.userLoggedIn({ accessToken: loginParams.token })
-            if (loginParams.email != null && loginParams.password != null) {
+            var queryStringParams = this.$route.query;
+            if (queryStringParams.error != null) {
+                this.$toastr.error(queryStringParams.error);
+            }
+            else if (queryStringParams.token != null)
+                this.userLoggedIn({ accessToken: queryStringParams.token })
+            else if (queryStringParams.email != null && queryStringParams.password != null) {
                 this.logUser({
-                    email: loginParams.email,
-                    password: loginParams.password
+                    email: queryStringParams.email,
+                    password: queryStringParams.password
                 });
             }
         },
@@ -125,8 +124,6 @@
                 .then((userInfo) => {
                     this.loaduser= userInfo;
                     this.$store.state.user = userInfo;
-                    // eslint-disable-next-line no-console
-                    console.log(this.loaduser.userType)
                     localStorage.setItem('id', this.loaduser.id)
                     if(this.loaduser.userType == "customer"){
                         localStorage.setItem('id', this.loaduser.id)
