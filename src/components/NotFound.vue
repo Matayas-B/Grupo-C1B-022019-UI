@@ -9,8 +9,6 @@
             </div>
             <!-- Login Form -->
             <form  >
-<!--                <img class="card-img-top" src="../assets/error-404.jpg" alt="Card image">-->
-
             </form>
             <input type="button" class="fadeIn fourth" value="Login" >
         </div>

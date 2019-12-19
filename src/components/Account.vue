@@ -10,7 +10,6 @@
                 </div>
                 <div class="card-header">
                     <h3>Funds: {{money}}</h3>
-
                 </div>
                 <div class="card-body">
                     <input type="number" min="0"  class="form-control" id="cant" placeholder="amount to account" 
@@ -21,7 +20,6 @@
                     <input type="submit" value="Back" class="btn float-right login_btn" v-on:click="back()">
                     <input type="submit" value="Log Out" class="btn float-right login_btn" v-on:click="logOut()">
                 </div>
-
             </div>
         </div>
     </div>

@@ -89,22 +89,36 @@
                 .catch((message) => {
                     if (message.response.data.errors != null) {
                         var errors = message.response.data.errors;
-                        if (errors.address != null)
+                        if (errors.address != null) {
+                            this.loading = false;
                             this.$toastr.error(errors.address);
-                        if (errors.email != null)
+                        }
+                        if (errors.email != null) {
+                            this.loading = false;
                             this.$toastr.error(errors.email);
-                        if (errors.lastname != null)
+                        }
+                        if (errors.lastname != null) {
+                            this.loading = false;
                             this.$toastr.error(errors.lastname);
-                        if (errors.name != null)
+                        }
+                        if (errors.name != null){
+                            this.loading = false;
                             this.$toastr.error(errors.name);
-                        if (errors.password != null)
+                        }
+                        if (errors.password != null){
+                            this.$toastr.error(errors.name);
                             this.$toastr.error(errors.password);
+                        }
                     }
-                    else if (message.response.data != "")
+                    else if (message.response.data != ""){
+                        this.loading=false;
                         this.$toastr.error(message.response.data);
-                    else
+                    }
+                    else {
+                        this.loading = false;
                         this.$toastr.error("An unexpected error has happened.");
-                });
+                    }
+                    });
             },
             userCreated(){
               this.$toastr.success("User was successfully created!!!");

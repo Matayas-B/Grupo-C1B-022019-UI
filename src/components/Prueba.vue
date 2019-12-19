@@ -1,9 +1,6 @@
 <template>
-
     <div class="container flex-column">
-
         <form class="form-inline justify-content-end prueba py-5" >
-
             <div class="form-group ">
                 <input  v-model="info.servicetown"  class="form-control" placeholder="Locate search..">
                 <input  v-model="info.menuname"  class="form-control" placeholder="Name search..">
@@ -17,12 +14,9 @@
                     <option>Vegano</option>
                 </select>
                 <button class="btn btn-success" type="button" v-on:click="menuss">search</button>
-
             </div>
         </form>
-
         <div class="d-flex justify-content-center">
-
             <div class="card">
                 <div class="card-header">
                     <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
@@ -45,7 +39,6 @@
                     </div>
                 </div>
             </div>
-
         <div class="card" id="map_canvas_container">
             <div class="justify-content-md-center card-body row" id="map-canva" > 
                 <Gmaps :menues="getMenus()" />
