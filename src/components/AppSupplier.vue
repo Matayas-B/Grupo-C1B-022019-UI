@@ -2,20 +2,17 @@
     <div class="flex-row">
         <nav  class="navbar-nav">
             <h2 class="text-white text-center" >ViendasYa</h2>
-
         </nav>
         <div class="flex-column px-2 prueba">
             <sidebar-menu :menu="menu"  :collapsed="true"  @item-click="onItemClick"/>
             <div class="d-flex">
                 <transition name="aparecer" appear>
-
                 <router-view></router-view>
                 </transition>
 
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -36,12 +33,16 @@
                         href: '/',
                         title: 'Sign off',
                         icon: 'fa fa-sign-out-alt',
+                        onClick:  () => {
+                            this.$router.push('/')
+                            localStorage.clear()
+                        }
                     },
                     {
                         hiddenOnCollapse: false,
                         header: false,
-                        title: 'Shopping Cart',
-                        icon: 'fas fa-cart-plus',
+                        title: 'history',
+                        icon: 'fa fa-book',
                         onClick:  () => this.$router.push({ name: 'historyAndDelivery', params: {user: this.post } })
                     },
                     {

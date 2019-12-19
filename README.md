@@ -13,3 +13,5 @@ Commits structure should be: "(Type) - (Descriptive commit message)."
 2. Navigate to the root folder, where the package.json file is located.
 3. Execute "npm install" command in any cmd or powershell console (open it as Administrator).
 4. To run the app, execute the command "npm run serve", and ***ViendasYa*** application will be available on http://localhost:8080/.
+
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://viendasya-test.herokuapp.com/)

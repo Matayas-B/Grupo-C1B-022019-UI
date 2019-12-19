@@ -9,10 +9,12 @@
                  :marker="m.position"
                 >
                 <GmapMarker :position="m.position" :clickable="true" 
-                    :title="m.serviceName" v-on:click="() => comprar(m)" :icon="color(m)"/>
+                    :title="m.serviceName" v-on:click="() => comprar(m)"
+                    class="markitas" :id="m.id" />
                 <i class="fas fa-hamburger"
-                    :title="m.serviceName"
+                    :title="m.distance"
                 />
+
                 
                 <!--@click="center = m.position"  
                     <input type="button" value="mostrarDistancias" class="btn float-right login_btn"
@@ -41,7 +43,7 @@ export default {
     mounted(){
         this.geolocate();
         this.markersforMenus(this.menues);
-        this.distanceToServices();
+        //this.distanceToServices();
             //this.realgeolocate();
             //this.initgmaps(); gmaps
     },
@@ -70,7 +72,7 @@ export default {
                 height: -35
                 }
             },
-            serviceCercanen: null,
+            mindistServId: -1,
             options:{
                 zoomControl: true,
                 mapTypeControl: false,
@@ -83,18 +85,18 @@ export default {
         }
     },
     methods:{
-            color(service){
-                let color = "blue";
-                if(this.serviceCercanen == null) 
-                    color = "blue";
-                else if(this.serviceCercanen == service) {
-                    color = "green";
-                }
-
+            color(color){
                 return  {url:"http://maps.google.com/mapfiles/ms/icons/" + color + "-dot.png"};
             },
+            selectcolor(markserv,idserv){
+                return idserv.id == markserv.id? this.color("green"): this.color("blue");
+            },
             cercano(){
-                this.allmarkers = this.allmarkers.sort( (a,b) => a.distance < b.distance);
+                //this.allmarkers = 
+                let ord = this.allmarkers.sort( (a,b) => a.distance < b.distance);
+                this.mindistServId = ord[0].id;
+                console.log( document.getElementsByClassName("markitas"))
+                //:icon="selectcolor(m,mindistServId)"
             },
             comprar(m){
                 
@@ -112,6 +114,23 @@ export default {
                 this.infoWinOpen = true;
                 this.currentMidx = idx;
                 }
+            },
+            update(response, status) {
+                if (status == 'OK') {
+                    var results = response.rows[0].elements;
+                    for (var j = 0; j < results.length; j++) {
+                            var element = results[j];
+                            this.allmarkers.duration = element.duration.text;
+                            this.allmarkers.distance = element.distance.text;
+                            this.allmarkers.icon = this.color( "blue");
+                    }
+                    console.log(this.mindistServId)
+                        this.cercano();
+                        console.log(this.mindistServId)
+                        this.allmarkers[0].icon = this.color( "green")
+                        //this.allmarkers.forEach( mark => mark.icon = this.color(mark))
+                }
+                else console.log(status)
             },
             geolocate(){
                 var self = this;                
@@ -138,30 +157,15 @@ export default {
             },
 
             distanceToServices(){
-                let self = this;
-                function addDistance(response, status) {
-                    if (status == 'OK') {
-                        var results = response.rows[0].elements;
-                        for (var j = 0; j < results.length; j++) {
-                            var element = results[j];
-                            self.allmarkers.duration = element.duration.text;
-                            self.allmarkers.distance = element.distance.text;
-                        }
-                        self.cercano();
-                        self.serviceCercanen = self.allmarkers[0];
-                        console.log(self.serviceCercanen )
-                    }
-                    else console.log(status)
-                }
                 const googlemaps = gmapApi().maps;
                 var servicio = new googlemaps.DistanceMatrixService();
                 servicio.getDistanceMatrix({
-                        origins: [self.center],
-                        destinations: self.allmarkers.map( marker => marker.position),
+                        origins: [this.center],
+                        destinations: this.allmarkers.map( marker => marker.position),
                         travelMode: 'DRIVING',
                         //transitOptions: TransitOptions,
                         //drivingOptions: DrivingOptions,
-                    }, (distance,status) => addDistance(distance,status) )
+                    }, (distance,status) => this.update(distance,status) )
             },
             markersforMenus(menus){
                 if( typeof(menus) == undefined || menus==null ) menus = [];
@@ -184,7 +188,8 @@ export default {
                                     serviceName: servicio.serviceName,
                                     menus : servicio.validMenus,
                                     duration    : "?",
-                                    distance : "?"
+                                    distance : "?",
+                                    icon : self.color("blue")
                                 };
                                 self.allmarkers.push(mark);
                                 if(servicesId.has(servicio.serviceId)){
@@ -244,7 +249,7 @@ export default {
                 this.center = { lat: event.latLng.lat() ,lng: event.latLng.lng() };
                 //console.log(this.center)
                 this.distanceToServices();
-                
+                //console.log(this.mindistServId)
             },
             allowDrop(event) {
                 event.preventDefault();

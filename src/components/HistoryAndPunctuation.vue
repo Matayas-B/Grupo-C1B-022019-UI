@@ -1,30 +1,25 @@
 <template>
     <div class="container flex-column">
-        <div class="justify-content-center h-100">
+        <div class="d-flex justify-content-center">
             <div class="card">
                 <div class="card-header">
+                    <div v-if="loading" style="position:absolute; display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; z-index: 10; background-color: rgba(0,0,0,0.5)">
+                        <div class="spinner-border text-primary " style="height: 7rem; width: 7rem"></div>
+                    </div>
                     <h2 class="labelColor text-center " > {{$t('history')}}  </h2>
                 </div>
-                <div class="card-body" v-for="p in purchases" :key="p.purchaseId">
+                <div class="card-body" v-for="p in getMenus()" :key="p.purchaseId">
                     <CardHistory :purchase="p" :menu="p.purchasedMenu" />
-                    <!-- {{user.customerScores}}
-                    <span class="card-body" v-for="score in user.customerScores" v-bind:key="score.customerScoreId">
-                        
-                        <h4 class="card-text labelColor ">{{score.menuId}}</h4>
-                        <h4 class="card-text labelColor" v-if="score.finished">{{score.punctuation}}</h4>
-                        <span v-else>        
-                            <input type="number" class="form-control" 
-                                v-model="puntuationtoSend" min="1" max="5">
-                                {{user.customerId}}
-                            <input type="button" value="Puntuate" class="btn float-right login_btn" v-on:click="puntuate(score.serviceId, score.menuId)">
-                        </span>
-                            
-                           <h4 class="card-text labelColor" v-else>{{score.finished}}</h4> 
-                    </span>-->
                 </div>
-                <div class="card-footer">
-                    <input type="button" value="Back" class="btn float-right login_btn" v-on:click="back">
-                    <input type="button" value="Log Out" class="btn float-right login_btn" v-on:click="logOut" >
+                <div class="card-footer" >
+                    <div class="flex-sm-column">
+                        <ul class="pagination" >
+                            <li class="page-item"><a class="page-link"  v-on:click="previus">Previous</a></li>
+                            <li class="page-item"  v-for="(k, index) in purchases" :key="index"><a class="page-link" value="0" v-on:click="setPage(index)">{{index}}</a></li>
+                            <li class="page-item"><a class="page-link" v-on:click="nextt">Next</a></li>
+                            <li class="page-item"><a class="page-link" v-on:click="back">back</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -34,6 +29,7 @@
 <script>
     import API from "../service/api";
     import CardHistory from "./CardHistory";
+    import chunk from "lodash/chunk" ;
 
     export default {
         name: "HistoryAndPunctuation",
@@ -41,26 +37,32 @@
         components: {CardHistory},
 
         mounted(){
-            API.get("/customer/purchase?customerId="+ this.$store.state.user.id)
-                .then(this.callBack)
+            this.menuss()
         },
         data(){
             return{
+                loading: false,
+                page: 0,
                 puntuationtoSend: 0,
                 purchases: []
             }
         },
         methods:{
-            logOut (){
-                localStorage.clear();
-                this.$router.push('/');
+            menuss(){
+                this.loading=true;
+                API.get("/customer/purchase?customerId="+ this.$store.state.user.id)
+                    .then(res => {
+                        this.callBack(res)
+                        this.loading=false
+                    })
+                    .catch(res => {
+                        this.loading = false;
+                        this.$toastr.error(':(', res)
+                    })
             },
-            back(){
-                this.$router.go(-1);
-            },
-            callBack(res){
+            callBack(r){
                 //Ordenated from most recent to older
-                this.purchases = res.reverse();
+                this.purchases = chunk(r,2);
             },
 
             puntuate(_serviceId,_menuId){
@@ -71,10 +73,24 @@
                     menuId: _menuId,
                     punctuation: this.puntuationtoSend
                 };
-                console.log(this.user)
                 API.post("/customer/score",message)
                     .then(()=>this.back())
-                    .catch(()=>console.log("error"))
+                    //.catch(()=>)
+            },
+            setPage(r){
+                return this.page=r
+            },
+            getMenus(){
+                return this.purchases[this.page]
+            },
+            previus(){
+                if (this.page !== 0) this.page = this.page -1
+            },
+            nextt(){
+                if (this.page !== this.purchases.length -1 ) this.page ++
+            },
+            back(){
+                this.$router.push('/prueba')
             }
         }
 

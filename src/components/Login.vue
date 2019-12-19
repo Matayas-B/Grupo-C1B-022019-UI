@@ -5,43 +5,47 @@
         </div>
         <Name></Name>
         <div class="container">
-        <div class="d-flex justify-content-center h-100">
-            <div class="card">
-                <div class="card-header">
-                    <h3>{{ $t('message') }}</h3>
-                    <div class="d-flex justify-content-end social_icon">
-                        <span><i class="fab fa-google-plus-square"></i></span>
+            <div class="d-flex justify-content-center h-100">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>{{ $t('message') }}</h3>
                     </div>
-                </div>
-                <div class="card-body">
-                    <form v-on:submit.prevent>
-                        <div class="input-group form-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                    <div class="card-body">
+                        <form v-on:submit.prevent>
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="email" v-model="user.email" required>
                             </div>
-                            <input type="text" class="form-control" placeholder="email" v-model="user.email" required>
-                        </div>
-                        <div class="input-group form-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="fas fa-key"></i></span>
+                            <div class="input-group form-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                </div>
+                                <input type="password" class="form-control" placeholder="password" v-model="user.password" required>
                             </div>
-                            <input type="password" class="form-control" placeholder="password" v-model="user.password" required>
+                            <div class="form-group">
+                                <button class="btn float-right login_btn text-white" v-on:click="login"> {{ $t('login2') }}</button>
+                                <button class="btn login_btn" v-for="entry in languages" :key="entry.language" @click="changeLocale(entry.language)">
+                                    <flag :iso="entry.flag"  v-bind:squared=false /> {{entry.title}}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="btn login_btn">
+                            <router-link style="color: white; text-decoration: none;" to="/loginform">{{ $t('login4') }}</router-link>
                         </div>
-                        <div class="form-group">
-                            <button class="btn float-right login_btn " v-on:click="login"> {{ $t('login2') }}</button>
-                            <button class="btn login_btn" v-for="entry in languages" :key="entry.language" @click="changeLocale(entry.language)">
-                                <flag :iso="entry.flag"  v-bind:squared=false /> {{entry.title}}
-                            </button>
+                    </div>
+                    <div class="card-footer">
+                        <div class="text-center">
+                            <a className="btn btn-block social-btn google" :href="googleLoginUrl">
+                                <img class="google-btn" src="../assets/btn_google.png" alt="User Icon" />
+                            </a>
                         </div>
-                    </form>
-                </div>
-                <div class="card-footer">
-                    <div class="d-flex justify-content-center links">
-                        {{ $t('login3') }} <router-link to="/loginform">{{ $t('login4') }}  </router-link>
                     </div>
                 </div>
             </div>
-        </div>
     </div>
     </div>
 </template>
@@ -50,6 +54,7 @@
     import API from "../service/api";
     import i18n from "../i18n";
     import Name from "./Name";
+    import { GOOGLE_AUTH_URL } from './constants'
 
     export default {
         name: 'Login',
@@ -68,15 +73,22 @@
                 languages: [
                     { flag: 'us', language: 'en', title: '' },
                     { flag: 'es', language: 'es', title: '' }
-                ]
+                ],
+                googleLoginUrl: GOOGLE_AUTH_URL
             }
         },
         created() {
-            var loginParams = this.$route.query;
-            if (loginParams.email != null && loginParams.password != null) {
+            localStorage.clear();
+            var queryStringParams = this.$route.query;
+            if (queryStringParams.error != null) {
+                this.$toastr.error(queryStringParams.error);
+            }
+            else if (queryStringParams.token != null)
+                this.userLoggedIn({ accessToken: queryStringParams.token })
+            else if (queryStringParams.email != null && queryStringParams.password != null) {
                 this.logUser({
-                    email: loginParams.email,
-                    password: loginParams.password
+                    email: queryStringParams.email,
+                    password: queryStringParams.password
                 });
             }
         },
@@ -86,7 +98,6 @@
                 if (self.user.email == "" || self.user.password == "")
                     this.$toastr.error("An email and password must be present");
                 this.loading = true;
- //               API.post("/auth/login", self.user)
                 this.logUser(self.user);
             },
             logUser(loginRequest) {
@@ -113,9 +124,6 @@
                 .then((userInfo) => {
                     this.loaduser= userInfo;
                     this.$store.state.user = userInfo;
-                    // A partir de aca, maneja la aplicacion como quieras ! ! !
-                    // eslint-disable-next-line no-console
-                    console.log(this.loaduser.userType)
                     localStorage.setItem('id', this.loaduser.id)
                     if(this.loaduser.userType == "customer"){
                         localStorage.setItem('id', this.loaduser.id)
@@ -181,6 +189,19 @@
     .login_btn:hover{
         color: black;
         background-color: #16ff4b;
+    }
+    
+    .login_btn a {
+        text-decoration: none;
+    }
+
+    .google-btn {
+        width: 65%;
+    }
+
+    .google-btn:hover {
+        width: 65%;
+        cursor: pointer;
     }
 
     .links{
