@@ -16,11 +16,6 @@
                 <button class="btn btn-success" type="button" v-on:click="menuss">search</button>
             </div>
         </form>
-<<<<<<< HEAD
-
-        <div class="container flex-row">
-=======
->>>>>>> ba29338bf3d04dbc95f7b3f3f6b77bc3adea496e
         <div class="d-flex justify-content-center">
             <div class="card">
                 <div class="card-header">
@@ -52,7 +47,6 @@
                 <input type="button" value="mostrarDistancias" class="btn float-right login_btn">
             </div>
         </div> 
-        </div>
         </div>
     </div>
 </template>
@@ -117,7 +111,8 @@
                 if (this.page !== this.menus.length -1 ) this.page ++
             },
             comprar(id){
-                let menusr = this.menus.reduce( (a,b) => a.concat(b), [] );;
+                console.log("menuId que se quiere comprar:"+ id);
+                let menusr = this.menus.reduce( (a,b) => a.concat(b), [] );
                 let menu = menusr[0];
                 this.$router.push({ name: 'buy', params: {post: menu }})
             }

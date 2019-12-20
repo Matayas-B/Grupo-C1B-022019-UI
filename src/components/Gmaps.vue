@@ -9,11 +9,16 @@
                  :marker="m.position"
                 >
                 <GmapMarker :position="m.position" :clickable="true" 
-                    :title="m.serviceName" v-on:click="() => comprar(m)"
-                    class="markitas" :id="m.id" />
-                <i class="fas fa-hamburger"
-                    :title="m.distance"
-                />
+                    :title="m.serviceName" v-on:click="() => toggleInfoWindow(m,m.id) /*comprar(m)*/"
+                    class="markitas" :id="m.id" v-bind:icon="m.icon"/>
+                <div class="card" v-if="m.id==-1">
+                    <div class="card-body">
+                        <i class="fas fa-hamburger"
+                            :title="m.distance"
+                        />
+                    </div>
+                </div>
+                
 
                 
                 <!--@click="center = m.position"  
@@ -43,13 +48,10 @@ export default {
     mounted(){
         this.geolocate();
         this.markersforMenus(this.menues);
-        //this.distanceToServices();
-            //this.realgeolocate();
-            //this.initgmaps(); gmaps
     },
     watch:{
         //immediate: true,
-        menues: function(newVal, oldVal) {
+        menues: function(newVal) { //, oldVal
             if(newVal.length > 0){
                 //this.menus = newVal;
                 this.changemarkers(newVal);
@@ -58,9 +60,10 @@ export default {
     },
     data(){
         return{
-            center:{ lat: -34.7230745 ,lng: -58.2585693 },
+            center:{ lat: -34.7230745 ,lng: -58.25857 },
             markers: [],
             allmarkers:[],
+            
             infoWindowPos: null,
             infoWinOpen: false,
             currentMidx: null,
@@ -99,12 +102,11 @@ export default {
                 //:icon="selectcolor(m,mindistServId)"
             },
             comprar(m){
-                
                 this.$emit("comprar",m.id);
             },
             toggleInfoWindow: function(marker, idx) {
                 this.infoWindowPos = marker.position;
-                this.infoOptions.content = marker.infoText;
+                this.infoOptions.content = "<h4>Hola </h4>";//marker.infoText;
                 //check if its the same marker that was selected if yes toggle
                 if (this.currentMidx == idx) {
                 this.infoWinOpen = !this.infoWinOpen;
@@ -136,15 +138,19 @@ export default {
                 var self = this;                
                 API.get(`/customer/getById?customerId=${localStorage.getItem('id')}`)
                     .then(res => {
-                        
                         var addressObj = {
                             address: res.adress,
-                            //state:          'AR',               // province also valid
-                            //country:        'Argentina'
+                            state:          'CABA',
+                            country:        'Argentina'
                         };
                         self.$geocoder.send(addressObj, response => {
+                            console.log(response)
                             self.center = response.results[0].geometry.location;
                             });
+                    })
+                    .catch( () => {
+                        self.$toastr.error("Cannot get access to gmaps locations for user")
+                        self.realgeolocate();
                     });
             },
             realgeolocate(){
@@ -196,55 +202,13 @@ export default {
                                     self.markers.push(mark);
                                 }
                             });
-                        
                     })
-                ).catch( r => console.log("error"+r))
+                ).catch( self.$toastr.error("Cannot get access to gmaps locations for service"));
             },
             changemarkers(menues){
                 let servicesId = new Set(menues.map(menu=>menu.serviceId));
                 this.markers = this.allmarkers.filter(m => servicesId.has(m.id) );
             },
-            initgmaps(){
-                let map = document.getElementById('map');
-                var centerControlDiv = document.createElement('div');
-                var centerControl = new centerControl(centerControlDiv, map);
-
-                centerControlDiv.index = 1;
-
-                // eslint-disable-next-line no-console
-                console.log(gmapApi)
-                map.controls[gmapApi.maps.ControlPosition.TOP_CENTER].push(centerControlDiv);
-            },
-            centerControl(controlDiv, map) {
-                // Set CSS for the control border.
-                var controlUI = document.createElement('div');
-                controlUI.style.backgroundColor = '#fff';
-                controlUI.style.border = '2px solid #fff';
-                controlUI.style.borderRadius = '3px';
-                controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-                controlUI.style.cursor = 'pointer';
-                controlUI.style.marginBottom = '22px';
-                controlUI.style.textAlign = 'center';
-                controlUI.title = 'Click to recenter the map';
-                controlDiv.appendChild(controlUI);
-
-                // Set CSS for the control interior.
-                var controlText = document.createElement('div');
-                controlText.style.color = 'rgb(25,25,25)';
-                controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
-                controlText.style.fontSize = '16px';
-                controlText.style.lineHeight = '38px';
-                controlText.style.paddingLeft = '5px';
-                controlText.style.paddingRight = '5px';
-                controlText.innerHTML = 'Center Map';
-                controlUI.appendChild(controlText);
-
-                // Setup the click event listeners: simply set the map to Chicago.
-                controlUI.addEventListener('click', function() {
-                map.setCenter(this.center);
-                });
-            },
-
             mover(event){
                 this.center = { lat: event.latLng.lat() ,lng: event.latLng.lng() };
                 //console.log(this.center)

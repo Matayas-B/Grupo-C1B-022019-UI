@@ -35,6 +35,25 @@ Vue.use(VueSession)
 Vue.use(VueRouter)
 Vue.use(VueMaterial)
 
+let googlekey = process.env.VUE_APP_GOOGLEKEY;
+
+import * as VueGoogleMaps from "vue2-google-maps";
+Vue.use(VueGoogleMaps, {
+    load: {
+        key: googlekey,
+        libraries: "places,drawing,visualization",
+    },
+    installComponents: true
+});
+
+import Geocoder from "@pderas/vue2-geocoder";
+Vue.use(Geocoder, {
+    defaultCountryCode: null, // e.g. 'CA'
+    defaultLanguage:    null, // e.g. 'en'
+    defaultMode:        'address', // or 'lat-lng'
+    googleMapsApiKey:   googlekey
+});
+
 Vue.config.productionTip = false
 
 new Vue({
