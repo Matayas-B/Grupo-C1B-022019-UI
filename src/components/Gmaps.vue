@@ -9,17 +9,8 @@
                  :marker="m.position"
                 >
                 <GmapMarker :position="m.position" :clickable="true" 
-                    :title="m.serviceName" v-on:click="() => toggleInfoWindow(m,m.id) /*comprar(m)*/"
-                    class="markitas" :id="m.id" v-bind:icon="m.icon"/>
-                <div class="card" v-if="m.id==-1">
-                    <div class="card-body">
-                        <i class="fas fa-hamburger"
-                            :title="m.distance"
-                        />
-                    </div>
-                </div>
-                
-
+                    :title="m.distance" v-on:click="() => toggleInfoWindow(m,m.id) /*comprar(m)*/"
+                    :id="m.id" v-bind:icon="m.icon"/>
                 
                 <!--@click="center = m.position"  
                     <input type="button" value="mostrarDistancias" class="btn float-right login_btn"
@@ -72,7 +63,7 @@ export default {
                 //optional: offset infowindow so it visually sits nicely on top of our marker
                 pixelOffset: {
                 width: 0,
-                height: -35
+                height: -35,
                 }
             },
             mindistServId: -1,
@@ -91,22 +82,22 @@ export default {
             color(color){
                 return  {url:"http://maps.google.com/mapfiles/ms/icons/" + color + "-dot.png"};
             },
-            selectcolor(markserv,idserv){
-                return idserv.id == markserv.id? this.color("green"): this.color("blue");
+            selectcolor(markid,idservcercano){
+                return idservcercano == markid? this.color("green"): this.color("blue");
             },
             cercano(){
-                //this.allmarkers = 
                 let ord = this.allmarkers.sort( (a,b) => a.distance < b.distance);
                 this.mindistServId = ord[0].id;
-                console.log( document.getElementsByClassName("markitas"))
-                //:icon="selectcolor(m,mindistServId)"
             },
-            comprar(m){
-                this.$emit("comprar",m.id);
+            comprar(menuId,serviceId){
+                //return () =>
+                // eslint-disable-next-line no-console
+                console.log(menuId,serviceId)
+                //this.$emit("comprar",m.id);
             },
             toggleInfoWindow: function(marker, idx) {
                 this.infoWindowPos = marker.position;
-                this.infoOptions.content = "<h4>Hola </h4>";//marker.infoText;
+                this.infoOptions.content = marker.infoText;
                 //check if its the same marker that was selected if yes toggle
                 if (this.currentMidx == idx) {
                 this.infoWinOpen = !this.infoWinOpen;
@@ -117,22 +108,30 @@ export default {
                 this.currentMidx = idx;
                 }
             },
+            createInfoText(serviceName,serviceMenues,func){
+                const parameters = serviceMenues.map( m => 
+                    `<p> ${m.name} <i class="${this.icons(m.category)}" title="m.category"> </i> </p>
+                     <button type="button" onclick=" ${ func(m.menuId,m.serviceId) } ">Buy</button>`)
+                    .reduce((a,b)=>a+b,"");
+                return `<h4>${serviceName}</h4> <div>${parameters}</div>`;
+            },
             update(response, status) {
                 if (status == 'OK') {
                     var results = response.rows[0].elements;
                     for (var j = 0; j < results.length; j++) {
                             var element = results[j];
-                            this.allmarkers.duration = element.duration.text;
-                            this.allmarkers.distance = element.distance.text;
-                            this.allmarkers.icon = this.color( "blue");
+                            //this.$set(this.allmarkers, 'icon', this.color( "green"))
+                            this.allmarkers[j].duration = element.duration.text;
+                            this.allmarkers[j].distance = element.distance.text;
                     }
-                    console.log(this.mindistServId)
-                        this.cercano();
-                        console.log(this.mindistServId)
-                        this.allmarkers[0].icon = this.color( "green")
-                        //this.allmarkers.forEach( mark => mark.icon = this.color(mark))
+                    // eslint-disable-next-line no-console
+                    console.log("prevID:" + this.mindistServId);
+                    this.cercano();
+                    // eslint-disable-next-line no-console
+                    console.log("nextId:"+this.mindistServId);
+                    this.allmarkers.forEach( mark => mark.icon = this.selectcolor(this.mindistServId,mark.id));
                 }
-                else console.log(status)
+                else this.$toastr.error("Error on calculating distances to services")
             },
             geolocate(){
                 var self = this;                
@@ -144,7 +143,7 @@ export default {
                             country:        'Argentina'
                         };
                         self.$geocoder.send(addressObj, response => {
-                            console.log(response)
+                            //console.log(response)
                             self.center = response.results[0].geometry.location;
                             });
                     })
@@ -193,6 +192,7 @@ export default {
                                     id:         servicio.serviceId,
                                     serviceName: servicio.serviceName,
                                     menus : servicio.validMenus,
+                                    infoText: self.createInfoText(servicio.serviceName,servicio.validMenus,this.comprar),
                                     duration    : "?",
                                     distance : "?",
                                     icon : self.color("blue")
@@ -211,9 +211,7 @@ export default {
             },
             mover(event){
                 this.center = { lat: event.latLng.lat() ,lng: event.latLng.lng() };
-                //console.log(this.center)
                 this.distanceToServices();
-                //console.log(this.mindistServId)
             },
             allowDrop(event) {
                 event.preventDefault();
@@ -223,16 +221,15 @@ export default {
                 var data = event.dataTransfer.getData("Text");
                 event.target.appendChild(document.getElementById(data));
             },
-            icons(categorys){
+            icons(categ){
                 const icons = {
                     Hamburguesa:"fas fa-hamburger",
                     Pizza:"fas fa-pizza-slice",
                     Sushi:"fas fa-pizza-slice",
+                    Empanadas:"fas fa-pizza-slice",
+                    Green:"fas fa-pizza-slice",
                 };
-                return categorys.map( categ => icons[categ]);
-            },
-            category(service){
-                return service.validMenus.map(menu => menu.category );
+                return icons[categ];
             },
     }
 }

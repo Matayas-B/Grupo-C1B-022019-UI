@@ -111,7 +111,7 @@
                 if (this.page !== this.menus.length -1 ) this.page ++
             },
             comprar(id){
-                console.log("menuId que se quiere comprar:"+ id);
+                //console.log("menuId que se quiere comprar:"+ id);
                 let menusr = this.menus.reduce( (a,b) => a.concat(b), [] );
                 let menu = menusr[0];
                 this.$router.push({ name: 'buy', params: {post: menu }})
